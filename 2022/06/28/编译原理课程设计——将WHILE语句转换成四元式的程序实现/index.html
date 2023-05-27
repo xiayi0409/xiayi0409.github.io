@@ -1,0 +1,381 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>编译原理课程设计——将WHILE语句转换成四元式的程序实现 | Cassie's Blog</title><meta name="author" content="冬贰"><meta name="copyright" content="冬贰"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="💐设计目的及设计要求🌼设计内容设计一个语法制导翻译器,将WHILE语句翻译成四元式。 🌼要求先确定一个定义WHILE语句的文法，为其设计一个语法分析程序,为每条产生式配备一个语义子程序,按照一遍扫描的语法制导翻译方法,实现翻译程序。对用户输入的任意一个正确的WHILE 语句,程序将其转换成四元式输出(可按一定格式输出到指定文件中)。 💐开发环境描述🌼开发工具JAVA 🌼开发环境 💐设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理课程设计——将WHILE语句转换成四元式的程序实现">
+<meta property="og:url" content="http://example.com/2022/06/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E5%B0%86WHILE%E8%AF%AD%E5%8F%A5%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9B%9B%E5%85%83%E5%BC%8F%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Cassie&#39;s Blog">
+<meta property="og:description" content="💐设计目的及设计要求🌼设计内容设计一个语法制导翻译器,将WHILE语句翻译成四元式。 🌼要求先确定一个定义WHILE语句的文法，为其设计一个语法分析程序,为每条产生式配备一个语义子程序,按照一遍扫描的语法制导翻译方法,实现翻译程序。对用户输入的任意一个正确的WHILE 语句,程序将其转换成四元式输出(可按一定格式输出到指定文件中)。 💐开发环境描述🌼开发工具JAVA 🌼开发环境 💐设">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/back5.jpg">
+<meta property="article:published_time" content="2022-06-28T04:28:35.000Z">
+<meta property="article:modified_time" content="2023-05-27T07:33:29.935Z">
+<meta property="article:author" content="冬贰">
+<meta property="article:tag" content="课程设计">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="编译原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/back5.jpg"><link rel="shortcut icon" href="/img/imgweb.png"><link rel="canonical" href="http://example.com/2022/06/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E5%B0%86WHILE%E8%AF%AD%E5%8F%A5%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9B%9B%E5%85%83%E5%BC%8F%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":"falselocal_","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '编译原理课程设计——将WHILE语句转换成四元式的程序实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-27 15:33:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webimg.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/back5.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Cassie's Blog"><span class="site-name">Cassie's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">编译原理课程设计——将WHILE语句转换成四元式的程序实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-28T04:28:35.000Z" title="发表于 2022-06-28 12:28:35">2022-06-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-27T07:33:29.935Z" title="更新于 2023-05-27 15:33:29">2023-05-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JAVA/">JAVA</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JAVA/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/">课程设计</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JAVA/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="编译原理课程设计——将WHILE语句转换成四元式的程序实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="💐设计目的及设计要求"><a href="#💐设计目的及设计要求" class="headerlink" title="💐设计目的及设计要求"></a>💐设计目的及设计要求</h1><h2 id="🌼设计内容"><a href="#🌼设计内容" class="headerlink" title="🌼设计内容"></a>🌼设计内容</h2><p>设计一个语法制导翻译器,将WHILE语句翻译成四元式。</p>
+<h2 id="🌼要求"><a href="#🌼要求" class="headerlink" title="🌼要求"></a>🌼要求</h2><p>先确定一个定义WHILE语句的文法，为其设计一个语法分析程序,为每条产生式配备一个语义子程序,按照一遍扫描的语法制导翻译方法,实现翻译程序。对用户输入的任意一个正确的WHILE 语句,程序将其转换成四元式输出(可按一定格式输出到指定文件中)。</p>
+<h1 id="💐开发环境描述"><a href="#💐开发环境描述" class="headerlink" title="💐开发环境描述"></a>💐开发环境描述</h1><h2 id="🌼开发工具"><a href="#🌼开发工具" class="headerlink" title="🌼开发工具"></a>🌼开发工具</h2><p>JAVA</p>
+<h2 id="🌼开发环境"><a href="#🌼开发环境" class="headerlink" title="🌼开发环境"></a>🌼开发环境</h2><p><img src="https://s2.loli.net/2023/05/24/Jio9VcNSuTYpMAd.png#height=146&id=k8ahO&originHeight=292&originWidth=621&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=311"></p>
+<h1 id="💐设计内容、主要算法描述"><a href="#💐设计内容、主要算法描述" class="headerlink" title="💐设计内容、主要算法描述"></a>💐设计内容、主要算法描述</h1><h2 id="🌼问题描述"><a href="#🌼问题描述" class="headerlink" title="🌼问题描述"></a>🌼问题描述</h2><p>根据题目要求，需要设计一个语法制导翻译器，将while语句翻译成四元式。</p>
+<h2 id="🌼背景介绍"><a href="#🌼背景介绍" class="headerlink" title="🌼背景介绍"></a>🌼背景介绍</h2><h3 id="🌸文法介绍"><a href="#🌸文法介绍" class="headerlink" title="🌸文法介绍"></a>🌸文法介绍</h3><ol>
+<li><strong>While语句的初始文法描述描述</strong></li>
+</ol>
+<p>while语句：A→w(P){B:}<br>赋值语句： B→g&#x3D;C<br>表达式：   C→CHD<br>项：       D→DIE<br>因子：     E→f | g | (C)<br>加法运算符：H→+|-<br>乘法运算符：I→*|&#x2F;<br>比较运算符：J→&lt; | &gt; | &gt;&#x3D; | &lt;&#x3D;<br>关系表达式：P→CJC<br>无符号整数：f<br>标识符：   g</p>
+<ol start="2">
+<li><strong>改进为LL(1)文法之后的文法描述</strong></li>
+</ol>
+<p>while语句：A→w(P){B:}<br>赋值语句： B→g&#x3D;C<br>表达式：   C→DM<br>  M→HDM | ℇ<br>项：       D→EN<br>  N→IEN | ℇ<br>因子：     E→f | g | (C)<br>加法运算符：H→+|-<br>乘法运算符：I→*|&#x2F;<br>比较运算符：J→&lt; | &gt; | &gt;&#x3D; | &lt;&#x3D;<br>关系表达式：P→CJC<br>无符号整数：f<br>标识符：   g<br><strong>说明：</strong><br>以上文法中使用w代替while关键字，M和N分别是为了消除左递归引入的符号，无具体对应含义。</p>
+<h3 id="🌸属性文法"><a href="#🌸属性文法" class="headerlink" title="🌸属性文法"></a>🌸属性文法</h3><ol>
+<li>属性文法定义形式</li>
+</ol>
+<p>属性文法是在上下文无关文法的基础上，为每个文法符号（终结符或者非终结符）配备若干相关的“值”（与文法符号相关的属性）。<br>在一个属性文法中，对应于每个产生式A→a都有一套与之相关联的语义规则，每规则的形式为：b:&#x3D;f(c1,c2,…，ck)其中f是一个函数，而且或者b是A的一个综合属性并且c1,c2,…，ck是产生式右边文法符号的属性；或者非终结符既可有综合属性也可有继属性，文法开始符号的所有继承属性作为属性计算前的初始值。</p>
+<ol start="2">
+<li>while语句的属性文法</li>
+</ol>
+<p>while语句：</p>
+<ul>
+<li>A→w {X1 &#x3D; gotostm} (P) {X2 &#x3D; gotostm}{B;} </li>
+<li>{ backpatch(Ptruelist, M2gotostm);</li>
+<li>backpatch(Pfalselist, tacIndex-1);</li>
+<li>gen(‘J’,  ,  , X1);</li>
+<li>gen( , , ,tacIndex);}</li>
+</ul>
+<p>赋值语句：</p>
+<ul>
+<li>B→g&#x3D;C{B.val&#x3D;C.val; gen(‘&#x3D;’,C.val, ,g.val);}</li>
+</ul>
+<p>表达式：</p>
+<ul>
+<li>C→D{M.i&#x3D;D.val}M{C.val&#x3D;M.s}</li>
+<li>M→HD{ M1.i&#x3D;newtemp; gen(H.val,M.i,D.val, M1.i);}</li>
+<li>M1{M.s&#x3D; M1.s}</li>
+<li>M→ℇ{ M.s&#x3D; M.i}</li>
+</ul>
+<p>项：</p>
+<ul>
+<li>D→E{N.i&#x3D;E.val}N{D.val&#x3D;N.s}</li>
+<li>N→IE{ N1.i&#x3D;newtemp; gen(I.val,N.i,D.val, N1.i);} N1{N.s&#x3D; N1.s}</li>
+<li>N→ℇ{N.s&#x3D; N.i}</li>
+</ul>
+<p>因子：</p>
+<ul>
+<li>E→f{ E.val&#x3D; f.val}</li>
+<li>E→g{ E.val&#x3D; g.val}</li>
+<li>E→(C) { E.val&#x3D; C.val}</li>
+</ul>
+<p>加法运算符：</p>
+<ul>
+<li>H→+|-{H.val&#x3D;+ | H.val&#x3D;-;}</li>
+</ul>
+<p>乘法运算符：</p>
+<ul>
+<li>I→*|&#x2F;{I.val&#x3D;+ | I.val&#x3D;-;}</li>
+</ul>
+<p>比较运算符：</p>
+<ul>
+<li>J→&lt; | &gt; | &gt;&#x3D; | &lt;&#x3D;{J.val &#x3D; &gt; | J.val &#x3D;&lt; |J.val &#x3D; &lt;&#x3D; | J.val &#x3D; &gt;&#x3D;;}</li>
+</ul>
+<p>关系表达式：</p>
+<ul>
+<li>P→C1JC2{P.val&#x3D;newtemp;</li>
+<li>gen(J.val, C1.val,C2.val,P.val);}</li>
+</ul>
+<p>无符号整数：</p>
+<ul>
+<li>f</li>
+</ul>
+<p>标识符：</p>
+<ul>
+<li>g</li>
+</ul>
+<p><strong>说明：</strong><br>上述属性文法中gen(op,arg1,arg2,result)生成四元式，newtemp产生一个未使用过的名字，val表示符号的值，f和g的值由输入时直接确定，tacIndex为生成四元式的标号。X1和X2是为了后续拉链回填添加的符号，无具体对应含义，backpatch(p,i)为拉链回填，将链表P中的每个元素指向i。</p>
+<h3 id="🌸中间代码形成的描述"><a href="#🌸中间代码形成的描述" class="headerlink" title="🌸中间代码形成的描述"></a>🌸中间代码形成的描述</h3><p>四元式是一种比较普遍采用的中间代码形式。<br>它的一般形式为：(op,arg1,arg2,result)。其中， op为一个二元 (也可是一元或零元)运算符；arg1,arg2分别为它的两个运算 (或操作)对象，它们可以是变量、常数或系统定义的临时变量名；运算的结果将放入result中。运算对象和运算结果有时指用户自己定义的变量，有时指编译程序引进的临时变量。需要指出的是，每个四元式只能有一个运算符，所以，一个复杂的表达式须由多个四元式构成的序列来表示。例如，表达式A+B*C可写为序列</p>
+<ol>
+<li><ul>
+<li>B C T1</li>
+</ul>
+</li>
+<li><ul>
+<li>A T1 T2</li>
+</ul>
+</li>
+</ol>
+<p>其中，T1，T2是编译系统所产生的临时变量名。当op为一元、零元运算符 (如无条件转移)时，arg2甚至arg1应缺省，即result∶&#x3D;op arg1或 op result ；对应的一般形式为： (op,arg1,,result)或 (op,,,result)<br>在实际产生的四元式中，op往往用一整型数表示 (操作符的代码)，它可能附带有不止一种属性。</p>
+<h2 id="🌼解决方案"><a href="#🌼解决方案" class="headerlink" title="🌼解决方案"></a>🌼解决方案</h2><p>根据背景介绍的方法，可以将while语句转化为四元式。大致分为以下几个步骤：</p>
+<ol>
+<li>将while语句转换为四元式的第一步为对读入的表达式进行处理，即删除不必要的空格、回车、换行等，保证之后的步骤能够顺利进行。</li>
+<li>通过词法分析判断语句中的每个字符的类型，如：常数、标识符、判断符、界符等。</li>
+<li>分析while语句的文法并将其消除左递归和回溯。</li>
+<li>在语法分析正确的情况下，通过语法分析的中间过程的符号栈输出四元式，四元式的形式为：（op   arg1   arg2   result）。</li>
+</ol>
+<h3 id="🌸程序模块分析"><a href="#🌸程序模块分析" class="headerlink" title="🌸程序模块分析"></a>🌸程序模块分析</h3><p>编译过程一般分为六个阶段的过程，可以由六个模块完成，它们称为词法分析程序、语法分析程序、语义分析程序、中间代码生成程序、代码优化程序、目标代码生成程序，此外，一个完整编译程序还必须包括“表格管理程序”和“出错处理程序”。</p>
+<h3 id="🌸使用的分析法"><a href="#🌸使用的分析法" class="headerlink" title="🌸使用的分析法"></a>🌸使用的分析法</h3><p>在对当前while语句进行语法分析的过程中，由于对自下而上的分析方法的掌握不是很熟练，因此最终决定采用的是递归下降分析法，但由于所用的while语句文法并不符合这一要求，所以要首先对文法进行修改，消除左递归，使得文法符合要求。</p>
+<h3 id="🌸词法分析和语法分析"><a href="#🌸词法分析和语法分析" class="headerlink" title="🌸词法分析和语法分析"></a>🌸词法分析和语法分析</h3><p>这次实验涉及到词法分析、语法分析、语义分析及表格管理和出错管理。<br>其中，词法分析至少要能识别关键字“while”，标识符（即自定义变量），数字，运算符和界符等等；<br>语法分析要分析程序结构的合法性，即是否为文法的句子；<br>语义分析要能够语法制导翻译出中间代码四元式并将其输出；<br>表格管理是指符号表；<br>出错处理是指在语法分析时，所有非文法句子的错误类型处理。</p>
+<h3 id="🌸语义分析和中间代码生成"><a href="#🌸语义分析和中间代码生成" class="headerlink" title="🌸语义分析和中间代码生成"></a>🌸语义分析和中间代码生成</h3><p>根据输入的语义动作进行语法制导翻译，当遇到语义动作的非终结符时，执行相应的语义动作，同时将产生的四元式输出并存储到相应的结构中，作为下一阶段四元式优化的输入部分。<br>对于while语句，由于进行了关系表达式的判断所以要进行语句的跳转，存在三处跳转：<br>第一，while语句的循环条件成立时，则跳转到循环体执行的第一条语句；第二，while语句的循环条件不成立时，则跳转到while语句的下一条语句；第三，循环体执行完毕时，则跳转到循环条件判断处，进行判断。对于跳转，采用拉链回填的方式进行处理。</p>
+<h1 id="💐主要算法描述包括流程图"><a href="#💐主要算法描述包括流程图" class="headerlink" title="💐主要算法描述包括流程图"></a>💐主要算法描述包括流程图</h1><h2 id="🌼词法分析部分"><a href="#🌼词法分析部分" class="headerlink" title="🌼词法分析部分"></a>🌼词法分析部分</h2><p><img src="https://s2.loli.net/2023/05/24/gpaeH4qUfwDlW1C.png#height=327&id=V60DR&originHeight=653&originWidth=1353&originalType=binary&ratio=1&rotation=0&showTitle=true&status=done&style=none&title=Lexer%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90&width=677" alt="Lexer函数分析" title="Lexer函数分析"><br>Lexer.java主要作用为词法分析器，可以对当前输入源程序进行词法分析。主要过程如下：</p>
+<ul>
+<li>获取当前字符，若当前字母为英文则继续判断下一字符，直到不为英文或数字，则标记为标识符。</li>
+<li>若当前字符为数字则继续判断下一字符直到不为数字，标记为常数。</li>
+<li>若当前字符不为空，则根据字符判断当前为界符或分隔符或运算符。</li>
+</ul>
+<p><img src="https://s2.loli.net/2023/05/24/xlCDTZLhjgrdeyN.png#height=454&id=aIDIK&originHeight=907&originWidth=1379&originalType=binary&ratio=1&rotation=0&showTitle=true&status=done&style=none&title=%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%E5%9B%BE&width=690" alt="词法分析流程图" title="词法分析流程图"></p>
+<h2 id="🌼语法分析部分"><a href="#🌼语法分析部分" class="headerlink" title="🌼语法分析部分"></a>🌼语法分析部分</h2><p><img src="https://s2.loli.net/2023/05/24/F8Lj6ArstMXPB4w.png#height=440&id=Erxzw&originHeight=880&originWidth=1375&originalType=binary&ratio=1&rotation=0&showTitle=true&status=done&style=none&title=Parsing%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90&width=688" alt="Parsing函数分析" title="Parsing函数分析"><br>Parsing.java主要作用为语法分析器，可以对当前词法分析部分所标定的各个符号根据While语句的初始文法根据消除左递归后的文法进行相应的改进。<br>主要过程如下：</p>
+<ul>
+<li>前半部分首先对当前while句型进行正误判断，定义cut函数用于删去当前位置的值；首先判断while字符是否相等，其次根据while(){}来判断当前当前句型是否有{、}、(、)是否有缺失，若当前语句不为while句型，则输出错误语句，反之进入下一阶段。</li>
+<li>后半部分为文法的改进，根据消除左递归的方法来对while语句文法进行改进，改进方式如下：<table>
+<thead>
+<tr>
+<th>While语句初始文法描述</th>
+<th>消除左递归后的文法描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://s2.loli.net/2023/05/24/A2L9DZ6CGp4eiKP.png#height=280&id=PVzK7&originHeight=558&originWidth=553&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=277"></td>
+<td><img src="https://s2.loli.net/2023/05/24/ZUqSMg8wHnsVLc4.png#height=335&id=f9eXw&originHeight=670&originWidth=546&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=273"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="🌼定义四元式部分部分"><a href="#🌼定义四元式部分部分" class="headerlink" title="🌼定义四元式部分部分"></a>🌼定义四元式部分部分</h2><p><img src="https://s2.loli.net/2023/05/24/PRFopi6yvsLXQAx.png#height=418&id=h15qS&originHeight=835&originWidth=884&originalType=binary&ratio=1&rotation=0&showTitle=true&status=done&style=none&title=Quaternion%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90&width=442" alt="Quaternion函数分析" title="Quaternion函数分析"><br>在这一部分对四元式进行定义，并设计相应的函数对四元式进行储存、获取以及输出。四元式定义如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Quaternion</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String table;<span class="comment">//四元式表号，方面查找</span></span><br><span class="line">    <span class="keyword">private</span> String op;<span class="comment">//操作符</span></span><br><span class="line">    <span class="keyword">private</span> String arg1;<span class="comment">//运算对象1</span></span><br><span class="line">    <span class="keyword">private</span> String arg2;<span class="comment">//运算对象2</span></span><br><span class="line">    <span class="keyword">private</span> String result;<span class="comment">//运算结果</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义Quaternion存储四元式</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Quaternion</span><span class="params">(String table,String op,String arg1,String arg2,String result)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.table = table;</span><br><span class="line">        <span class="built_in">this</span>.op = op;</span><br><span class="line">        <span class="built_in">this</span>.arg1 = arg1;</span><br><span class="line">        <span class="built_in">this</span>.arg2 = arg2;</span><br><span class="line">        <span class="built_in">this</span>.result = result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="🌼语义分析和四元式的生成"><a href="#🌼语义分析和四元式的生成" class="headerlink" title="🌼语义分析和四元式的生成"></a>🌼语义分析和四元式的生成</h2><p><img src="https://s2.loli.net/2023/05/24/zNvX1ubWHPdGwJc.png#height=461&id=oXxUJ&originHeight=922&originWidth=1369&originalType=binary&ratio=1&rotation=0&showTitle=true&status=done&style=none&title=ConstructQuaternion%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90&width=685" alt="ConstructQuaternion函数分析" title="ConstructQuaternion函数分析"><br>首先将txt文件中的内容读取到字符串中，并对每一行的信息进行词法分析和语法分析，以便更好的进行递归下降法进行分析。<br>从while（后开始分析，若当前词语为常数或标识符则将当前词语入栈，、反之且当前操作码为空则将操作码入栈，若当前操作码不为空，则比较栈顶位置的操作符和当前所指的优先级进行比较，若当前操作符的优先级大于栈顶操作符，则生成四元式出栈，，反之则将其入栈。<br>当对while（）括号内的预计进行分析完后，将对{}中的语句进行分析，主要分析方法和上述相同，除此以外需要对最后一句四元式进行特殊处理。<br>对于生成四元式的流程图如下所示：<br><img src="https://s2.loli.net/2023/05/24/bmGMDL6PRBxs9zN.jpg#height=407&id=TJ7BW&originHeight=814&originWidth=1418&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=709"><br><img src="https://s2.loli.net/2023/05/24/CTz6Oq3JpEuM5fx.png#id=Mxwbj&originHeight=875&originWidth=1282&originalType=binary&ratio=1&rotation=0&showTitle=true&status=done&style=none&title=ConstructQuaternion%E6%B5%81%E7%A8%8B%E5%9B%BE" alt="ConstructQuaternion流程图" title="ConstructQuaternion流程图"></p>
+<h2 id="🌼四元式的输出和图形界面"><a href="#🌼四元式的输出和图形界面" class="headerlink" title="🌼四元式的输出和图形界面"></a>🌼四元式的输出和图形界面</h2><p>这一部分较为简单，主要就是通过调用java的各个图形界面对while转为四元式的项目进行界面的设计，同时通过文件调用命令读取计算机中的txt文件，通过调用之前的函数，对txt中的源程序进行分析，将分析生成的四元式输出在图形界面中，同时在本项目中还生成了当前源程序中的词语和其对应的类型。<br>生成图形界面如下所示：<br><img src="https://s2.loli.net/2023/05/24/eJwDchCKmYnub67.png#height=295&id=mK67v&originHeight=589&originWidth=828&originalType=binary&ratio=1&rotation=0&showTitle=true&status=done&style=none&title=%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E5%B1%95%E7%A4%BA&width=414" alt="图形界面展示" title="图形界面展示"></p>
+<h1 id="💐设计的输入和输出形式"><a href="#💐设计的输入和输出形式" class="headerlink" title="💐设计的输入和输出形式"></a>💐设计的输入和输出形式</h1><h2 id="🌼输入"><a href="#🌼输入" class="headerlink" title="🌼输入"></a>🌼输入</h2><p>根据题目要求，本程序的输入均为语句或者表达式，由于每次测试程序均输入表达式，则会需要输入大量式子，浪费时间且同意出错。<br>因此本程序采用文件读入的形式，只需要选定在指定位置的文件即可。<br><img src="https://s2.loli.net/2023/05/24/uXO7cSyv2z5PRIf.png#height=109&id=S1NDa&originHeight=217&originWidth=446&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=223"></p>
+<h2 id="🌼输出"><a href="#🌼输出" class="headerlink" title="🌼输出"></a>🌼<strong>输出</strong></h2><p>根据题目的要求，针对输入的txt文件中的源文件，对其进行分析后输出词法分析得到的各个词语以及相应的类型，与此同时会输出对应的四元式。具体形式如下所示：<br><img src="https://s2.loli.net/2023/05/24/NaTMIvrVgEwOcnK.png#height=346&id=BLL9U&originHeight=692&originWidth=942&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=471"></p>
+<h1 id="💐程序运行（测试、模拟）的结果（屏幕拷贝、生成结果的打印输出）"><a href="#💐程序运行（测试、模拟）的结果（屏幕拷贝、生成结果的打印输出）" class="headerlink" title="💐程序运行（测试、模拟）的结果（屏幕拷贝、生成结果的打印输出）"></a>💐程序运行（测试、模拟）的结果（屏幕拷贝、生成结果的打印输出）</h1><p>为了更好的测试程序，在模拟测试阶段共定义了5个while语句。</p>
+<table>
+<thead>
+<tr>
+<th>输入的while语句</th>
+<th>运行截图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://s2.loli.net/2023/05/24/DUGO6EH41wAfQM3.png#height=121&id=BE9Wy&originHeight=241&originWidth=485&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=243"></td>
+<td><img src="https://s2.loli.net/2023/05/24/8aOFQnfGU6ye921.png#height=346&id=FC69Q&originHeight=692&originWidth=942&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=471"></td>
+</tr>
+<tr>
+<td><img src="https://s2.loli.net/2023/05/24/LxMzbrvDfcSnmO3.png#id=BxqT1&originHeight=373&originWidth=574&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></td>
+<td><img src="https://s2.loli.net/2023/05/24/VSvcOeHtiBClYXE.png#id=g7H3f&originHeight=692&originWidth=942&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></td>
+</tr>
+<tr>
+<td>While语句报错</td>
+<td></td>
+</tr>
+<tr>
+<td><img src="https://s2.loli.net/2023/05/24/mZYrFV96zJnAsgl.png#height=140&id=jGfhc&originHeight=279&originWidth=486&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=243"></td>
+<td><img src="https://s2.loli.net/2023/05/24/2Fyb5Pw7gW6J4te.png#height=346&id=Koejy&originHeight=692&originWidth=942&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=471"></td>
+</tr>
+<tr>
+<td>无右括号报错</td>
+<td></td>
+</tr>
+<tr>
+<td><img src="https://s2.loli.net/2023/05/24/VwFpCPD4zUS8c3a.png#height=144&id=hYKjr&originHeight=287&originWidth=474&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=237"></td>
+<td><img src="https://s2.loli.net/2023/05/24/hcPi6sEwFfog9nS.png#height=346&id=ltgAp&originHeight=692&originWidth=942&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=471"></td>
+</tr>
+<tr>
+<td>多语句分析</td>
+<td></td>
+</tr>
+<tr>
+<td><img src="https://s2.loli.net/2023/05/24/K2nHCVUNOu4GLip.png#height=134&id=fLNxW&originHeight=267&originWidth=501&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=251"></td>
+<td><img src="https://s2.loli.net/2023/05/24/ZNQKMv4iCdmegYW.png#height=346&id=BoIz7&originHeight=692&originWidth=942&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=471"></td>
+</tr>
+</tbody></table>
+<h1 id="💐总结（体会）"><a href="#💐总结（体会）" class="headerlink" title="💐总结（体会）"></a>💐总结（体会）</h1><p>编译过程一般分为六个阶段的过程，可以由六个模块完成，它们称为词法分析程序、语法分析程序、语义分析程序、中间代码生成程序、代码优化程序、目标代码生成程序，此外，一个完整编译程序还必须包括“表格管理程序”和“出错处理程序”。<br>这次实验采用的方法对文法有一定的要求，要求文法必须是不为左递归和无回溯的文法，由于所用的while语句文法并不符合这一要求，所以要首先对文法进行修改，消除左递归。同时，这次实验涉及到词法分析、语法分析、语义分析及表格管理和出错管理。其中，词法分析至少要能识别关键字“while”，标识符（即自定义变量），数字，运算符和界符等等；语法分析要分析程序结构的合法性，即是否为文法的句子；语义分析要能够语法制导翻译出中间代码四元式并将其输出；表格管理是指符号表；出错处理是指在语法分析时，所有非文法句子的错误类型处理。<br>以下主要叙述我再编写程序过程中遇到的几个难点。</p>
+<ol>
+<li>在刚开始看到这个题目的时候首先想到的是通过while句型的翻译进行手动生成四元式，但手写完成while句型到四元式的转化与通过编程解决还是有一定的差距，由于在之前的学习中我对于递归下降的方法较为熟悉，因此试想能否通过该方法进行四元式的转化。因此我先对while的文法进行的书写，将各个部分通过字母代表的形式，进行了相应的转化，由于该while语句的文法不符合递归下降文法的要求，因此对此进行消除左递归。</li>
+<li>在进行编程时，按照所学将整个文件分为词法分析、语法分析、语义分析和中间代码的生成，在词法分析阶段有了实验一的经验，整体编写过程还是非常通顺的，基本没有遇到问题。语法分析阶段主要根据所定义的while语句文法和相应转化后的文法进行转化，由于文法较为复杂，所定义的参数较多，因此编写过程中只要一不注意就会忘记自己到了那一部分，这一部分在最后运行过程中出现的问题还是比较多的，花了较长的时间来debug。在语义分析和四元式的生成部分，由于吸取了之前编写的经验，首先我先进行了流程图的绘制，对每一部分要进行的代码编写进行了分块和大概的伪代码处理，在这一基础上再进行代码的编写，由于对（）和{}中语句分四元式生成方法基本相同，因此除了对（）内的比较语句和{}最后语句语句的特殊处理，其余部分都只需要按照优先关系的比较进行相应的出栈和入栈操作即可。最后再通过图形界面进行输出即可，由于对于java的图形界面的学习较为少，因此这一次采取了对之前实验中设计的图形界面的改进的方法来进行生成。</li>
+</ol>
+<p>编写本次课程设计的感想是：<br>必需要理清正确的优先级顺序才可以编写程序；要创建好适当的结构体，合适的结构体会使程序的思路更加清晰。同时也要自己多加思考，寻找适合自己的编写代码方法来提高编写效率。<br>这次编译原理课程设计让我受益匪浅，不仅巩固了我平时在课堂上学到的知识，还为接下来的考试打下了坚实的基础。最后衷心的感谢老师们在实验过程中对我们的悉心指导，没有老师的耐心答疑我们很难这么顺利地完成课程设计。</p>
+<h1 id="💐源程序清单"><a href="#💐源程序清单" class="headerlink" title="💐源程序清单"></a>💐源程序清单</h1><table>
+<thead>
+<tr>
+<th>程序名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lexer.java</td>
+<td>用于对输出源程序的词法分析</td>
+</tr>
+<tr>
+<td>Prasing.java</td>
+<td>用于对while句型能够进行语法分析</td>
+</tr>
+<tr>
+<td>若不符合句型规则则发出相应报错</td>
+<td></td>
+</tr>
+<tr>
+<td>Quaternion.java</td>
+<td>对四元式进行定义</td>
+</tr>
+<tr>
+<td>ConstructQuaternion.java</td>
+<td>用于进行语义分析和四元式的生成</td>
+</tr>
+<tr>
+<td>Quat_GUI.java</td>
+<td>设计GUI界面并对结果进行相应输出展示</td>
+</tr>
+</tbody></table>
+<p>源程序代码已开源至GitHub</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie/tree/main/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E5%B0%86WHILE%E8%AF%AD%E5%8F%A5%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9B%9B%E5%85%83%E5%BC%8F%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0">Cassie&#x2F;编译原理课程设计-将WHILE语句转换成四元式的程序实现 at main · xiayi0409&#x2F;Cassie (github.com)</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">冬贰</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/06/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E5%B0%86WHILE%E8%AF%AD%E5%8F%A5%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9B%9B%E5%85%83%E5%BC%8F%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0/">http://example.com/2022/06/28/编译原理课程设计——将WHILE语句转换成四元式的程序实现/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Cassie's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/">课程设计</a><a class="post-meta__tags" href="/tags/JAVA/">JAVA</a><a class="post-meta__tags" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></div><div class="post_share"><div class="social-share" data-image="/img/back5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/07/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B1%BB%E4%B8%93%E4%B8%9A%E5%88%9B%E6%96%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%AE%B6%E4%B9%A1%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E5%88%B6%E4%BD%9C/" title="计算机类专业创新实践——家乡静态网页制作"><img class="cover" src="/img/back6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机类专业创新实践——家乡静态网页制作</div></div></a></div><div class="next-post pull-right"><a href="/2022/06/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E5%8D%95%E5%91%A8%E6%9C%9F-CPU-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E2%80%94%E5%8D%81%E6%9D%A1%E6%8C%87%E4%BB%A4-CPU/" title="计算机组成原理——单周期 CPU 设计与实现—十条指令 CPU"><img class="cover" src="/img/back8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机组成原理——单周期 CPU 设计与实现—十条指令 CPU</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/07/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97/" title="数据结构课程设计——应用小大根交替堆实现双端优先队列"><img class="cover" src="/img/roll.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-13</div><div class="title">数据结构课程设计——应用小大根交替堆实现双端优先队列</div></div></a></div><div><a href="/2021/01/05/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E6%8E%A8%E7%AE%B1%E5%AD%90/" title="程序设计课程设计——推箱子"><img class="cover" src="/img/push.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-05</div><div class="title">程序设计课程设计——推箱子</div></div></a></div><div><a href="/2022/07/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B1%BB%E4%B8%93%E4%B8%9A%E5%88%9B%E6%96%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%AE%B6%E4%B9%A1%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E5%88%B6%E4%BD%9C/" title="计算机类专业创新实践——家乡静态网页制作"><img class="cover" src="/img/back6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-12</div><div class="title">计算机类专业创新实践——家乡静态网页制作</div></div></a></div><div><a href="/2023/05/12/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E2%80%94%E2%80%94DES%E5%92%8CRSA%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%A8%8B%E5%BA%8F/" title="信息安全技术——DES和RSA加密解密程序"><img class="cover" src="/img/back4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-12</div><div class="title">信息安全技术——DES和RSA加密解密程序</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webimg.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">冬贰</div><div class="author-info__description">This is my Blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1725030706&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:xiayi0409@163.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E8%AE%BE%E8%AE%A1%E7%9B%AE%E7%9A%84%E5%8F%8A%E8%AE%BE%E8%AE%A1%E8%A6%81%E6%B1%82"><span class="toc-text">💐设计目的及设计要求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%AE%BE%E8%AE%A1%E5%86%85%E5%AE%B9"><span class="toc-text">🌼设计内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%A6%81%E6%B1%82"><span class="toc-text">🌼要求</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%8F%8F%E8%BF%B0"><span class="toc-text">💐开发环境描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-text">🌼开发工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-text">🌼开发环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E8%AE%BE%E8%AE%A1%E5%86%85%E5%AE%B9%E3%80%81%E4%B8%BB%E8%A6%81%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0"><span class="toc-text">💐设计内容、主要算法描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-text">🌼问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="toc-text">🌼背景介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%B8%E6%96%87%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="toc-text">🌸文法介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%B8%E5%B1%9E%E6%80%A7%E6%96%87%E6%B3%95"><span class="toc-text">🌸属性文法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%B8%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E5%BD%A2%E6%88%90%E7%9A%84%E6%8F%8F%E8%BF%B0"><span class="toc-text">🌸中间代码形成的描述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">🌼解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%B8%E7%A8%8B%E5%BA%8F%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90"><span class="toc-text">🌸程序模块分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%B8%E4%BD%BF%E7%94%A8%E7%9A%84%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-text">🌸使用的分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%B8%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-text">🌸词法分析和语法分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%B8%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E5%92%8C%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="toc-text">🌸语义分析和中间代码生成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E4%B8%BB%E8%A6%81%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0%E5%8C%85%E6%8B%AC%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">💐主要算法描述包括流程图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E9%83%A8%E5%88%86"><span class="toc-text">🌼词法分析部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E9%83%A8%E5%88%86"><span class="toc-text">🌼语法分析部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E5%AE%9A%E4%B9%89%E5%9B%9B%E5%85%83%E5%BC%8F%E9%83%A8%E5%88%86%E9%83%A8%E5%88%86"><span class="toc-text">🌼定义四元式部分部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E5%92%8C%E5%9B%9B%E5%85%83%E5%BC%8F%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-text">🌼语义分析和四元式的生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E5%9B%9B%E5%85%83%E5%BC%8F%E7%9A%84%E8%BE%93%E5%87%BA%E5%92%8C%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2"><span class="toc-text">🌼四元式的输出和图形界面</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E8%AE%BE%E8%AE%A1%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA%E5%BD%A2%E5%BC%8F"><span class="toc-text">💐设计的输入和输出形式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%BE%93%E5%85%A5"><span class="toc-text">🌼输入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC%E8%BE%93%E5%87%BA"><span class="toc-text">🌼输出</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%EF%BC%88%E6%B5%8B%E8%AF%95%E3%80%81%E6%A8%A1%E6%8B%9F%EF%BC%89%E7%9A%84%E7%BB%93%E6%9E%9C%EF%BC%88%E5%B1%8F%E5%B9%95%E6%8B%B7%E8%B4%9D%E3%80%81%E7%94%9F%E6%88%90%E7%BB%93%E6%9E%9C%E7%9A%84%E6%89%93%E5%8D%B0%E8%BE%93%E5%87%BA%EF%BC%89"><span class="toc-text">💐程序运行（测试、模拟）的结果（屏幕拷贝、生成结果的打印输出）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E6%80%BB%E7%BB%93%EF%BC%88%E4%BD%93%E4%BC%9A%EF%BC%89"><span class="toc-text">💐总结（体会）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%90%E6%BA%90%E7%A8%8B%E5%BA%8F%E6%B8%85%E5%8D%95"><span class="toc-text">💐源程序清单</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/18/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E8%AF%BE%E7%A8%8B%E5%86%85%E5%AE%B9/" title="软件工程课程总结"><img src="/img/back3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软件工程课程总结"/></a><div class="content"><a class="title" href="/2023/05/18/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E8%AF%BE%E7%A8%8B%E5%86%85%E5%AE%B9/" title="软件工程课程总结">软件工程课程总结</a><time datetime="2023-05-18T08:38:20.000Z" title="发表于 2023-05-18 16:38:20">2023-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/12/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E2%80%94%E2%80%94DES%E5%92%8CRSA%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%A8%8B%E5%BA%8F/" title="信息安全技术——DES和RSA加密解密程序"><img src="/img/back4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信息安全技术——DES和RSA加密解密程序"/></a><div class="content"><a class="title" href="/2023/05/12/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E2%80%94%E2%80%94DES%E5%92%8CRSA%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%A8%8B%E5%BA%8F/" title="信息安全技术——DES和RSA加密解密程序">信息安全技术——DES和RSA加密解密程序</a><time datetime="2023-05-12T07:17:54.000Z" title="发表于 2023-05-12 15:17:54">2023-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/08/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%85%A5%E9%97%A8%E6%A8%A1%E6%8B%9F/" title="C/C++算法笔记——入门模拟"><img src="/img/back2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C/C++算法笔记——入门模拟"/></a><div class="content"><a class="title" href="/2023/05/08/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%85%A5%E9%97%A8%E6%A8%A1%E6%8B%9F/" title="C/C++算法笔记——入门模拟">C/C++算法笔记——入门模拟</a><time datetime="2023-05-08T13:08:50.000Z" title="发表于 2023-05-08 21:08:50">2023-05-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/05/C-C-%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="C/C++算法笔记——基础知识"><img src="/img/back1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C/C++算法笔记——基础知识"/></a><div class="content"><a class="title" href="/2023/05/05/C-C-%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="C/C++算法笔记——基础知识">C/C++算法笔记——基础知识</a><time datetime="2023-05-05T13:08:50.000Z" title="发表于 2023-05-05 21:08:50">2023-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B1%BB%E4%B8%93%E4%B8%9A%E5%88%9B%E6%96%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%AE%B6%E4%B9%A1%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E5%88%B6%E4%BD%9C/" title="计算机类专业创新实践——家乡静态网页制作"><img src="/img/back6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机类专业创新实践——家乡静态网页制作"/></a><div class="content"><a class="title" href="/2022/07/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B1%BB%E4%B8%93%E4%B8%9A%E5%88%9B%E6%96%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%AE%B6%E4%B9%A1%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E5%88%B6%E4%BD%9C/" title="计算机类专业创新实践——家乡静态网页制作">计算机类专业创新实践——家乡静态网页制作</a><time datetime="2022-07-11T16:31:31.000Z" title="发表于 2022-07-12 00:31:31">2022-07-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/back5.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 冬贰</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
