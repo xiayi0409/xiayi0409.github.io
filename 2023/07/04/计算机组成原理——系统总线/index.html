@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机组成原理——系统总线 | Cassie's Blog</title><meta name="author" content="冬贰"><meta name="copyright" content="冬贰"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🤹‍♀️总线的基本概念🤶为什么要用总线 减少各部件之间的连接线 方便系统的构成、扩充或更新  🤶什么是总线总线是连接各个部件的信息传输线，是各个部件共享的传输介质 🤶总线结构🕵️‍♀️单总线结构框图优点：结构简单缺点：快速设备和慢速设备挂在同一条总线上 🕵️‍♀️面向CPU的双总线结构框图优点：快速设备和慢速设备挂在两条总线上缺点：结构复杂，外设1送数据给主存要经过CPU中转，占用C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理——系统总线">
+<meta property="og:url" content="http://example.com/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/index.html">
+<meta property="og:site_name" content="Cassie&#39;s Blog">
+<meta property="og:description" content="🤹‍♀️总线的基本概念🤶为什么要用总线 减少各部件之间的连接线 方便系统的构成、扩充或更新  🤶什么是总线总线是连接各个部件的信息传输线，是各个部件共享的传输介质 🤶总线结构🕵️‍♀️单总线结构框图优点：结构简单缺点：快速设备和慢速设备挂在同一条总线上 🕵️‍♀️面向CPU的双总线结构框图优点：快速设备和慢速设备挂在两条总线上缺点：结构复杂，外设1送数据给主存要经过CPU中转，占用C">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/zu2.jpg">
+<meta property="article:published_time" content="2023-07-04T14:14:59.000Z">
+<meta property="article:modified_time" content="2023-07-14T07:21:07.564Z">
+<meta property="article:author" content="冬贰">
+<meta property="article:tag" content="课程总结">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/zu2.jpg"><link rel="shortcut icon" href="/img/imgweb.png"><link rel="canonical" href="http://example.com/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":"falselocal_","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机组成原理——系统总线',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-14 15:21:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webimg.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/zu2.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Cassie's Blog"><span class="site-name">Cassie's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机组成原理——系统总线</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-04T14:14:59.000Z" title="发表于 2023-07-04 22:14:59">2023-07-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-14T07:21:07.564Z" title="更新于 2023-07-14 15:21:07">2023-07-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/">课程总结</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机组成原理——系统总线"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://i.imgtg.com/2023/07/13/Ozrjyr.png#id=zWEqo&originHeight=779&originWidth=1447&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<h1 id="🤹‍♀️总线的基本概念"><a href="#🤹‍♀️总线的基本概念" class="headerlink" title="🤹‍♀️总线的基本概念"></a>🤹‍♀️总线的基本概念</h1><h2 id="🤶为什么要用总线"><a href="#🤶为什么要用总线" class="headerlink" title="🤶为什么要用总线"></a>🤶为什么要用总线</h2><ol>
+<li>减少各部件之间的连接线</li>
+<li>方便系统的构成、扩充或更新</li>
+</ol>
+<h2 id="🤶什么是总线"><a href="#🤶什么是总线" class="headerlink" title="🤶什么是总线"></a>🤶什么是总线</h2><p>总线是连接各个部件的信息传输线，是各个部件共享的传输介质</p>
+<h2 id="🤶总线结构"><a href="#🤶总线结构" class="headerlink" title="🤶总线结构"></a>🤶总线结构</h2><h3 id="🕵️‍♀️单总线结构框图"><a href="#🕵️‍♀️单总线结构框图" class="headerlink" title="🕵️‍♀️单总线结构框图"></a>🕵️‍♀️单总线结构框图</h3><p><img src="https://i.imgtg.com/2023/07/13/OzrEvX.md.png#height=250&id=Z4lli&originHeight=500&originWidth=810&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=405"><br>优点：结构简单<br>缺点：快速设备和慢速设备挂在同一条总线上</p>
+<h3 id="🕵️‍♀️面向CPU的双总线结构框图"><a href="#🕵️‍♀️面向CPU的双总线结构框图" class="headerlink" title="🕵️‍♀️面向CPU的双总线结构框图"></a>🕵️‍♀️面向CPU的双总线结构框图</h3><p><img src="https://i.imgtg.com/2023/07/13/OzrGdt.md.png#height=250&id=EZjjJ&originHeight=500&originWidth=817&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=409"><br>优点：快速设备和慢速设备挂在两条总线上<br>缺点：结构复杂，外设1送数据给主存要经过CPU中转，占用CPU资源</p>
+<h3 id="🕵️‍♀️与存储器为中心的双总线结构框图"><a href="#🕵️‍♀️与存储器为中心的双总线结构框图" class="headerlink" title="🕵️‍♀️与存储器为中心的双总线结构框图"></a>🕵️‍♀️与存储器为中心的双总线结构框图</h3><p><img src="https://i.imgtg.com/2023/07/13/Ozr0Nj.md.png#height=250&id=M36cb&originHeight=500&originWidth=759&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=380"><br>优点：快速设备和慢速设备挂在两条总线上。外设1送数据给主存不需要经过CPU中转<br>缺点：结构复杂</p>
+<h1 id="🤹‍♀️总线的分类"><a href="#🤹‍♀️总线的分类" class="headerlink" title="🤹‍♀️总线的分类"></a>🤹‍♀️总线的分类</h1><h2 id="🤶片内总线"><a href="#🤶片内总线" class="headerlink" title="🤶片内总线"></a>🤶片内总线</h2><p>芯片内部的总线——用来连接芯片内部的各部件</p>
+<h2 id="🤶系统总线"><a href="#🤶系统总线" class="headerlink" title="🤶系统总线"></a>🤶系统总线</h2><p>计算机各部件之间的信息传输线——用于连接计算机系统内各功能部件</p>
+<ol>
+<li><strong>数据总线</strong>——各个功能部件之间传输数据信息。双向（与机器字长、存储字长有关）单向（与存储地址、I&#x2F;O地址有关）</li>
+<li><strong>地址总线</strong>——用来指明数据总线上，源数据或目的数据所在的主存单元的地址。单向——由CPU发出。存储单元个数&#x3D;2^地址总线根数</li>
+<li><strong>控制总线</strong>——入（中断请求、总线请求）出（存储器读、存储器写、总线允许、中断确认）。发出各种控制信号，监视各部件状态</li>
+</ol>
+<h2 id="🤶通信总线"><a href="#🤶通信总线" class="headerlink" title="🤶通信总线"></a>🤶通信总线</h2><p>（I&#x2F;O总线，外部总线）用于计算机系统之间或计算机系统与其他系统之间的通信</p>
+<ol>
+<li>串行通信总线</li>
+<li>并行通信总线</li>
+</ol>
+<h1 id="🤹‍♀️总线特性及性能指标"><a href="#🤹‍♀️总线特性及性能指标" class="headerlink" title="🤹‍♀️总线特性及性能指标"></a>🤹‍♀️总线特性及性能指标</h1><h2 id="🤶总线特性"><a href="#🤶总线特性" class="headerlink" title="🤶总线特性"></a>🤶总线特性</h2><ol>
+<li>机械特性——机械连接方式上的一些性能，尺寸、形状</li>
+<li>电气特性——每根传输线上的信号的传输方向和有效的电平范围</li>
+<li>功能特性——每根传输线的功能（地址、数据、控制）</li>
+<li>时间特性——信号的时序关系</li>
+</ol>
+<h2 id="🤶性能指标"><a href="#🤶性能指标" class="headerlink" title="🤶性能指标"></a>🤶性能指标</h2><ol>
+<li>总线周期——一次总线操作所需的时间</li>
+<li>总线工作频率——协调总线上各操作的时钟频率</li>
+<li>总线宽度——数据线的根数</li>
+<li>总线带宽——总线数据传输速率，每秒传输的最大字节数（MBps）——总线带宽&#x3D;（总线宽度&#x2F;8）*总线工作频率</li>
+<li>时钟同步&#x2F;异步</li>
+<li>总线复用——一条信号线上分时传送两种信号。数据线和地址线复用</li>
+<li>信号线数——地址线、数据线、控制线的总和</li>
+<li>总线控制方式——突发工作、自动配置、仲裁方式</li>
+</ol>
+<h1 id="🤹‍♀️总线控制"><a href="#🤹‍♀️总线控制" class="headerlink" title="🤹‍♀️总线控制"></a>🤹‍♀️总线控制</h1><h2 id="🤶总线判优控制（仲裁）"><a href="#🤶总线判优控制（仲裁）" class="headerlink" title="🤶总线判优控制（仲裁）"></a>🤶总线判优控制（仲裁）</h2><h3 id="🕵️‍♀️基本概念"><a href="#🕵️‍♀️基本概念" class="headerlink" title="🕵️‍♀️基本概念"></a>🕵️‍♀️基本概念</h3><ul>
+<li>主设备——对总线有控制权</li>
+<li>从设备——响应从主设备发来的总线控制</li>
+</ul>
+<p>总线仲裁——在总线争用时，决定具有总线控制权的设备或模块的过程<br><img src="https://i.imgtg.com/2023/07/13/OzrcEp.png#id=dLSYf&originHeight=359&originWidth=943&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>集中式：专门的总线控制器或总线裁决器</p>
+<h3 id="🕵️‍♀️链式查询方式"><a href="#🕵️‍♀️链式查询方式" class="headerlink" title="🕵️‍♀️链式查询方式"></a>🕵️‍♀️链式查询方式</h3><p>根据线的连接顺序依次查询每个部件有无请求<br><img src="https://i.imgtg.com/2023/07/13/OzrdIU.md.png#height=250&id=qtmLc&originHeight=500&originWidth=790&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=395"><br>优点：线数少（3根），设备扩充容易<br>缺点：离总线控制器最近的设备具有最高优先权，优先权低的设备难获得请求；对电路故障敏感</p>
+<h3 id="🕵️‍♀️计数器定时查询方式"><a href="#🕵️‍♀️计数器定时查询方式" class="headerlink" title="🕵️‍♀️计数器定时查询方式"></a>🕵️‍♀️计数器定时查询方式</h3><p>对每个设备编号，用计数器依次查询<br><img src="https://i.imgtg.com/2023/07/13/OzrVFY.md.png#height=250&id=mF4Ti&originHeight=500&originWidth=811&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=406"></p>
+<ol>
+<li>计数器从0开始——与链式优先级相同</li>
+<li>从终止点开始——循环优先级，各个部件优先级相等</li>
+</ol>
+<h3 id="🕵️‍♀️独立请求方式"><a href="#🕵️‍♀️独立请求方式" class="headerlink" title="🕵️‍♀️独立请求方式"></a>🕵️‍♀️独立请求方式</h3><p>在总线控制器排队，按照一定规则批准某个请求——“领导说了算”<br><img src="https://i.imgtg.com/2023/07/13/OzrYRv.md.png#height=250&id=q6Ldq&originHeight=500&originWidth=734&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=367"><br>优点：响应速度快；优先级控制灵活<br>缺点：线数多（2n根），控制复杂</p>
+<h3 id="🕵️‍♀️自举分布式裁决"><a href="#🕵️‍♀️自举分布式裁决" class="headerlink" title="🕵️‍♀️自举分布式裁决"></a>🕵️‍♀️自举分布式裁决</h3><p>优先级固定，各设备独立决定自己是否是最高优先级请求者<br>需请求总线的设备在各自对应的总线请求线上送出请求信号</p>
+<h3 id="🕵️‍♀️冲突检测方式裁决"><a href="#🕵️‍♀️冲突检测方式裁决" class="headerlink" title="🕵️‍♀️冲突检测方式裁决"></a>🕵️‍♀️冲突检测方式裁决</h3><p>当某个设备要使用总线时，它首先检查一下是否有其他设备正在使用总线如果没有，那它就置总线忙，然后使用总线。<br>若两个设备同时检测到总线空闲，则可能会同时使用总线，此时发生冲突；一个设备在传输过程中，它会帧听总线以检测是否发生了冲突；当冲突发生时，两个设备都会停止传输，延迟一个随机时间后再重新使用总线</p>
+<h2 id="🤶总线通信控制"><a href="#🤶总线通信控制" class="headerlink" title="🤶总线通信控制"></a>🤶总线通信控制</h2><p>目的——解决通信双方协调配合的问题<br><strong>总线周期</strong></p>
+<ol>
+<li>申请分配阶段——主模块申请，总线仲裁决定</li>
+<li>寻址阶段——主模块向从模块给出地址和命令</li>
+<li>传数阶段——主模块和从模块交换数据</li>
+<li>结束阶段——主模块撤销有关数据</li>
+</ol>
+<h3 id="🕵️‍♀️四种方式（总线定时方式）"><a href="#🕵️‍♀️四种方式（总线定时方式）" class="headerlink" title="🕵️‍♀️四种方式（总线定时方式）"></a>🕵️‍♀️四种方式（总线定时方式）</h3><p><img src="https://i.imgtg.com/2023/07/13/Ozrfjq.md.png#id=kjk74&originHeight=500&originWidth=858&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<h4 id="👩‍🔧同步通信"><a href="#👩‍🔧同步通信" class="headerlink" title="👩‍🔧同步通信"></a>👩‍🔧同步通信</h4><p>系统采用<strong>统一的时钟信号</strong>来协调发送和接受双方的传递定时关系<br>优点：规定明确、统一，模块间的配合简单一致；控制逻辑少而速度快<br>缺点：主从模块间时间配合强制同步，影响总线工作效率，局限性，缺乏灵活性</p>
+<h4 id="👩‍🔧异步通信"><a href="#👩‍🔧异步通信" class="headerlink" title="👩‍🔧异步通信"></a>👩‍🔧异步通信</h4><p>非时钟定时，<strong>没有一个公共的时钟标准</strong>。采用应答方式，允许各模块速度不一致。<br>主模块发出请求信号（Request）时，一直等待从模块反馈回来的应答信号(Acknowledge)，才开始通信。这需要主从模块之间增加两条应答线（即<strong>握手</strong>交互信号线Handshaking）。</p>
+<ol>
+<li>不互锁</li>
+<li>半互锁</li>
+<li>全互锁</li>
+</ol>
+<p>优点：灵活，可挂接各种具有不同工作速度的设备<br>缺点：对噪声较敏感（任何时候都可能接收到对方的应答信号）；接口逻辑较复杂</p>
+<h4 id="👩‍🔧半同步通信（同步、异步结合）"><a href="#👩‍🔧半同步通信（同步、异步结合）" class="headerlink" title="👩‍🔧半同步通信（同步、异步结合）"></a>👩‍🔧半同步通信（同步、异步结合）</h4><p>同步——发送方：用系统时钟前沿发信号；接收方用系统时钟后沿判断、识别。<br>异步——允许不同速度的模块和谐工作；增加一条“等待”响应信号WAIT<br><img src="https://i.imgtg.com/2023/07/13/Ozr9Uc.png#height=200&id=lNNJy&originHeight=399&originWidth=869&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=435"></p>
+<h4 id="👩‍🔧分离式通信"><a href="#👩‍🔧分离式通信" class="headerlink" title="👩‍🔧分离式通信"></a>👩‍🔧分离式通信</h4><ol>
+<li>各设备有权申请占用总线</li>
+<li>采用同步方式通信，不等对方回答</li>
+<li>各设备准备数据时，不占用总线</li>
+<li>总线被占用时，无空闲</li>
+</ol>
+<p>充分发挥了总线的有效占用</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">冬贰</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/">http://example.com/2023/07/04/计算机组成原理——系统总线/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Cassie's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/">课程总结</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/img/zu2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/07/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统——进程管理"><img class="cover" src="/img/os2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">操作系统——进程管理</div></div></a></div><div class="next-post pull-right"><a href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层"><img class="cover" src="/img/wang4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络——数据链路层</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论"><img class="cover" src="/img/zu1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-27</div><div class="title">计算机组成原理——计算机系统概论</div></div></a></div><div><a href="/2023/05/18/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E8%AF%BE%E7%A8%8B%E5%86%85%E5%AE%B9/" title="软件工程课程总结"><img class="cover" src="/img/back3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-18</div><div class="title">软件工程课程总结</div></div></a></div><div><a href="/2023/05/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E7%BB%AA%E8%AE%BA/" title="数据结构——绪论"><img class="cover" src="/img/shu1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-11</div><div class="title">数据结构——绪论</div></div></a></div><div><a href="/2023/06/01/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E6%A0%91%E5%92%8C%E4%BA%8C%E5%8F%89%E6%A0%91/" title="数据结构——树和二叉树"><img class="cover" src="/img/shu4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-01</div><div class="title">数据结构——树和二叉树</div></div></a></div><div><a href="/2023/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="数据结构——线性表"><img class="cover" src="/img/shu2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-18</div><div class="title">数据结构——线性表</div></div></a></div><div><a href="/2023/05/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" title="数据结构——栈和队列"><img class="cover" src="/img/shu3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-25</div><div class="title">数据结构——栈和队列</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webimg.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">冬贰</div><div class="author-info__description">嗨！欢迎来到我的世界！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1725030706&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:xiayi0409@163.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">保持自由的灵魂永不困于荆棘</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%A4%B9%E2%80%8D%E2%99%80%EF%B8%8F%E6%80%BB%E7%BA%BF%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">🤹‍♀️总线的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%80%BB%E7%BA%BF"><span class="toc-text">🤶为什么要用总线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E4%BB%80%E4%B9%88%E6%98%AF%E6%80%BB%E7%BA%BF"><span class="toc-text">🤶什么是总线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84"><span class="toc-text">🤶总线结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E5%8D%95%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="toc-text">🕵️‍♀️单总线结构框图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E9%9D%A2%E5%90%91CPU%E7%9A%84%E5%8F%8C%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="toc-text">🕵️‍♀️面向CPU的双总线结构框图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E4%B8%8E%E5%AD%98%E5%82%A8%E5%99%A8%E4%B8%BA%E4%B8%AD%E5%BF%83%E7%9A%84%E5%8F%8C%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="toc-text">🕵️‍♀️与存储器为中心的双总线结构框图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%A4%B9%E2%80%8D%E2%99%80%EF%B8%8F%E6%80%BB%E7%BA%BF%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">🤹‍♀️总线的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E7%89%87%E5%86%85%E6%80%BB%E7%BA%BF"><span class="toc-text">🤶片内总线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF"><span class="toc-text">🤶系统总线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E9%80%9A%E4%BF%A1%E6%80%BB%E7%BA%BF"><span class="toc-text">🤶通信总线</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%A4%B9%E2%80%8D%E2%99%80%EF%B8%8F%E6%80%BB%E7%BA%BF%E7%89%B9%E6%80%A7%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">🤹‍♀️总线特性及性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E6%80%BB%E7%BA%BF%E7%89%B9%E6%80%A7"><span class="toc-text">🤶总线特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">🤶性能指标</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%A4%B9%E2%80%8D%E2%99%80%EF%B8%8F%E6%80%BB%E7%BA%BF%E6%8E%A7%E5%88%B6"><span class="toc-text">🤹‍♀️总线控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E6%80%BB%E7%BA%BF%E5%88%A4%E4%BC%98%E6%8E%A7%E5%88%B6%EF%BC%88%E4%BB%B2%E8%A3%81%EF%BC%89"><span class="toc-text">🤶总线判优控制（仲裁）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">🕵️‍♀️基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E9%93%BE%E5%BC%8F%E6%9F%A5%E8%AF%A2%E6%96%B9%E5%BC%8F"><span class="toc-text">🕵️‍♀️链式查询方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E8%AE%A1%E6%95%B0%E5%99%A8%E5%AE%9A%E6%97%B6%E6%9F%A5%E8%AF%A2%E6%96%B9%E5%BC%8F"><span class="toc-text">🕵️‍♀️计数器定时查询方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E7%8B%AC%E7%AB%8B%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="toc-text">🕵️‍♀️独立请求方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E8%87%AA%E4%B8%BE%E5%88%86%E5%B8%83%E5%BC%8F%E8%A3%81%E5%86%B3"><span class="toc-text">🕵️‍♀️自举分布式裁决</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E5%86%B2%E7%AA%81%E6%A3%80%E6%B5%8B%E6%96%B9%E5%BC%8F%E8%A3%81%E5%86%B3"><span class="toc-text">🕵️‍♀️冲突检测方式裁决</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A4%B6%E6%80%BB%E7%BA%BF%E9%80%9A%E4%BF%A1%E6%8E%A7%E5%88%B6"><span class="toc-text">🤶总线通信控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%95%B5%EF%B8%8F%E2%80%8D%E2%99%80%EF%B8%8F%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%88%E6%80%BB%E7%BA%BF%E5%AE%9A%E6%97%B6%E6%96%B9%E5%BC%8F%EF%BC%89"><span class="toc-text">🕵️‍♀️四种方式（总线定时方式）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%91%A9%E2%80%8D%F0%9F%94%A7%E5%90%8C%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="toc-text">👩‍🔧同步通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%91%A9%E2%80%8D%F0%9F%94%A7%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="toc-text">👩‍🔧异步通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%91%A9%E2%80%8D%F0%9F%94%A7%E5%8D%8A%E5%90%8C%E6%AD%A5%E9%80%9A%E4%BF%A1%EF%BC%88%E5%90%8C%E6%AD%A5%E3%80%81%E5%BC%82%E6%AD%A5%E7%BB%93%E5%90%88%EF%BC%89"><span class="toc-text">👩‍🔧半同步通信（同步、异步结合）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%91%A9%E2%80%8D%F0%9F%94%A7%E5%88%86%E7%A6%BB%E5%BC%8F%E9%80%9A%E4%BF%A1"><span class="toc-text">👩‍🔧分离式通信</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统——进程管理"><img src="/img/os2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——进程管理"/></a><div class="content"><a class="title" href="/2023/07/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统——进程管理">操作系统——进程管理</a><time datetime="2023-07-07T08:13:49.000Z" title="发表于 2023-07-07 16:13:49">2023-07-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/" title="计算机组成原理——系统总线"><img src="/img/zu2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——系统总线"/></a><div class="content"><a class="title" href="/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/" title="计算机组成原理——系统总线">计算机组成原理——系统总线</a><time datetime="2023-07-04T14:14:59.000Z" title="发表于 2023-07-04 22:14:59">2023-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层"><img src="/img/wang4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络——数据链路层"/></a><div class="content"><a class="title" href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层">计算机网络——数据链路层</a><time datetime="2023-07-02T07:34:29.000Z" title="发表于 2023-07-02 15:34:29">2023-07-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/30/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/" title="操作系统——操作系统引论"><img src="/img/os1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——操作系统引论"/></a><div class="content"><a class="title" href="/2023/06/30/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/" title="操作系统——操作系统引论">操作系统——操作系统引论</a><time datetime="2023-06-30T10:23:09.000Z" title="发表于 2023-06-30 18:23:09">2023-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论"><img src="/img/zu1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——计算机系统概论"/></a><div class="content"><a class="title" href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论">计算机组成原理——计算机系统概论</a><time datetime="2023-06-27T01:54:29.000Z" title="发表于 2023-06-27 09:54:29">2023-06-27</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/zu2.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 冬贰</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

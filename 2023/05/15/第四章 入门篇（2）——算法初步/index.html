@@ -1,0 +1,390 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>C/C++算法笔记——算法初步 | Cassie's Blog</title><meta name="author" content="冬贰"><meta name="copyright" content="冬贰"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🎊算法初步🎀排序🎈选择排序 简单选择排序  算法思路——对一个序列A中的元素A[1]~A[n]，令i从1到n枚举，进行n趟操作，每趟从待排序部分[i,n]中选择最小的元素，令其与待排序部分的第一个元素A[i]进行交换 void insertSort() &amp;#123;    for (int i &#x3D; 1; i &lt; n; i++) &amp;#123;        int temp &#x3D; a[i]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C&#x2F;C++算法笔记——算法初步">
+<meta property="og:url" content="http://example.com/2023/05/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E7%AE%97%E6%B3%95%E5%88%9D%E6%AD%A5/index.html">
+<meta property="og:site_name" content="Cassie&#39;s Blog">
+<meta property="og:description" content="🎊算法初步🎀排序🎈选择排序 简单选择排序  算法思路——对一个序列A中的元素A[1]~A[n]，令i从1到n枚举，进行n趟操作，每趟从待排序部分[i,n]中选择最小的元素，令其与待排序部分的第一个元素A[i]进行交换 void insertSort() &amp;#123;    for (int i &#x3D; 1; i &lt; n; i++) &amp;#123;        int temp &#x3D; a[i]">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/back9.jpg">
+<meta property="article:published_time" content="2023-05-15T14:48:03.000Z">
+<meta property="article:modified_time" content="2023-07-14T07:24:54.816Z">
+<meta property="article:author" content="冬贰">
+<meta property="article:tag" content="C语言&#x2F;C++">
+<meta property="article:tag" content="算法笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/back9.jpg"><link rel="shortcut icon" href="/img/imgweb.png"><link rel="canonical" href="http://example.com/2023/05/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E7%AE%97%E6%B3%95%E5%88%9D%E6%AD%A5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":"falselocal_","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C/C++算法笔记——算法初步',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-14 15:24:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webimg.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/back9.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Cassie's Blog"><span class="site-name">Cassie's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C/C++算法笔记——算法初步</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-15T14:48:03.000Z" title="发表于 2023-05-15 22:48:03">2023-05-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-14T07:24:54.816Z" title="更新于 2023-07-14 15:24:54">2023-07-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C%E8%AF%AD%E8%A8%80-C/">C语言/C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C/C++算法笔记——算法初步"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="🎊算法初步"><a href="#🎊算法初步" class="headerlink" title="🎊算法初步"></a>🎊算法初步</h1><h2 id="🎀排序"><a href="#🎀排序" class="headerlink" title="🎀排序"></a>🎀排序</h2><h3 id="🎈选择排序"><a href="#🎈选择排序" class="headerlink" title="🎈选择排序"></a>🎈选择排序</h3><ul>
+<li><strong>简单选择排序</strong></li>
+</ul>
+<p>算法思路——对一个序列A中的元素A[1]~A[n]，令i从1到n枚举，进行n趟操作，每趟从待排序部分[i,n]中选择最小的元素，令其与待排序部分的第一个元素A[i]进行交换</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">insertSort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="type">int</span> temp = a[i];</span><br><span class="line">        <span class="type">int</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> (j - <span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; a[j - <span class="number">1</span>] &gt; temp) &#123;</span><br><span class="line">            a[j] = a[j - <span class="number">1</span>];</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        a[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="🎈插入排序"><a href="#🎈插入排序" class="headerlink" title="🎈插入排序"></a>🎈插入排序</h3><ul>
+<li><strong>直接插入排序</strong></li>
+</ul>
+<p>算法思路——对一个序列A中的元素A[1]~A[n]，令i从2到n枚举,进行n-1趟操作。将插入元素一个个插入初始已有序部分中的过程，而插入位置的选择遵循使插入后依然保持有序的原则—从后往前枚举已有序部分</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">insertSort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="type">int</span> temp = a[i];</span><br><span class="line">        <span class="type">int</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> (j - <span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; a[j - <span class="number">1</span>] &gt; temp) &#123;</span><br><span class="line">            a[j] = a[j - <span class="number">1</span>];</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        a[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="🎈排序题与sort函数的应用"><a href="#🎈排序题与sort函数的应用" class="headerlink" title="🎈排序题与sort函数的应用"></a>🎈排序题与sort函数的应用</h3><h4 id="🎄sort函数"><a href="#🎄sort函数" class="headerlink" title="🎄sort函数"></a>🎄sort函数</h4><p>直接使用C++中的库函数<strong>sort函数</strong><br>头文件#include<algorithm>和using namespace std;<br>:::success<br>使用方法：<br><strong>sort(首元素地址（必填），尾元素地址的下一个地址（必填），比较函数（非必填）)；</strong><br>如果不写比较函数，则默认对面前给出的区间进行递增排序<br>:::</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">6</span>] =&#123;<span class="number">4</span>,<span class="number">6</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">-2</span>,<span class="number">5</span>&#125;;</span><br><span class="line"><span class="built_in">sort</span>(a,a+<span class="number">4</span>)</span><br><span class="line"><span class="comment">//将a[0]~a[3]从小到大排序</span></span><br><span class="line">    <span class="comment">//实际上尾元素地址的下一地址-首元素地址就是排序元素的个数</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>比较函数cmp</strong></li>
+</ul>
+<p>比较函数不填写的时候，默认从小到大的顺序进行排序</p>
+<ol>
+<li><p>从大到小排序</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a&gt;b;<span class="comment">//可以理解为当a&gt;b时，把a放在b前面</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sort</span>(a,a+<span class="number">3</span>,cmp);<span class="comment">//从大到小排序</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结构体数组的排序</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span>&#123;</span><br><span class="line">	<span class="type">int</span> x,y;</span><br><span class="line">&#125;ssd[<span class="number">10</span>];</span><br><span class="line"><span class="comment">//将ssd数组按照x从大到小的顺序进行排序</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(node a,node b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.x&gt;b.x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//将ssd数组按照x从大到小的顺序进行排序,若x相等则按照y从小到大</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(node a,node b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a.x!=b.x)</span><br><span class="line">    	<span class="keyword">return</span> a.x&gt;b.x;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> a.y&lt;b.y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sort</span>(ssd,ssd+<span class="number">3</span>,cmp);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>容器的排序</p>
+</li>
+</ol>
+<p>在STL标准容器中，vector、string、deque可以使用sort</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//vector</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; vi;</span><br><span class="line"><span class="built_in">sort</span>(vi.<span class="built_in">begin</span>(),vi.<span class="built_in">end</span>(),cmp);</span><br><span class="line"><span class="comment">//string</span></span><br><span class="line">string str[<span class="number">3</span>]=&#123;<span class="string">&quot;bbbb&quot;</span>,<span class="string">&quot;aa&quot;</span>,<span class="string">&quot;ccc&quot;</span>&#125;;</span><br><span class="line"><span class="built_in">sort</span>(str,str+<span class="number">3</span>);<span class="comment">//按字典序从小到大</span></span><br><span class="line">	<span class="comment">//也可以按照字符串长度</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">com</span><span class="params">(string str1,string str2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> str1.<span class="built_in">length</span>()&lt;str2.<span class="built_in">length</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="🎄排序题基本步骤"><a href="#🎄排序题基本步骤" class="headerlink" title="🎄排序题基本步骤"></a>🎄排序题基本步骤</h4><ol>
+<li>相关结构体的定义</li>
+</ol>
+<p>对于题目中所给出的很多个题信息，利用结构体数组表示多个个体</p>
+<ol start="2">
+<li>cmp函数的编写</li>
+</ol>
+<p>特别的char数组进行比较时，使用return strcmp(a.name,b.name)&lt;0——从小到大字典序排序</p>
+<ol start="3">
+<li>排名的实现</li>
+</ol>
+<p>在排序之后求出每个个体的排名（分数不同排名不同；分数相同占用一位，排名相同）<br>将排位添加到结构体中</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">stu[<span class="number">0</span>].r=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(stu[i].score == stu[i<span class="number">-1</span>].score;&#123;</span><br><span class="line">        stu[i].r = stu[i<span class="number">-1</span>].r;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	stu[i].r = i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="comment">//也可以不通过结构体，直接定义一个int r即可</span></span><br></pre></td></tr></table></figure>
+<h2 id="🎀散列（哈希）"><a href="#🎀散列（哈希）" class="headerlink" title="🎀散列（哈希）"></a>🎀散列（哈希）</h2><h3 id="🎈散列的定义-x2F-整数hash"><a href="#🎈散列的定义-x2F-整数hash" class="headerlink" title="🎈散列的定义&#x2F;整数hash"></a>🎈散列的定义&#x2F;整数hash</h3><p>查询M个数是否在N个数中出现过——对每个欲查询的正整数x，遍历所有的N个数——时间复杂度非常大<br>使用<strong>空间换时间</strong>—使用一个bool类型的数组hashTable[10000]，其中hashTable[x]&#x3D;&#x3D;true表示正整数x出现过，反之表示未出现，可以在读取数字时就对数字进行预处理<br>M个欲查询的数中每个数在N中出现的次数——int hashTable[10000]，hashTable[x]++<br><strong>特点——直接把输入的数作为数组的下标</strong></p>
+<h4 id="🎄散列（Hash）"><a href="#🎄散列（Hash）" class="headerlink" title="🎄散列（Hash）"></a>🎄散列（Hash）</h4><p>将元素通过一个函数转换未整数，使得该整数可以尽量唯一的代表这个元素H(key)</p>
+<ol>
+<li><strong>直接定值法</strong></li>
+</ol>
+<p>H(key)&#x3D;key</p>
+<ol start="2">
+<li><strong>线性变换</strong></li>
+</ol>
+<p>H(key)&#x3D;a*key+b</p>
+<ol start="3">
+<li><strong>除留余数法</strong></li>
+</ol>
+<p>H(key)&#x3D;key%mod——一个数除以mod得到的余数作为hash<br>一般取mod为素数TSize</p>
+<h4 id="🎄冲突"><a href="#🎄冲突" class="headerlink" title="🎄冲突"></a>🎄冲突</h4><p>除留余数法可能会出现两个不同的数字key1和key2它们的hash值相同</p>
+<ol>
+<li><strong>线性探查法（开放定址法）</strong></li>
+</ol>
+<p>当得到key的值的hash值H(key)，但表中下标为H(key)的位置已经被占用，探索下一位置H(key)+1<br>超过表长，则回到表长继续循环</p>
+<ol start="2">
+<li><strong>平方探查法（开放定址法）</strong></li>
+</ol>
+<p>H(key)被占用——H(key)+12、H(key)-12、H(key)+22、H(key)-22…<br>超过表长，则把H(key)+k2对表长TSize取模</p>
+<ol start="3">
+<li><strong>链地址法</strong></li>
+</ol>
+<p>把所有相同的H(key)的key连接成一条单链表，可以设定一个数组Link（Link[0]~Link[mod-1]，Link[h]存放H(key)&#x3D;h的一条单链表）<br>使用map函数直接使用hash功能</p>
+<h3 id="🎈字符串hash"><a href="#🎈字符串hash" class="headerlink" title="🎈字符串hash"></a>🎈字符串hash</h3><h4 id="🎄二维整点映射为一个整数"><a href="#🎄二维整点映射为一个整数" class="headerlink" title="🎄二维整点映射为一个整数"></a>🎄二维整点映射为一个整数</h4><p>假设P(x,y)，可以令H(P)&#x3D;x*Range+y</p>
+<h4 id="🎄字符串hash"><a href="#🎄字符串hash" class="headerlink" title="🎄字符串hash"></a>🎄字符串hash</h4><ul>
+<li><strong>只考虑大写字母A~Z的情况</strong></li>
+</ul>
+<p>将A<del>Z视为0</del>25——再将26进制转为10进制的数字</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">hashFunc</span><span class="params">(<span class="type">char</span> S[],<span class="type">int</span> len)</span></span>&#123;<span class="comment">//len表示字符串的长度</span></span><br><span class="line">	<span class="type">int</span> id=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">    	id=id*<span class="number">26</span>+(S[i]-<span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>同时考虑小写字母</strong></li>
+</ul>
+<p>A<del>Z为0</del>25，a<del>z为26</del>51——与上做法相同，将五十二进制转为十进制</p>
+<ul>
+<li><strong>出现数字的情况</strong></li>
+</ul>
+<ol>
+<li>按照小写字母的情况，增大进制至62</li>
+<li>字符串的末尾是个位数字，就可以直接在字母转化成的数字后加一位数表示该数字</li>
+</ol>
+<h2 id="🎀贪心"><a href="#🎀贪心" class="headerlink" title="🎀贪心"></a>🎀贪心</h2><h3 id="🎈简单贪心"><a href="#🎈简单贪心" class="headerlink" title="🎈简单贪心"></a>🎈简单贪心</h3><h3 id="🎈区间贪心"><a href="#🎈区间贪心" class="headerlink" title="🎈区间贪心"></a>🎈区间贪心</h3><p>区间不相交问题——给出N个开区间(x,y)，从中选择尽可能多的开区间，使得这些开区间两两没有交集<br>区间排序</p>
+<ol>
+<li>按<strong>左端点从大到小顺序排序</strong></li>
+<li><strong>左端点相同，右端点从小到大</strong></li>
+</ol>
+<p>区间相交问题——类似</p>
+<h2 id="🎀递归"><a href="#🎀递归" class="headerlink" title="🎀递归"></a>🎀递归</h2><p>——反复调用自身函数，但每次把问题的范围缩小，知道范围缩小到可以直接得到边界数据的结果<br>递归的两个重要概念</p>
+<ol>
+<li>递归边界</li>
+<li>递归式</li>
+</ol>
+<ul>
+<li><strong>substr的用法</strong><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="comment">//有两个参数，一个参数是起始位置，一个参数是截取长度。</span></span><br><span class="line">s.<span class="built_in">substr</span>(pos,len);</span><br><span class="line">string s=<span class="string">&quot;abc&quot;</span>;</span><br><span class="line">string sub=s.<span class="built_in">substr</span>(<span class="number">0</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="🎀二分"><a href="#🎀二分" class="headerlink" title="🎀二分"></a>🎀二分</h2><h3 id="🎈二分查找"><a href="#🎈二分查找" class="headerlink" title="🎈二分查找"></a>🎈二分查找</h3><p>——基于有序序列的查找算法<br>[left,right]——mid&#x3D;(left+right)&#x2F;2——[left,mid-1]或[mid+1,right]<br>——<strong>min&#x3D;left+(right-left)&#x2F;2</strong>避免溢出</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">binarySearch</span><span class="params">(<span class="type">int</span> A[],<span class="type">int</span> left,<span class="type">int</span> right,<span class="type">int</span> x)</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>解决”寻找有序序列第一个满足某条件的元素的位置“</strong><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//二分区间为左闭又闭[left,right]，初值必须能覆盖所有的可能值</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">solve</span><span class="params">(<span class="type">int</span> left,<span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;<span class="comment">//若左开右闭(left,right]——while(left+1&lt;right)——left+1==right可以确定唯一的值</span></span><br><span class="line">        mid=(left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(条件成立)right=mid;</span><br><span class="line">        <span class="keyword">else</span> left=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="🎈二分查找拓展"><a href="#🎈二分查找拓展" class="headerlink" title="🎈二分查找拓展"></a>🎈二分查找拓展</h3><ul>
+<li>计算√2的近似值——<strong>给定一个定义在[L,R]上的单调函数f(x),求方程f(x)&#x3D;0的根</strong><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">double</span> eps=<span class="number">1e-5</span>;</span><br><span class="line"><span class="built_in">doublef</span>(<span class="type">int</span> x)&#123;<span class="comment">//假设f(x)递增</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">solve</span><span class="params">(<span class="type">double</span> l,<span class="type">double</span> r)</span></span>&#123;</span><br><span class="line">    <span class="type">double</span> left=l,right=r,mid;</span><br><span class="line">    <span class="keyword">while</span>(r-l&gt;<span class="number">1e-5</span>)&#123;</span><br><span class="line">        mid=(left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">f</span>(mid)&gt;<span class="number">0</span>)right=mid;</span><br><span class="line">        <span class="keyword">else</span> left=mid;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="🎈快速幂"><a href="#🎈快速幂" class="headerlink" title="🎈快速幂"></a>🎈快速幂</h3><p>求ab%m当a、b、m很大时，直接求很慢</p>
+<ol>
+<li>b为奇数——ab&#x3D;a*ab-1</li>
+<li>b为偶数——ab&#x3D;ab&#x2F;2*ab&#x2F;2</li>
+</ol>
+<ul>
+<li><p><strong>快速幂的递归写法</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//快速幂的递归写法</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> LL;</span><br><span class="line"><span class="function">LL <span class="title">BinaryPow</span><span class="params">(LL a,LL b,LL m)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b==<span class="number">0</span>)<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(b%<span class="number">2</span>==<span class="number">1</span>)&#123;<span class="comment">//奇数——(b%2==1)可以用(b&amp;2)替代,判断b的末位是否为1</span></span><br><span class="line">        <span class="keyword">return</span> a*<span class="built_in">BinaryPow</span>(a,b<span class="number">-1</span>,m);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        LL mul = <span class="built_in">BinaryPow</span>(a,b/<span class="number">2</span>,m);</span><br><span class="line">        <span class="keyword">return</span> mul*mul%m;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>快速幂的迭代写法</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//快速幂的迭代写法</span></span><br><span class="line"><span class="comment">//把b写成二进制的形式，当前位为1 ans累计上a</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> LL;</span><br><span class="line"><span class="function">LL <span class="title">BinaryPow</span><span class="params">(LL a,LL b,LL m)</span></span>&#123;</span><br><span class="line">    LL ans=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(b&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(b&amp;<span class="number">1</span>)&#123;</span><br><span class="line">            ans=ans*a%m;</span><br><span class="line">        &#125;</span><br><span class="line">        a=a*a%m;</span><br><span class="line">        b &gt;&gt;=<span class="number">1</span>;<span class="comment">//b的二进制右移1位 或b=b/2</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="🎀two-pointers"><a href="#🎀two-pointers" class="headerlink" title="🎀two pointers"></a>🎀two pointers</h2><p>利用<strong>有序序列</strong>的枚举特性来有效降低复杂度</p>
+<blockquote>
+<p><strong>给定一个递增的正整数序列和一个正整数M。求序列中两个不同位置的数a和b，使得他们的和恰好为M</strong><br>二重循环枚举的时间复杂度为O(n2)，使用双指针</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        <span class="keyword">if</span>(a[left]+a[right]==k)&#123;</span><br><span class="line">            num++;left++;right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(a[left]+a[right]&gt;k)right--;</span><br><span class="line">        <span class="keyword">else</span> left++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>令下标i初值为0，下标j初值为n-1，即令i和j分别指向序列的第一个元素和最后一个元素，根据a[i]+a[j]与M的大小来不断地移动两个指针</p>
+<blockquote>
+<p><strong>序列合并问题</strong><br><strong>假设有两个递增序列A和B，要求将它们合并为一个递增序列C</strong></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(left&lt;n&amp;&amp;right&lt;m)&#123;</span><br><span class="line">        <span class="keyword">if</span>(a[left]&lt;b[right])&#123;</span><br><span class="line">            ans[i++]=a[left];</span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(a[left]&gt;b[right])&#123;</span><br><span class="line">           ans[i++]=b[right];</span><br><span class="line">           right++; </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            ans[i++]=a[left];</span><br><span class="line">            ans[i++]=a[left];</span><br><span class="line">            left++;right++;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span>(left&lt;n)&#123;</span><br><span class="line">    ans[i++]=a[left];left++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span>(right&lt;m)&#123;</span><br><span class="line">    ans[i++]=b[right];right++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="🎈归并排序"><a href="#🎈归并排序" class="headerlink" title="🎈归并排序"></a>🎈归并排序</h3><p>2-路归并排序——将序列两两分组，将序列归并为[n&#x2F;2]个组，组内单独排序；然乎将这些组再两两归并，生成[n&#x2F;4]个组，组内再单独排序；以此类推直到只剩下一个组为止</p>
+<ul>
+<li><strong>递归实现</strong></li>
+</ul>
+<p>反复将当前区间[left,right]分为两半，对两个子区间[left,mid]和[mid+1，right]分别再进行递归归并，直到left&gt;&#x3D;right，再将左子区间和右子区间合并</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> left,<span class="type">int</span> mid1,<span class="type">int</span> mid2,<span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> L1=left,L2=mid2;</span><br><span class="line">    <span class="type">int</span> ans[<span class="number">1000</span>];</span><br><span class="line">    <span class="type">int</span> num=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(L1&lt;=mid1&amp;&amp;L2&lt;=right)&#123;</span><br><span class="line">        <span class="keyword">if</span>(a[L1]&lt;=a[L2])&#123;</span><br><span class="line">            ans[num++]=a[L1++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(a[L1]&gt;a[L2])&#123;</span><br><span class="line">            ans[num++]=a[L2++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(L1&lt;=mid1)&#123;</span><br><span class="line">        ans[num++]=a[L1++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(L2&lt;=right)&#123;</span><br><span class="line">        ans[num++]=a[L2++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;num;i++)&#123;<span class="comment">//将合并后的数组传回给A</span></span><br><span class="line">        a[left++]=ans[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mergesort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> left,<span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left&lt;right)&#123;</span><br><span class="line">        <span class="type">int</span> mid =left+(right-left)/<span class="number">2</span>;</span><br><span class="line">        <span class="built_in">mergesort</span>(a,left,mid);<span class="comment">//左半区二分</span></span><br><span class="line">        <span class="built_in">mergesort</span>(a,mid+<span class="number">1</span>,right);<span class="comment">//右半区二分</span></span><br><span class="line">        <span class="built_in">merge</span>(a,left,mid,mid+<span class="number">1</span>,right);<span class="comment">//两个排序并合并</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>非递归实现——比递归难懂，要多看看</strong></li>
+</ul>
+<p>令步长初值为2，然后将数组中每个step元素作为一组，将其内部进行排序；再令step&#x3D;step*2，重复上述操作，直到step&#x2F;2超过元素n个<br><strong>修正区间</strong></p>
+<ul>
+<li>修正end1：</li>
+</ul>
+<p>当end1越界时，让end1等于最后一个元素下标即可。 end1 &#x3D; n-1</p>
+<ul>
+<li>修正begin2：</li>
+</ul>
+<p>如果begin2越界，就说明第二个区间并不存在，我们都不需要合并了，因为区间2不存在，区间1就是我们最终的数组，因此我们就让区间2搞成一个不存在 begin &#x3D; n,end2 &#x3D; n-1.</p>
+<ul>
+<li>修正end2：</li>
+</ul>
+<p>当begin2ok,end2越界时,我们修正end2等于最后一个元素下标即可。 end2 &#x3D; n-1</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">mergesort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> step=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(step&lt;n)&#123;</span><br><span class="line">        <span class="comment">//step个元素为一组，两两合并</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i+=<span class="number">2</span>*step)&#123;</span><br><span class="line">            <span class="type">int</span> begin1=i,end1=i+step<span class="number">-1</span>;</span><br><span class="line">            <span class="type">int</span> begin2=i+step,end2=i+<span class="number">2</span>*step<span class="number">-1</span>;</span><br><span class="line">            <span class="comment">//修正区间</span></span><br><span class="line">            <span class="keyword">if</span>(end1&gt;=n)end1=n<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">if</span>(begin2&gt;=n)&#123;</span><br><span class="line">                begin2=n,end2=n<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(begin2&lt;n&amp;&amp;end2&gt;=n)&#123;</span><br><span class="line">                end2=n<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">merge</span>(a,begin1,end1,begin2,end2);</span><br><span class="line">        &#125;</span><br><span class="line">        step*=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="🎈快速排序"><a href="#🎈快速排序" class="headerlink" title="🎈快速排序"></a>🎈快速排序</h3><p>思路：</p>
+<ol>
+<li>调整序列中的元素，使当前序列最左端的元素再调整后满足左侧所有元素均不超过该元素，右侧素有元素均大于该元素</li>
+<li>对该元素的左侧和右侧分别递归进行1中的操作，直到当前调整区间的长度不超过1<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//快速排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">quickSort</span><span class="params">(<span class="type">int</span> A[],<span class="type">int</span> left,<span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left&lt;right)&#123;</span><br><span class="line">	<span class="type">int</span> pos=<span class="built_in">Partition</span>(A,left,right);</span><br><span class="line">	<span class="built_in">quickSort</span>(A,left,pos<span class="number">-1</span>);</span><br><span class="line">	<span class="built_in">quickSort</span>(A,pos,right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+快速排序算法当序列中的元素排列比较随机时，效率较高；但当序列中的元素接近有序时，时间复杂度最坏O(n2)<br>解决方法：在[left,right]中随机选一个元素作为主元</li>
+</ol>
+<h4 id="🎄随机数生成方法"><a href="#🎄随机数生成方法" class="headerlink" title="🎄随机数生成方法"></a>🎄随机数生成方法</h4><p>:::success<br>头文件：#inlcude&lt;stdlib.h&gt;和#include&lt;time.h&gt;<br>在main的开头加上srand((unsigned)time(NULL));<br>在需要使用随机数的地方使用rand()即可<br><strong>输出给定范围[a,b]内的随机数——rand()%(b-a+1)+a</strong><br><strong>生成大范围随机数[left,right]——round(1.0<em>rand()&#x2F;Rand_MAX</em>(right-left)+left)</strong><br>:::</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">Partition</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> left,<span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> p=<span class="built_in">round</span>(<span class="number">1.0</span>*<span class="built_in">rand</span>())/RAND_MAX*(right-left)+left;</span><br><span class="line">    <span class="built_in">swap</span>(a[p],a[left]);</span><br><span class="line">    <span class="type">int</span> temp=a[left];</span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;right&amp;&amp;a[right]&gt;temp) right--;</span><br><span class="line">        a[left]=a[right];</span><br><span class="line">        <span class="keyword">while</span>(left&lt;right&amp;&amp;a[left]&lt;=temp) left++;</span><br><span class="line">        a[right]=a[left];</span><br><span class="line">    &#125;</span><br><span class="line">    a[left]=temp;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">quicksort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> left,<span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left&lt;right)&#123;</span><br><span class="line">        <span class="type">int</span> pos = <span class="built_in">Partition</span>(a,left,right);</span><br><span class="line">        <span class="built_in">quicksort</span>(a,left,pos<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">quicksort</span>(a,pos+<span class="number">1</span>,right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="🎀其他算法技巧"><a href="#🎀其他算法技巧" class="headerlink" title="🎀其他算法技巧"></a>🎀其他算法技巧</h2><h3 id="🎈打表"><a href="#🎈打表" class="headerlink" title="🎈打表"></a>🎈打表</h3><ul>
+<li>用空间换时间</li>
+</ul>
+<p>将所有可能用到的结果事先计算出来，这样后面需要用到的时候就可以直接查表得到</p>
+<ol>
+<li>在程序中那个一次性计算出所有需要用到的结果，之后的查询直接取这些结果</li>
+<li>在程序B中分一次或者多次计算出所有需要用到的结果，手动把这些结果写在程序A的数组中，然后在程序A中就可以直接使用</li>
+<li>先暴力程序计算小范围数据的结果，然后找规律</li>
+</ol>
+<h3 id="🎈活用递推"><a href="#🎈活用递推" class="headerlink" title="🎈活用递推"></a>🎈活用递推</h3><p>对于暴力求法会超时的题目，要巧妙利用地递推，找到可以求解的规律算法</p>
+<h3 id="🎈随机选择算法"><a href="#🎈随机选择算法" class="headerlink" title="🎈随机选择算法"></a>🎈随机选择算法</h3><blockquote>
+<p><strong>从一个无序的书组长求出第K大的数</strong><br>对数组排序后取第K个——时间复杂度O(nlogn)<br>随机选择排序算法——类似于快速排序算法，对A[left,right]执行一次randPartition函数后，设此时主元是A[P]，那么此时第P-left+1大的数就是A[P]，反之就在左侧或者右侧，继续递归即可</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">冬贰</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/05/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E7%AE%97%E6%B3%95%E5%88%9D%E6%AD%A5/">http://example.com/2023/05/15/第四章 入门篇（2）——算法初步/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Cassie's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C%E8%AF%AD%E8%A8%80-C/">C语言/C++</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a></div><div class="post_share"><div class="social-share" data-image="/img/back9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/05/18/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="数据结构——线性表"><img class="cover" src="/img/shu2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据结构——线性表</div></div></a></div><div class="next-post pull-right"><a href="/2023/05/12/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E2%80%94%E2%80%94DES%E5%92%8CRSA%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%A8%8B%E5%BA%8F/" title="信息安全技术——DES和RSA加密解密程序"><img class="cover" src="/img/back4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">信息安全技术——DES和RSA加密解密程序</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/05/05/C-C-%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="C&#x2F;C++算法笔记——基础知识"><img class="cover" src="/img/back1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-05</div><div class="title">C&#x2F;C++算法笔记——基础知识</div></div></a></div><div><a href="/2023/05/08/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%85%A5%E9%97%A8%E6%A8%A1%E6%8B%9F/" title="C&#x2F;C++算法笔记——入门模拟"><img class="cover" src="/img/back2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-08</div><div class="title">C&#x2F;C++算法笔记——入门模拟</div></div></a></div><div><a href="/2023/06/19/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%8F%90%E9%AB%98%E7%AF%87%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98%EF%BC%881%EF%BC%89/" title="C&#x2F;C++算法笔记——数据结构专题"><img class="cover" src="/img/back14.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-19</div><div class="title">C&#x2F;C++算法笔记——数据结构专题</div></div></a></div><div><a href="/2023/05/29/%E7%AC%AC%E5%85%AD%E7%AB%A0%20C++%E6%A0%87%E6%B3%A8%E6%A8%A1%E6%9D%BF%E5%BA%93%EF%BC%88STL%EF%BC%89%E4%BB%8B%E7%BB%8D%E2%80%94%E2%80%94algorithm%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%8B%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" title="C&#x2F;C++算法笔记——C++标注模板库（STL）介绍——algorithm头文件下的常用函数"><img class="cover" src="/img/back11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-29</div><div class="title">C&#x2F;C++算法笔记——C++标注模板库（STL）介绍——algorithm头文件下的常用函数</div></div></a></div><div><a href="/2023/05/22/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E5%AD%A6%E9%97%AE%E9%A2%98/" title="C&#x2F;C++算法笔记——数学问题"><img class="cover" src="/img/back10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-22</div><div class="title">C&#x2F;C++算法笔记——数学问题</div></div></a></div><div><a href="/2023/06/05/%E7%AC%AC%E5%85%AD%E7%AB%A0%20C++%E6%A0%87%E6%B3%A8%E6%A8%A1%E6%9D%BF%E5%BA%93%EF%BC%88STL%EF%BC%89%E4%BB%8B%E7%BB%8D%E2%80%94%E2%80%94queue%E3%80%81priority_queue%E3%80%81stack%E3%80%81pair/" title="C&#x2F;C++算法笔记——C++标注模板库（STL）介绍——queue、priority_queue、stack、pair"><img class="cover" src="/img/back12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-05</div><div class="title">C&#x2F;C++算法笔记——C++标注模板库（STL）介绍——queue、priority_queue、stack、pair</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webimg.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">冬贰</div><div class="author-info__description">嗨！欢迎来到我的世界！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1725030706&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:xiayi0409@163.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">保持自由的灵魂永不困于荆棘</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8E%8A%E7%AE%97%E6%B3%95%E5%88%9D%E6%AD%A5"><span class="toc-text">🎊算法初步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%80%E6%8E%92%E5%BA%8F"><span class="toc-text">🎀排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">🎈选择排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-text">🎈插入排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E6%8E%92%E5%BA%8F%E9%A2%98%E4%B8%8Esort%E5%87%BD%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">🎈排序题与sort函数的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%8E%84sort%E5%87%BD%E6%95%B0"><span class="toc-text">🎄sort函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%8E%84%E6%8E%92%E5%BA%8F%E9%A2%98%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4"><span class="toc-text">🎄排序题基本步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%80%E6%95%A3%E5%88%97%EF%BC%88%E5%93%88%E5%B8%8C%EF%BC%89"><span class="toc-text">🎀散列（哈希）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E6%95%A3%E5%88%97%E7%9A%84%E5%AE%9A%E4%B9%89-x2F-%E6%95%B4%E6%95%B0hash"><span class="toc-text">🎈散列的定义&#x2F;整数hash</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%8E%84%E6%95%A3%E5%88%97%EF%BC%88Hash%EF%BC%89"><span class="toc-text">🎄散列（Hash）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%8E%84%E5%86%B2%E7%AA%81"><span class="toc-text">🎄冲突</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E5%AD%97%E7%AC%A6%E4%B8%B2hash"><span class="toc-text">🎈字符串hash</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%8E%84%E4%BA%8C%E7%BB%B4%E6%95%B4%E7%82%B9%E6%98%A0%E5%B0%84%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%95%B4%E6%95%B0"><span class="toc-text">🎄二维整点映射为一个整数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%8E%84%E5%AD%97%E7%AC%A6%E4%B8%B2hash"><span class="toc-text">🎄字符串hash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%80%E8%B4%AA%E5%BF%83"><span class="toc-text">🎀贪心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E7%AE%80%E5%8D%95%E8%B4%AA%E5%BF%83"><span class="toc-text">🎈简单贪心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E5%8C%BA%E9%97%B4%E8%B4%AA%E5%BF%83"><span class="toc-text">🎈区间贪心</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%80%E9%80%92%E5%BD%92"><span class="toc-text">🎀递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%80%E4%BA%8C%E5%88%86"><span class="toc-text">🎀二分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="toc-text">🎈二分查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E6%8B%93%E5%B1%95"><span class="toc-text">🎈二分查找拓展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E5%BF%AB%E9%80%9F%E5%B9%82"><span class="toc-text">🎈快速幂</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%80two-pointers"><span class="toc-text">🎀two pointers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-text">🎈归并排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-text">🎈快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%8E%84%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90%E6%96%B9%E6%B3%95"><span class="toc-text">🎄随机数生成方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%80%E5%85%B6%E4%BB%96%E7%AE%97%E6%B3%95%E6%8A%80%E5%B7%A7"><span class="toc-text">🎀其他算法技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E6%89%93%E8%A1%A8"><span class="toc-text">🎈打表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E6%B4%BB%E7%94%A8%E9%80%92%E6%8E%A8"><span class="toc-text">🎈活用递推</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%88%E9%9A%8F%E6%9C%BA%E9%80%89%E6%8B%A9%E7%AE%97%E6%B3%95"><span class="toc-text">🎈随机选择算法</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统——进程管理"><img src="/img/os2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——进程管理"/></a><div class="content"><a class="title" href="/2023/07/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统——进程管理">操作系统——进程管理</a><time datetime="2023-07-07T08:13:49.000Z" title="发表于 2023-07-07 16:13:49">2023-07-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/" title="计算机组成原理——系统总线"><img src="/img/zu2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——系统总线"/></a><div class="content"><a class="title" href="/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/" title="计算机组成原理——系统总线">计算机组成原理——系统总线</a><time datetime="2023-07-04T14:14:59.000Z" title="发表于 2023-07-04 22:14:59">2023-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层"><img src="/img/wang4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络——数据链路层"/></a><div class="content"><a class="title" href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层">计算机网络——数据链路层</a><time datetime="2023-07-02T07:34:29.000Z" title="发表于 2023-07-02 15:34:29">2023-07-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/30/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/" title="操作系统——操作系统引论"><img src="/img/os1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——操作系统引论"/></a><div class="content"><a class="title" href="/2023/06/30/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/" title="操作系统——操作系统引论">操作系统——操作系统引论</a><time datetime="2023-06-30T10:23:09.000Z" title="发表于 2023-06-30 18:23:09">2023-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论"><img src="/img/zu1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——计算机系统概论"/></a><div class="content"><a class="title" href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论">计算机组成原理——计算机系统概论</a><time datetime="2023-06-27T01:54:29.000Z" title="发表于 2023-06-27 09:54:29">2023-06-27</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/back9.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 冬贰</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

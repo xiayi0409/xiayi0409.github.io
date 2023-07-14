@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>C/C++算法笔记——C++标注模板库（STL）介绍——queue、priority_queue、stack、pair | Cassie's Blog</title><meta name="author" content="冬贰"><meta name="copyright" content="冬贰"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="📌queue的常见用法详解📎queue的定义 头文件#includeusing namespace std;  定义写法： queue&lt;typename&gt; name; 📎queue容器内元素的访问队列(queue)是一种先进先出的限制性数据结构，在STL中只能通过front()来访问队首元素，back()来访问队尾元素 queue&lt;int&gt; q;for(int i&#x3D;0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C&#x2F;C++算法笔记——C++标注模板库（STL）介绍——queue、priority_queue、stack、pair">
+<meta property="og:url" content="http://example.com/2023/06/05/%E7%AC%AC%E5%85%AD%E7%AB%A0%20C++%E6%A0%87%E6%B3%A8%E6%A8%A1%E6%9D%BF%E5%BA%93%EF%BC%88STL%EF%BC%89%E4%BB%8B%E7%BB%8D%E2%80%94%E2%80%94queue%E3%80%81priority_queue%E3%80%81stack%E3%80%81pair/index.html">
+<meta property="og:site_name" content="Cassie&#39;s Blog">
+<meta property="og:description" content="📌queue的常见用法详解📎queue的定义 头文件#includeusing namespace std;  定义写法： queue&lt;typename&gt; name; 📎queue容器内元素的访问队列(queue)是一种先进先出的限制性数据结构，在STL中只能通过front()来访问队首元素，back()来访问队尾元素 queue&lt;int&gt; q;for(int i&#x3D;0">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/back12.jpg">
+<meta property="article:published_time" content="2023-06-05T10:08:22.000Z">
+<meta property="article:modified_time" content="2023-07-14T07:27:51.083Z">
+<meta property="article:author" content="冬贰">
+<meta property="article:tag" content="C语言&#x2F;C++">
+<meta property="article:tag" content="算法笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/back12.jpg"><link rel="shortcut icon" href="/img/imgweb.png"><link rel="canonical" href="http://example.com/2023/06/05/%E7%AC%AC%E5%85%AD%E7%AB%A0%20C++%E6%A0%87%E6%B3%A8%E6%A8%A1%E6%9D%BF%E5%BA%93%EF%BC%88STL%EF%BC%89%E4%BB%8B%E7%BB%8D%E2%80%94%E2%80%94queue%E3%80%81priority_queue%E3%80%81stack%E3%80%81pair/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":"falselocal_","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C/C++算法笔记——C++标注模板库（STL）介绍——queue、priority_queue、stack、pair',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-14 15:27:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webimg.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/back12.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Cassie's Blog"><span class="site-name">Cassie's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C/C++算法笔记——C++标注模板库（STL）介绍——queue、priority_queue、stack、pair</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-05T10:08:22.000Z" title="发表于 2023-06-05 18:08:22">2023-06-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-14T07:27:51.083Z" title="更新于 2023-07-14 15:27:51">2023-07-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C%E8%AF%AD%E8%A8%80-C/">C语言/C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C/C++算法笔记——C++标注模板库（STL）介绍——queue、priority_queue、stack、pair"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="📌queue的常见用法详解"><a href="#📌queue的常见用法详解" class="headerlink" title="📌queue的常见用法详解"></a>📌queue的常见用法详解</h1><h2 id="📎queue的定义"><a href="#📎queue的定义" class="headerlink" title="📎queue的定义"></a>📎queue的定义</h2><blockquote>
+<p>头文件#include<queue><br>using namespace std;</p>
+</blockquote>
+<p>定义写法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">queue&lt;<span class="keyword">typename</span>&gt; name;</span><br></pre></td></tr></table></figure>
+<h2 id="📎queue容器内元素的访问"><a href="#📎queue容器内元素的访问" class="headerlink" title="📎queue容器内元素的访问"></a>📎queue容器内元素的访问</h2><p>队列(queue)是一种先进先出的限制性数据结构，在STL中只能<strong>通过front()来访问队首元素</strong>，<strong>back()来访问队尾元素</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">    q.<span class="built_in">push</span>(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d %d&quot;</span>,q.<span class="built_in">front</span>(),q.<span class="built_in">back</span>());</span><br></pre></td></tr></table></figure>
+<h2 id="📎queue常用函数实例解析"><a href="#📎queue常用函数实例解析" class="headerlink" title="📎queue常用函数实例解析"></a>📎queue常用函数实例解析</h2><ol>
+<li><strong>push()</strong></li>
+</ol>
+<p>push(x)将x进行入队，时间复杂度为O(1)</p>
+<ol start="2">
+<li><strong>front()、back()</strong></li>
+</ol>
+<p>front()和back()可以分别获得队首元素和队尾元素，时间复杂度为O(1)</p>
+<ol start="3">
+<li><strong>pop()</strong></li>
+</ol>
+<p>pop()令队首元素出队，时间复杂度为O(1)</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">5</span>;i++)&#123;</span><br><span class="line">    q.<span class="built_in">push</span>(i);<span class="comment">//入队1 2 3 4 5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">3</span>;i++)&#123;</span><br><span class="line">    q.<span class="built_in">pop</span>();<span class="comment">//出队1 2 3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d %d&quot;</span>,q.<span class="built_in">front</span>());<span class="comment">//4</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>empty()</strong></li>
+</ol>
+<p>empty()检测queue是否为空，返回true则空，返回false则非空。时间复杂度为O(1)</p>
+<ol start="5">
+<li><strong>size()</strong></li>
+</ol>
+<p>size()返回queue内元素的个数，时间复杂度为O(1)</p>
+<h2 id="📎queue的常见用途"><a href="#📎queue的常见用途" class="headerlink" title="📎queue的常见用途"></a>📎queue的常见用途</h2><p>当需要实现广度优先搜索时，可以不用自己手动实现一个队列，而是用queue作为代替，以提高程序的准确性</p>
+<ul>
+<li>注意：使用front()和back()函数前，必须使用empty()判断队列是否为空，否则可能因为队空而出现错误</li>
+</ul>
+<h1 id="📌priority-queue的常见用法详解"><a href="#📌priority-queue的常见用法详解" class="headerlink" title="📌priority_queue的常见用法详解"></a>📌priority_queue的常见用法详解</h1><p>priority_queue又称为优先队列，其底层是用<strong>堆</strong>来进行实现的。在优先队列中，队首元素一定是当前队列中优先级最高的那一个。例如在队列中有元素，且已定义好了优先级：桃子（优先级3）、梨（优先级4）、苹果（优先级1）——那么出队的顺序梨—桃子—苹果<br>可以在任何时候往优先队列里面加入(push)元素，而优先队列底层的数据结构堆会随时调整结构，使得<strong>每次的队首元素都是优先级最大的</strong></p>
+<h2 id="📎priority-queue的定义"><a href="#📎priority-queue的定义" class="headerlink" title="📎priority_queue的定义"></a>📎priority_queue的定义</h2><blockquote>
+<p>头文件#include<queue><br>using namespace std;</p>
+</blockquote>
+<p>定义写法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">priority_queue&lt;<span class="keyword">typename</span>&gt; name;</span><br></pre></td></tr></table></figure>
+<h2 id="📎priority-queue容器内元素的访问"><a href="#📎priority-queue容器内元素的访问" class="headerlink" title="📎priority_queue容器内元素的访问"></a>📎priority_queue容器内元素的访问</h2><p>和队列不一样，优先队列没有front()和back()函数，它<strong>通过top()函数来访问队首元素</strong>，也就是优先级最高的元素</p>
+<h2 id="📎priority-queue常用函数实例解析"><a href="#📎priority-queue常用函数实例解析" class="headerlink" title="📎priority_queue常用函数实例解析"></a>📎priority_queue常用函数实例解析</h2><ol>
+<li><strong>push()</strong></li>
+</ol>
+<p>push(x)将令x入队，时间复杂度为O(logN)，其中N为当前优先队列中的元素个数</p>
+<ol start="2">
+<li><strong>top()</strong></li>
+</ol>
+<p>top()可以获得队首元素（即堆顶元素），时间复杂度为O(1)</p>
+<ol start="3">
+<li><strong>pop()</strong></li>
+</ol>
+<p>pop()令队首元素出队，时间复杂度为O(logN)，其中N为当前优先队列中的元素个数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">priority_queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">q.<span class="built_in">push</span>(<span class="number">3</span>);</span><br><span class="line">q.<span class="built_in">push</span>(<span class="number">4</span>);</span><br><span class="line">q.<span class="built_in">push</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,q.<span class="built_in">top</span>());<span class="comment">//4</span></span><br><span class="line">q.<span class="built_in">pop</span>();<span class="comment">//4</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,q.<span class="built_in">top</span>());<span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>empty()</strong></li>
+</ol>
+<p>empty()检测优先队列是否为空，返回true则为空，返回false则非空，时间复杂度为O(1)</p>
+<ol start="5">
+<li><strong>size()</strong></li>
+</ol>
+<p>size()返回优先队列内元素的个数，时间复杂度为O(1)</p>
+<h2 id="📎priority-queue内元素优先级的设置"><a href="#📎priority-queue内元素优先级的设置" class="headerlink" title="📎priority_queue内元素优先级的设置"></a>📎priority_queue内元素优先级的设置</h2><h3 id="📜基本数据类型的优先级设置"><a href="#📜基本数据类型的优先级设置" class="headerlink" title="📜基本数据类型的优先级设置"></a>📜基本数据类型的优先级设置</h3><p>基本数据类型——int、double、char等，优先级队列对它们的优先级设置一般是数字大的优先级越高，因此队首元素就是优先队列内元素最大的那个（char型则为字典序最大的）<br>以int型为例：（两种写法等价）</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">priority_queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,less&lt;<span class="type">int</span>&gt; &gt; q;</span><br></pre></td></tr></table></figure>
+<p>less<int>表示数字大的优先级越大，greater<int>表示数字小的优先级越大<br>若想让优先队列总是把优先级小的元素放在队首</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,greater&lt;<span class="type">int</span>&gt; &gt; q;</span><br></pre></td></tr></table></figure>
+<h3 id="📜结构体的优先级设置"><a href="#📜结构体的优先级设置" class="headerlink" title="📜结构体的优先级设置"></a>📜结构体的优先级设置</h3><p>对水果的名称和价格建立一个结构体</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">fruit</span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="type">int</span> price;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>希望按水果的价格高的为优先级，重载小于号”&lt;”</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">fruit</span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="type">int</span> price;</span><br><span class="line">	<span class="keyword">friend</span> <span class="type">bool</span> <span class="keyword">operator</span> &lt; (fruit f1,fruit f2)&#123;</span><br><span class="line">        <span class="keyword">return</span> f1.price&lt;f2.price;<span class="comment">//若需要价格低的为优先级 改成&gt;即可</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>定义优先队列如下：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">priority_queue&lt;friut&gt; q;</span><br><span class="line"><span class="comment">//以价格高的水果为优先级</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>优先队列的函数与sort中的cmp函数的效果是相反的</strong></li>
+</ul>
+<p>也可以的写法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">fruit</span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="type">int</span> price;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">cmp</span>&#123;</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">operator</span> <span class="params">()</span> <span class="params">(fruit f1,fruit f2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> f1.price&lt;f2.price;<span class="comment">//若需要价格低的为优先级 改成&gt;即可</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">priority_queue&lt;fruit,vector&lt;fruit&gt;,cmp&gt; q;</span><br></pre></td></tr></table></figure>
+<p>如果结构体内数据庞大，可以使用引用来提高效率</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">friend</span> <span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> fruit &amp;f1,<span class="type">const</span> fruit &amp;f2)&#123;</span><br><span class="line">        <span class="keyword">return</span> f1.price&lt;f2.price;<span class="comment">//若需要价格低的为优先级 改成&gt;即可</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>结构体的push方法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">fruit</span>(string _name, <span class="type">int</span> _price) &#123;</span><br><span class="line">        name = _name;</span><br><span class="line">        price = _price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        cin&gt;&gt;a&gt;&gt;m;</span><br><span class="line">        pq.<span class="built_in">push</span>(<span class="built_in">fruit</span>(a,m));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="📎priority-queue的常见用途"><a href="#📎priority-queue的常见用途" class="headerlink" title="📎priority_queue的常见用途"></a>📎priority_queue的常见用途</h2><p>可以解决贪心问题和对Dijkstra算法进行优化</p>
+<ul>
+<li>注意：使用top()函数前，必须使用empty()判断队列是否为空，否则可能因为队空而出现错误</li>
+</ul>
+<h1 id="📌stack的常见用法详解"><a href="#📌stack的常见用法详解" class="headerlink" title="📌stack的常见用法详解"></a>📌stack的常见用法详解</h1><p>stack——栈，后进先出</p>
+<h2 id="📎stack的定义"><a href="#📎stack的定义" class="headerlink" title="📎stack的定义"></a>📎stack的定义</h2><blockquote>
+<p>头文件#include<stack><br>using namespace std;</p>
+</blockquote>
+<p>定义写法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">stack&lt;<span class="keyword">typename</span>&gt; name;</span><br></pre></td></tr></table></figure>
+<h2 id="📎stack容器内元素的访问"><a href="#📎stack容器内元素的访问" class="headerlink" title="📎stack容器内元素的访问"></a>📎stack容器内元素的访问</h2><p>stack中只能通过<strong>top()来访问栈顶元素</strong></p>
+<h2 id="📎stack常用函数实例解析"><a href="#📎stack常用函数实例解析" class="headerlink" title="📎stack常用函数实例解析"></a>📎stack常用函数实例解析</h2><ol>
+<li><strong>push()</strong></li>
+</ol>
+<p>push(x)将x入栈，时间复杂度为O(1)</p>
+<ol start="2">
+<li><strong>top()</strong></li>
+</ol>
+<p>top()获得栈顶元素，时间复杂度为O(1)——不是出栈！</p>
+<ol start="3">
+<li><strong>pop()</strong></li>
+</ol>
+<p>pop()用以弹出栈顶元素，时间复杂度为O(1)</p>
+<ol start="4">
+<li><strong>empty()</strong></li>
+</ol>
+<p>empty()检测stack内是否为空，返回true为空，false为非空</p>
+<ol start="5">
+<li><strong>size()</strong></li>
+</ol>
+<p>size()返回栈内元素的个数，时间复杂度为O(1)</p>
+<h1 id="📌pair的常见用法详解"><a href="#📌pair的常见用法详解" class="headerlink" title="📌pair的常见用法详解"></a>📌pair的常见用法详解</h1><p>pair实际上可以看作一个内部有两个元素的结构体，且这两个元素的类型是可以指定的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">pair</span>&#123;</span><br><span class="line">	typeName1 first;</span><br><span class="line">	typeName2 second;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="📎pair的定义"><a href="#📎pair的定义" class="headerlink" title="📎pair的定义"></a>📎pair的定义</h2><blockquote>
+<p>头文件#include<utility>&#x2F;&#x2F;可以偷懒用#include<map><br>using namespace std;</p>
+</blockquote>
+<p>定义写法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">pair&lt;typeName1,typeName2&gt; name;</span><br><span class="line"><span class="comment">//例子</span></span><br><span class="line">pair&lt;string,<span class="type">int</span>&gt; p;</span><br><span class="line"><span class="function">pair&lt;string,<span class="type">int</span>&gt; <span class="title">p</span><span class="params">(<span class="string">&quot;haha&quot;</span>,<span class="number">5</span>)</span></span>;<span class="comment">//初始化</span></span><br></pre></td></tr></table></figure>
+<p>若想在代码中临时构建一个pair：</p>
+<ol>
+<li><p>类型定义写在前面，后面用小括号内两个元素的方式</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">pair</span>&lt;string,<span class="type">int</span>&gt;(<span class="string">&quot;haha&quot;</span>,<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>是用自带的make_pair函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">make_pair</span>(<span class="string">&quot;haha&quot;</span>,<span class="number">4</span>);</span><br><span class="line"><span class="comment">//例子</span></span><br><span class="line">pair&lt;string,<span class="type">int</span>&gt; p=<span class="built_in">make_pair</span>(a,m);</span><br><span class="line">cout&lt;&lt;p.first&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;p.second;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="📎pair中元素的访问"><a href="#📎pair中元素的访问" class="headerlink" title="📎pair中元素的访问"></a>📎pair中元素的访问</h2><p>pair中只有两个元素，first和second，只需要按正常结构体的方式去访问即可</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">pair&lt;string,<span class="type">int</span>&gt; p;</span><br><span class="line">p.first=<span class="string">&quot;first&quot;</span>;</span><br><span class="line">p.second=<span class="string">&quot;5&quot;</span>;</span><br><span class="line">p=<span class="built_in">make_pair</span>(<span class="string">&quot;second&quot;</span>,<span class="number">55</span>);</span><br><span class="line">p=<span class="built_in">pair</span>&lt;string,<span class="type">int</span>&gt;(<span class="string">&quot;third&quot;</span>,<span class="number">555</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="📎pair常用函数实例解析"><a href="#📎pair常用函数实例解析" class="headerlink" title="📎pair常用函数实例解析"></a>📎pair常用函数实例解析</h2><ol>
+<li><strong>比较操作数</strong></li>
+</ol>
+<p>两个pair类型数据可以直接使用&#x3D;&#x3D;、！&#x3D;、&gt;、&gt;&#x3D;、&lt;、&lt;&#x3D;来比较大小，比较规则：<br><strong>先以first的大小作为标准，只有当first相等时才去判别second的大小</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; <span class="title">p1</span><span class="params">(<span class="number">5</span>,<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="function">pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; <span class="title">p2</span><span class="params">(<span class="number">6</span>,<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="keyword">if</span>(p1&gt;p2)...</span><br></pre></td></tr></table></figure>
+<h2 id="📎pair的常见用途"><a href="#📎pair的常见用途" class="headerlink" title="📎pair的常见用途"></a>📎pair的常见用途</h2><ol>
+<li>代替二元结构体构造函数</li>
+<li>作为map的键值进行插入<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">map&lt;string,<span class="type">int</span>&gt; mp;</span><br><span class="line">mp.<span class="built_in">insert</span>(<span class="built_in">make_pair</span>(<span class="string">&quot;haaha&quot;</span>,<span class="number">3</span>));</span><br><span class="line"><span class="keyword">for</span>(map&lt;string,<span class="type">int</span>&gt;::iterator it=mp.<span class="built_in">begin</span>();it!=mp.<span class="built_in">end</span>();it++)&#123;</span><br><span class="line">    cout&lt;&lt;it-&gt;first&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;it-&gt;second&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">冬贰</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/05/%E7%AC%AC%E5%85%AD%E7%AB%A0%20C++%E6%A0%87%E6%B3%A8%E6%A8%A1%E6%9D%BF%E5%BA%93%EF%BC%88STL%EF%BC%89%E4%BB%8B%E7%BB%8D%E2%80%94%E2%80%94queue%E3%80%81priority_queue%E3%80%81stack%E3%80%81pair/">http://example.com/2023/06/05/第六章 C++标注模板库（STL）介绍——queue、priority_queue、stack、pair/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Cassie's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C%E8%AF%AD%E8%A8%80-C/">C语言/C++</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a></div><div class="post_share"><div class="social-share" data-image="/img/back12.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%9B%BE/" title="数据结构——图"><img class="cover" src="/img/shu5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据结构——图</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/01/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E6%A0%91%E5%92%8C%E4%BA%8C%E5%8F%89%E6%A0%91/" title="数据结构——树和二叉树"><img class="cover" src="/img/shu4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构——树和二叉树</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/05/05/C-C-%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="C&#x2F;C++算法笔记——基础知识"><img class="cover" src="/img/back1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-05</div><div class="title">C&#x2F;C++算法笔记——基础知识</div></div></a></div><div><a href="/2023/05/08/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%85%A5%E9%97%A8%E6%A8%A1%E6%8B%9F/" title="C&#x2F;C++算法笔记——入门模拟"><img class="cover" src="/img/back2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-08</div><div class="title">C&#x2F;C++算法笔记——入门模拟</div></div></a></div><div><a href="/2023/06/19/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%8F%90%E9%AB%98%E7%AF%87%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%98%EF%BC%881%EF%BC%89/" title="C&#x2F;C++算法笔记——数据结构专题"><img class="cover" src="/img/back14.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-19</div><div class="title">C&#x2F;C++算法笔记——数据结构专题</div></div></a></div><div><a href="/2023/05/29/%E7%AC%AC%E5%85%AD%E7%AB%A0%20C++%E6%A0%87%E6%B3%A8%E6%A8%A1%E6%9D%BF%E5%BA%93%EF%BC%88STL%EF%BC%89%E4%BB%8B%E7%BB%8D%E2%80%94%E2%80%94algorithm%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%8B%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" title="C&#x2F;C++算法笔记——C++标注模板库（STL）介绍——algorithm头文件下的常用函数"><img class="cover" src="/img/back11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-29</div><div class="title">C&#x2F;C++算法笔记——C++标注模板库（STL）介绍——algorithm头文件下的常用函数</div></div></a></div><div><a href="/2023/05/22/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E5%AD%A6%E9%97%AE%E9%A2%98/" title="C&#x2F;C++算法笔记——数学问题"><img class="cover" src="/img/back10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-22</div><div class="title">C&#x2F;C++算法笔记——数学问题</div></div></a></div><div><a href="/2023/06/26/%E7%AC%AC%E5%85%AB%E7%AF%87%20%E6%8F%90%E9%AB%98%E7%AF%87%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E6%90%9C%E7%B4%A2%E4%B8%93%E9%A2%98/" title="C&#x2F;C++算法笔记——搜索专题"><img class="cover" src="/img/back15.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-26</div><div class="title">C&#x2F;C++算法笔记——搜索专题</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webimg.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">冬贰</div><div class="author-info__description">嗨！欢迎来到我的世界！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1725030706&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:xiayi0409@163.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">保持自由的灵魂永不困于荆棘</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%8Cqueue%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-text">📌queue的常见用法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Equeue%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">📎queue的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Equeue%E5%AE%B9%E5%99%A8%E5%86%85%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-text">📎queue容器内元素的访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Equeue%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-text">📎queue常用函数实例解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Equeue%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">📎queue的常见用途</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%8Cpriority-queue%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-text">📌priority_queue的常见用法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epriority-queue%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">📎priority_queue的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epriority-queue%E5%AE%B9%E5%99%A8%E5%86%85%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-text">📎priority_queue容器内元素的访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epriority-queue%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-text">📎priority_queue常用函数实例解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epriority-queue%E5%86%85%E5%85%83%E7%B4%A0%E4%BC%98%E5%85%88%E7%BA%A7%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-text">📎priority_queue内元素优先级的设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%9C%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E8%AE%BE%E7%BD%AE"><span class="toc-text">📜基本数据类型的优先级设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%9C%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E8%AE%BE%E7%BD%AE"><span class="toc-text">📜结构体的优先级设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epriority-queue%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">📎priority_queue的常见用途</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%8Cstack%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-text">📌stack的常见用法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Estack%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">📎stack的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Estack%E5%AE%B9%E5%99%A8%E5%86%85%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-text">📎stack容器内元素的访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Estack%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-text">📎stack常用函数实例解析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%8Cpair%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-text">📌pair的常见用法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epair%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">📎pair的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epair%E4%B8%AD%E5%85%83%E7%B4%A0%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-text">📎pair中元素的访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epair%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-text">📎pair常用函数实例解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8Epair%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-text">📎pair的常见用途</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统——进程管理"><img src="/img/os2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——进程管理"/></a><div class="content"><a class="title" href="/2023/07/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统——进程管理">操作系统——进程管理</a><time datetime="2023-07-07T08:13:49.000Z" title="发表于 2023-07-07 16:13:49">2023-07-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/" title="计算机组成原理——系统总线"><img src="/img/zu2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——系统总线"/></a><div class="content"><a class="title" href="/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/" title="计算机组成原理——系统总线">计算机组成原理——系统总线</a><time datetime="2023-07-04T14:14:59.000Z" title="发表于 2023-07-04 22:14:59">2023-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层"><img src="/img/wang4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络——数据链路层"/></a><div class="content"><a class="title" href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层">计算机网络——数据链路层</a><time datetime="2023-07-02T07:34:29.000Z" title="发表于 2023-07-02 15:34:29">2023-07-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/30/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/" title="操作系统——操作系统引论"><img src="/img/os1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——操作系统引论"/></a><div class="content"><a class="title" href="/2023/06/30/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/" title="操作系统——操作系统引论">操作系统——操作系统引论</a><time datetime="2023-06-30T10:23:09.000Z" title="发表于 2023-06-30 18:23:09">2023-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论"><img src="/img/zu1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——计算机系统概论"/></a><div class="content"><a class="title" href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论">计算机组成原理——计算机系统概论</a><time datetime="2023-06-27T01:54:29.000Z" title="发表于 2023-06-27 09:54:29">2023-06-27</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/back12.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 冬贰</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
