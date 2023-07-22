@@ -1,0 +1,478 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络——计算机网络体系结构 | Cassie's Blog</title><meta name="author" content="冬贰"><meta name="copyright" content="冬贰"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="👒应用层概述🎎基本概念🎆应用层和应用层协议在TCP&#x2F;IP中，应用层对应OSI&#x2F;RM中的会话层、表示层和应用层，是应用程序与网络传输的接口，是面向应用需求的通信协议中的最高端。应用层协议不是应用程序，也不解决用户的具体应用需求，而是为应用程序进程的网络通信提供服务的第一层协议，是为用户的应用需求提供通信服务。应用层协议为具体应用程序的需求提供通用的、标准化的通信平台，以沟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络——计算机网络体系结构">
+<meta property="og:url" content="http://blog.cassie.ink/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/index.html">
+<meta property="og:site_name" content="Cassie&#39;s Blog">
+<meta property="og:description" content="👒应用层概述🎎基本概念🎆应用层和应用层协议在TCP&#x2F;IP中，应用层对应OSI&#x2F;RM中的会话层、表示层和应用层，是应用程序与网络传输的接口，是面向应用需求的通信协议中的最高端。应用层协议不是应用程序，也不解决用户的具体应用需求，而是为应用程序进程的网络通信提供服务的第一层协议，是为用户的应用需求提供通信服务。应用层协议为具体应用程序的需求提供通用的、标准化的通信平台，以沟">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cassie.ink/img/wang7.jpg">
+<meta property="article:published_time" content="2023-07-21T15:33:47.000Z">
+<meta property="article:modified_time" content="2023-07-22T08:03:51.508Z">
+<meta property="article:author" content="冬贰">
+<meta property="article:tag" content="课程总结">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.cassie.ink/img/wang7.jpg"><link rel="shortcut icon" href="/img/web.png"><link rel="canonical" href="http://blog.cassie.ink/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":"falselocal_","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络——计算机网络体系结构',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-22 16:03:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webimg.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movies/"><i class="fa-fw fa fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wang7.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Cassie's Blog"><span class="site-name">Cassie's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movies/"><i class="fa-fw fa fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络——计算机网络体系结构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-21T15:33:47.000Z" title="发表于 2023-07-21 23:33:47">2023-07-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-22T08:03:51.508Z" title="更新于 2023-07-22 16:03:51">2023-07-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/">课程总结</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络——计算机网络体系结构"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://i.imgtg.com/2023/07/17/Oz3BBx.png#id=IjrM8&originHeight=762&originWidth=1099&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<h1 id="👒应用层概述"><a href="#👒应用层概述" class="headerlink" title="👒应用层概述"></a>👒应用层概述</h1><h2 id="🎎基本概念"><a href="#🎎基本概念" class="headerlink" title="🎎基本概念"></a>🎎基本概念</h2><h3 id="🎆应用层和应用层协议"><a href="#🎆应用层和应用层协议" class="headerlink" title="🎆应用层和应用层协议"></a>🎆应用层和应用层协议</h3><p>在TCP&#x2F;IP中，应用层对应OSI&#x2F;RM中的会话层、表示层和应用层，是应用程序与网络传输的接口，是面向应用需求的通信协议中的最高端。<br>应用层协议不是应用程序，也不解决用户的具体应用需求，而是为应用程序进程的网络通信提供服务的第一层协议，是为用户的应用需求提供通信服务。<br>应用层协议为具体应用程序的需求提供通用的、标准化的通信平台，以沟通传输层及其以下网络层次的网络通信协议。<br>应用层协议定义了运行在不同端系统上的应用程序进程相互传递报文的规范，这些规范包括：</p>
+<ol>
+<li>交换的报文类型，如请求报文和响应报文</li>
+<li>语法，如报文中的各个字段及这些字段的描述规范</li>
+<li>语义，即报文各字段的可能取值及其含义</li>
+<li>进程何时、如何发送报文及对报文进行响应</li>
+</ol>
+<h3 id="🎆应用层协议的体系架构"><a href="#🎆应用层协议的体系架构" class="headerlink" title="🎆应用层协议的体系架构"></a>🎆应用层协议的体系架构</h3><ol>
+<li>客户-服务器模式<ol>
+<li>服务器：需要具备7*24小时提供服务的能力，拥有可永久访问地址&#x2F;域名，以及拥有良好的可扩展性</li>
+<li>客户端：可以间歇性进入网络，客户端之间通常不直接连接</li>
+</ol>
+</li>
+<li>P to P模式<ol>
+<li>对等性：通信的各方地位平等，互为客户端也互为服务器</li>
+<li>独立性：对中心服务器依赖最小。应用程序在间歇性连接的主机之间直接通信，互相提供对方需要的服务。</li>
+</ol>
+</li>
+<li>混合模式<ol>
+<li>服务器：负责全局性的服务，如搜索等</li>
+<li>客户端：负责提供具体的服务</li>
+</ol>
+</li>
+</ol>
+<h3 id="🎆对传输层的要求"><a href="#🎆对传输层的要求" class="headerlink" title="🎆对传输层的要求"></a>🎆对传输层的要求</h3><ol>
+<li>可靠数据传输<ol>
+<li>能够确保数据交付</li>
+</ol>
+</li>
+<li>吞吐量<ol>
+<li>可用吞吐量是指发送进程能够向接收进程交付比特的速率</li>
+</ol>
+</li>
+<li>定时<ol>
+<li>能够确保发送方注入进套接字中的每个比特到达接收方的套接字不迟于某个预期的时间——交互式实时应用程序</li>
+</ol>
+</li>
+<li>安全性<ol>
+<li>可以提供一种或多种安全性服务</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://i.imgtg.com/2023/07/17/OzIzmB.md.png#height=250&id=ts5Ae&originHeight=500&originWidth=796&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=398"></p>
+<h3 id="🎆TCP-x2F-IP中的应用层协议"><a href="#🎆TCP-x2F-IP中的应用层协议" class="headerlink" title="🎆TCP&#x2F;IP中的应用层协议"></a>🎆TCP&#x2F;IP中的应用层协议</h3><ol>
+<li>域名解析协议</li>
+<li>超文本传输协议</li>
+<li>电子邮件协议</li>
+<li>会话发起协议</li>
+<li>文件传输协议</li>
+<li>远程访问协议</li>
+</ol>
+<h1 id="👒域名解析协议DNS"><a href="#👒域名解析协议DNS" class="headerlink" title="👒域名解析协议DNS"></a>👒域名解析协议DNS</h1><p>DNS用来解决主机名与IP地址的映射关系，使互联网用户无需记忆相对难于记忆的IP地址，只要记住更加接近于人类理解特性的域名即可。</p>
+<h2 id="🎎域名系统概述"><a href="#🎎域名系统概述" class="headerlink" title="🎎域名系统概述"></a>🎎域名系统概述</h2><h3 id="🎆域名及域名结构"><a href="#🎆域名及域名结构" class="headerlink" title="🎆域名及域名结构"></a>🎆域名及域名结构</h3><p>通过采用层次结构的命名方法确保域名的唯一性，从而可以唯一的指明某个域名对对应的主机的IP地址。</p>
+<ul>
+<li><strong>绝对域名</strong><ul>
+<li>以点“.”结尾的域名称为绝对域名或完全合格的域名，不以点结尾则是不完全域名<ul>
+<li>如果不完全的域名是由两个或两个以上的标号组成，则认为是完全域名</li>
+<li>如果在不完全的域名右部连接一个局部后缀，也认为是完全域名</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>域名只是逻辑概念，不代表计算机所在的物理地点</p>
+<ul>
+<li><strong>顶级域名TLD</strong><ul>
+<li>通用域名</li>
+<li>国家域名</li>
+<li>arpa域——用于反向域名解析，因此又称为反向域名</li>
+<li>新增通用顶级域名</li>
+</ul>
+</li>
+<li>域名服务器<ul>
+<li>域名需要由遍及全世界的域名服务器去解析，域名服务器实际上就是装有域名系统的主机</li>
+<li>可靠性——DNS域名服务器都把数据复制到几个域名服务器来保存，其中一个是主域名服务器，其他的事辅助域名服务器<ul>
+<li>当主域名服务器出故障时，辅助域名服务器可以保证DNS的查询工作不会中断</li>
+<li>主域名服务器定期把数据复制到辅助域名服务器中，而更改数据只能在主域名服务器中进行。这样就保证了数据的一致性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="🎎域名解析过程"><a href="#🎎域名解析过程" class="headerlink" title="🎎域名解析过程"></a>🎎域名解析过程</h2><h3 id="🎆解析步骤"><a href="#🎆解析步骤" class="headerlink" title="🎆解析步骤"></a>🎆解析步骤</h3><ol>
+<li><strong>递归查询</strong><ol>
+<li><strong>主机向本地域名服务器</strong>的查询一般都是采用递归查询。如果主机所询问的本地域名服务器不知道被查询域名的IP地址，那么本地域名服务器就以DNS客户的身份，向其他根域名服务器继续发出查询请求报文。</li>
+</ol>
+</li>
+<li><strong>迭代查询</strong><ol>
+<li><strong>本地域名服务器向根域名服务器</strong>的查询通常是采用迭代查询。当根域名服务器收到本地域名服务器的迭代查询请求报文，要么给出所要查询的IP的地址，要么告诉本地域名服务器下一步要向那个域名服务器查询，然后让本地域名服务器进行后续查询。</li>
+</ol>
+</li>
+</ol>
+<h3 id="🎆解析过程"><a href="#🎆解析过程" class="headerlink" title="🎆解析过程"></a>🎆解析过程</h3><ol>
+<li>首先从主机本地Hosts文件查找，没找到就向本地DNS发出请求</li>
+<li>若本地DNS也找不到，则将请求发给负责该域的根域名字服务器，根服务器会返回一个相应的顶级域名服务器地址</li>
+<li>本地域名服务器会向顶级域名服务器提出请求。顶级域名服务器会返回一个权限域名服务器地址</li>
+<li>本地域名服务器向权限域名服务器提出请求，权限域名服务器将返回目标域名的IP地址</li>
+<li>本地域名服务器向查询主机返回目标域名的IP地址</li>
+</ol>
+<h2 id="🎎DNS的报文格式"><a href="#🎎DNS的报文格式" class="headerlink" title="🎎DNS的报文格式"></a>🎎DNS的报文格式</h2><p>DNS定义了用于查询和响应的报文格式<br><img src="https://i.imgtg.com/2023/07/17/OzI7CN.png#height=237&id=noi8g&originHeight=473&originWidth=960&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=480"></p>
+<h2 id="🎎UDP还是TCP"><a href="#🎎UDP还是TCP" class="headerlink" title="🎎UDP还是TCP"></a>🎎UDP还是TCP</h2><p>DNS使用的传输层承载协议既可以是UDP也可以是TCP，端口号均为53<br>大多数情况是UDP协议，除</p>
+<ol>
+<li>DNS响应报文过长</li>
+<li>区域传送</li>
+</ol>
+<h1 id="👒电子邮件协议"><a href="#👒电子邮件协议" class="headerlink" title="👒电子邮件协议"></a>👒电子邮件协议</h1><h2 id="🎎概述"><a href="#🎎概述" class="headerlink" title="🎎概述"></a>🎎概述</h2><ul>
+<li>发送邮件的协议：SMTP</li>
+<li>读取邮件的协议：POP3和IMAP</li>
+<li>MIME 在其邮件首部中说明了邮件的数据类型(如文本、声音、图像、视像等)，使用 MIME 可在邮件中同时传送多种类型的数据</li>
+</ul>
+<h3 id="🎆电子邮件系统的主要组成"><a href="#🎆电子邮件系统的主要组成" class="headerlink" title="🎆电子邮件系统的主要组成"></a>🎆电子邮件系统的主要组成</h3><p><img src="https://i.imgtg.com/2023/07/17/OzIeiC.md.png#height=250&id=ZZIYa&originHeight=500&originWidth=939&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=470"></p>
+<ol>
+<li><strong>用户代理UA</strong><ol>
+<li>用户与电子邮件系统的接口，是电子邮件客户端软件</li>
+<li>功能——撰写、显示、处理和通信</li>
+</ol>
+</li>
+<li><strong>邮件服务器</strong><ol>
+<li>发送和接收邮件，同时还要向发信人报告邮件传送的情况（已交付、被拒绝、丢失等）</li>
+<li>邮件服务器按照客户服务器方式工作。使用发送和读取两个不同的协议</li>
+</ol>
+</li>
+<li><strong>发送和接收电子邮件的步骤</strong><ol>
+<li>发件人调用主机中的用户代理撰写和编辑要发送的邮件。</li>
+<li>用户代理通过SMTP协议把邮件发给发送方邮件服务器，并暂存在发送邮件服务器的缓存队列中，等待发送。</li>
+<li>发送方邮件服务器的SMTP客户与接收方邮件服务器的 SMTP服务器建立TCP连接，并发送暂存的邮件。  </li>
+<li>接收方邮件服务器中的SMTP服务器进程收到邮件后，把邮件放入收件人的用户邮箱中，等待收件人进行读取。 </li>
+<li>收件人调用主机中的用户代理，使用 POP3（或 IMAP）协议读取发送给自己的邮件。</li>
+</ol>
+</li>
+<li><strong>电子邮件的组成</strong><ol>
+<li>信封和内容两部分组成</li>
+<li>电子邮件的传输程序根据邮件信封上的信息来传送邮件。用户在从自己的邮箱中读取邮件时才能见到邮件的内容</li>
+</ol>
+</li>
+<li>电子邮件地址的格式<ol>
+<li>收件人邮箱名@邮箱所在主机的域名 </li>
+<li>域名在全世界必须唯一、用户名在该域名的范围内唯一</li>
+</ol>
+</li>
+</ol>
+<h2 id="🎎简答邮件传输协议SMTP"><a href="#🎎简答邮件传输协议SMTP" class="headerlink" title="🎎简答邮件传输协议SMTP"></a>🎎简答邮件传输协议SMTP</h2><p>STMP提供一种可靠且有效的电子邮件传输协议，STMP所规定的就是在两个相互通信的STMP进程之间应如何交换信息。<br>由于 SMTP 使用客户服务器方式，因此负责发送邮件的 SMTP 进程就是 SMTP 客户，而负责接收邮件的 SMTP 进程就是 SMTP 服务器。<br><img src="https://i.imgtg.com/2023/07/17/OzI4Dq.md.png#height=250&id=KJ1rZ&originHeight=500&originWidth=833&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=417"><br>SMTP通信有以下三个阶段：</p>
+<ol>
+<li>连接建立</li>
+<li>邮件传送</li>
+<li>连接释放</li>
+</ol>
+<h2 id="🎎邮件读取协议"><a href="#🎎邮件读取协议" class="headerlink" title="🎎邮件读取协议"></a>🎎邮件读取协议</h2><h3 id="🎆POP3协议—邮局协议"><a href="#🎆POP3协议—邮局协议" class="headerlink" title="🎆POP3协议—邮局协议"></a>🎆POP3协议—邮局协议</h3><p>POP3协议主要用于支持使用客户端远程管理在服务器上的电子邮件。POP3规定怎样将主机连接到Internet的邮件服务器和下载电子邮件的电子协议。</p>
+<ul>
+<li>使用客户服务模式的工作方式</li>
+</ul>
+<p>POP3协议三种状态：</p>
+<ol>
+<li>认证状态</li>
+<li>处理状态</li>
+<li>更新状态</li>
+</ol>
+<p>当客户机与服务器建立连接时，客户机向服务器证明自己身份并由服务器成功确认，即客户端由认证状态转入处理状态，在完成列出未读邮件等相应的操作后客户端发出quit命令，退出处理状态进入更新状态，开始下载未阅读过的邮件到计算机本地之后最后重返认证状态。<br>若在更新状态再次发出quit命令，则断开连接。</p>
+<h3 id="🎆IMAP协议"><a href="#🎆IMAP协议" class="headerlink" title="🎆IMAP协议"></a>🎆IMAP协议</h3><p>Internet邮件访问协议——用于接收邮件的协议</p>
+<ul>
+<li>用户既可以通过客户端在线或离线访问邮件服务器上的邮件，也能交互式的操作邮件服务器上的邮件，从而可以<strong>不需要将邮件下载到本地</strong>。</li>
+<li>IMAP协议运行在TCP&#x2F;IP协议之上，使用TCP协议，端口号为143。通过SSL协议加密之后的默认端口是993。</li>
+</ul>
+<p>IMAP最大的好处就是用户可以在不同的地方使用不同的计算机随时上网阅读和处理自己的邮件。<br>IMAP还允许收件人只读取邮件中的某一个部分。例如，收到了一个带有视频附件（此文件可能很大）的邮件。为了节省时间，可以先下载邮件的正文部分，待以后有时间再读取或下载这个很长的附件。<br>IMAP 的缺点是如果用户没有将邮件复制到自己的主机上，则邮件一直是存放在 IMAP 服务器上。因此用户需要经常与 IMAP 服务器建立连接。<br><strong>特点：</strong></p>
+<ol>
+<li>IMAP4支持离线和在线两种模式来传输数据。</li>
+<li>IMAP4采用分布式存储邮件方式</li>
+<li>IMAP4是一种状态协议。IMAP4共有四种状态，分别是：<strong>未认证状态、认证状态、选中状态和离线状态</strong>。大部分的IMAP4命令都只会在状态下才有效。</li>
+</ol>
+<p><strong>功能：</strong></p>
+<ol>
+<li>支持在线和离线两种操作模式。只要客户端处于活跃状态，并且有需要下载的新邮件，则客户端就会一直与服务器保持连接，因此使用IMAP4模式可以获得更快的响应时间。   </li>
+<li>支持多个客户端同时连接到一个邮箱。IMAP4协议允许多个用户同时访问邮箱，同时提供一种机制让客户能够感知其他当前连接到这个邮箱的用户所做的操作。</li>
+<li>支持访问邮件中的MIME部分和部分获取。IMAP4 协议允许客户端获取任何独立的MIME部分和获取信息的一部分或者全部。使得用户无需下载附件就可以浏览消息内容或者在获取内容的同时浏览。</li>
+<li>支持在服务器保留邮件状态信息。通过使用在IMAP4协议中定义的标志，客户端可以跟踪消息状态，例如是否被读取，回复，或者删除。</li>
+<li>支持在服务器上访问多个邮箱。IMAP4客户端可以在服务器上创建，重命名，或删除邮箱（通常以文件夹形式显现给用户）。支持多个邮箱还允许服务器提供对于共享和公共文件夹的访问。</li>
+<li>支持服务器端搜索。IMAP4提供了一种使客户可以要求服务器搜索符合多个标准的邮件的机制。</li>
+</ol>
+<h3 id="🎆注意点"><a href="#🎆注意点" class="headerlink" title="🎆注意点"></a>🎆注意点</h3><p>不要将邮件读取协议POP或IMAP与邮件传送协议SMTP弄混。<br>发信人的用户代理向源邮件服务器发送邮件，以及源邮件服务器向目的邮件服务器发送邮件，都是使用** SMTP 协议**。<br>而 POP 协议或 IMAP 协议则是用户从目的邮件服务器上读取邮件所使用的协议。 </p>
+<h1 id="👒万维网www"><a href="#👒万维网www" class="headerlink" title="👒万维网www"></a>👒万维网www</h1><p>万维网是一个大规模的、联机式的信息储藏所。<br>万维网用链接的方法能非常方便地从因特网上的一个站点访问另一个站点，从而主动地按需获取丰富的信息。</p>
+<ul>
+<li>万维网提供分布式服务</li>
+</ul>
+<p><img src="https://i.imgtg.com/2023/07/17/OzIVn6.md.png#id=gDrr1&originHeight=500&originWidth=901&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<h2 id="🎎超媒体与超文本"><a href="#🎎超媒体与超文本" class="headerlink" title="🎎超媒体与超文本"></a>🎎超媒体与超文本</h2><p>万维网是分布式超媒体系统，是<strong>超文本系统</strong>的扩充。<br>一个超文本由多个信息源链接成，利用一个链接可使用户找到另一个文档。这些文档可以位于世界上任何一个接在因特网上的超文本系统中。超文本是万维网的基础。<br>超媒体与超文本的区别是文档内容不同。<strong>超文本文档仅包含文本信息</strong>，而超媒体文档还包含其他表示方式的信息，如图形、图像、声音、动画，甚至活动视频图像。</p>
+<h2 id="🎎万维网工作方式"><a href="#🎎万维网工作方式" class="headerlink" title="🎎万维网工作方式"></a>🎎万维网工作方式</h2><ul>
+<li>万维网以<strong>客户服务器方式</strong>工作。</li>
+</ul>
+<p>浏览器就是在用户计算机上的万维网客户程序。万维网文档所驻留的计算机则运行服务器程序，因此这个计算机也称为万维网服务器。<br>客户程序向服务器程序发出请求，服务器程序向客户程序送回客户所要的万维网文档。<br>在一个客户程序主窗口上显示出的万维网文档称为页面(page)。</p>
+<h2 id="🎎万维网相关问题"><a href="#🎎万维网相关问题" class="headerlink" title="🎎万维网相关问题"></a>🎎万维网相关问题</h2><h3 id="🎆怎样标志分布在整个因特网上的万维网文档"><a href="#🎆怎样标志分布在整个因特网上的万维网文档" class="headerlink" title="🎆怎样标志分布在整个因特网上的万维网文档"></a>🎆怎样标志分布在整个因特网上的万维网文档</h3><p>使用<strong>统一资源定位符URL</strong>来标志万维网上的各种文档<br>使每个文档在整个因特网的范围内具有唯一的标识符URL</p>
+<h3 id="🎆如何实现各种超链的链接"><a href="#🎆如何实现各种超链的链接" class="headerlink" title="🎆如何实现各种超链的链接"></a>🎆如何实现各种超链的链接</h3><p>使用<strong>超文本传送协议HTTP</strong>在客户程序与服务器程序之间进行交互</p>
+<ul>
+<li>可靠传送，使用TCP</li>
+</ul>
+<h3 id="🎆怎样使各种万维网文档能在因特网上的各种计算机上显示出来，同时使用户清楚地知道在什么地方存在着超链"><a href="#🎆怎样使各种万维网文档能在因特网上的各种计算机上显示出来，同时使用户清楚地知道在什么地方存在着超链" class="headerlink" title="🎆怎样使各种万维网文档能在因特网上的各种计算机上显示出来，同时使用户清楚地知道在什么地方存在着超链"></a>🎆怎样使各种万维网文档能在因特网上的各种计算机上显示出来，同时使用户清楚地知道在什么地方存在着超链</h3><p>超文本标记语言HTML使得万维网页的设计者可以很方便地用一个超链冲本页面的某处连接到因特网的任何一个万维网页面，并且能够在自己的计算机屏幕上将这些页面显示出来。</p>
+<h2 id="🎎统一资源定位符URL"><a href="#🎎统一资源定位符URL" class="headerlink" title="🎎统一资源定位符URL"></a>🎎统一资源定位符URL</h2><p>URL给资源的位置提供一种抽象的识别方法，并用这种方法给资源定位。<br>URL是与因特网相连的机器上的任何可访问对象的一个指针。<br><img src="https://i.imgtg.com/2023/07/17/OzIYDP.png#height=230&id=CPTez&originHeight=460&originWidth=1166&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=583"></p>
+<h2 id="🎎超文本传送协议HTTP"><a href="#🎎超文本传送协议HTTP" class="headerlink" title="🎎超文本传送协议HTTP"></a>🎎超文本传送协议HTTP</h2><p>从层次的角度看，HTTP 是<strong>面向事务的(transaction-oriented)应用层协议</strong>，它是万维网上能够可靠地交换文件（包括文本、声音、图像等各种多媒体文件）的重要基础。 </p>
+<h3 id="🎆工作过程"><a href="#🎆工作过程" class="headerlink" title="🎆工作过程"></a>🎆工作过程</h3><p><img src="https://i.imgtg.com/2023/07/17/OzIf8b.md.png#height=375&id=d82nW&originHeight=500&originWidth=597&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=448"><br><strong>用户单击鼠标后发生的事件按顺序如下：</strong></p>
+<ol>
+<li>浏览器分析链接指向页面的URL</li>
+<li>浏览器向DNS请求解析<a target="_blank" rel="noopener" href="http://www.tsinghua.edu.cn的ip地址/">www.tsinghua.edu.cn的IP地址</a></li>
+<li>域名系统DNS解析出清华大学服务器的IP地址</li>
+<li>浏览器与服务器建立TCP链接</li>
+<li>浏览器发出取文件命令：GET &#x2F;chn&#x2F;yxsz&#x2F;index.htm</li>
+<li>服务器给出响应，把文件index.htm 发给浏览器</li>
+<li>TCP连接释放</li>
+<li>浏览器显示“清华大学院系设置”文件 index.htm 中的所有文本</li>
+</ol>
+<h3 id="🎆主要特点"><a href="#🎆主要特点" class="headerlink" title="🎆主要特点"></a>🎆主要特点</h3><ol>
+<li>面向事务的客户服务器协议</li>
+<li>HTTP本身是无连接的，但是使用了面向连接的TCP向上提供的服务</li>
+</ol>
+<h3 id="🎆持续连接"><a href="#🎆持续连接" class="headerlink" title="🎆持续连接"></a>🎆持续连接</h3><p>HTTP&#x2F;1.1 协议使用持续连接。<br>万维网服务器在发送响应后仍然在一段时间内保持这条连接，使同一个客户（浏览器）和该服务器可以继续在这条连接上传送后续的 HTTP 请求报文和响应报文。这并不局限于传送同一个页面上链接的文档，而是只要这些文档都在同一个服务器上就行。</p>
+<ol>
+<li>非流水线方式</li>
+<li>流水线方式</li>
+</ol>
+<h3 id="🎆代理服务器Proxy-Server"><a href="#🎆代理服务器Proxy-Server" class="headerlink" title="🎆代理服务器Proxy Server"></a>🎆代理服务器Proxy Server</h3><p>代理服务器(proxy server)又称为万维网高速缓存(Web cache)，它代表浏览器发出 HTTP 请求。<br>万维网高速缓存把最近的一些请求和响应暂存在本地磁盘中。<br>当与暂时存放的<strong>请求相同的新请求</strong>到达时，万维网高速缓存就<strong>把暂存的响应发送出去</strong>，而不需要按 URL 的地址再去因特网访问该资源。  </p>
+<ul>
+<li>使用高速缓存可**减少访问因特网服务器的时延 **</li>
+</ul>
+<h3 id="🎆HTTP报文结构"><a href="#🎆HTTP报文结构" class="headerlink" title="🎆HTTP报文结构"></a><strong>🎆HTTP报文结构</strong></h3><ol>
+<li>请求报文——从客户向服务器发送请求报文</li>
+<li>响应报文——从服务器到客户的回答</li>
+</ol>
+<h3 id="🎆Cookie"><a href="#🎆Cookie" class="headerlink" title="🎆Cookie"></a><strong>🎆Cookie</strong></h3><p>万维网站点使用Cookie来跟踪用户。<br>Cookie 表示在<strong>HTTP服务器和客户之间传递的状态信息</strong>。<br>使用 Cookie 的网站服务器为用户产生一个唯一的识别码。利用此识别码，网站就能够跟踪该用户在该网站的活动。  </p>
+<h2 id="🎎万维网的文档"><a href="#🎎万维网的文档" class="headerlink" title="🎎万维网的文档"></a>🎎万维网的文档</h2><h3 id="🎆超文本标记语言HTML"><a href="#🎆超文本标记语言HTML" class="headerlink" title="🎆超文本标记语言HTML"></a>🎆超文本标记语言HTML</h3><p>HTML定义了许多用于排版的命令（即标签）<br>HTML把各种标签嵌入到万维网的页面中，这样就构成了HTML文档中，HTML文档是一种可以用任何文本编辑器创建的ASCII码文件。</p>
+<h3 id="🎆两种不同的链接"><a href="#🎆两种不同的链接" class="headerlink" title="🎆两种不同的链接"></a>🎆两种不同的链接</h3><ol>
+<li>远程链接——超链的终点是其他网点上的页面</li>
+<li>本地链接——超链指向本计算机中的某个文件</li>
+</ol>
+<h3 id="🎆动态万维网文档"><a href="#🎆动态万维网文档" class="headerlink" title="🎆动态万维网文档"></a>🎆动态万维网文档</h3><ol>
+<li><strong>静态文档</strong>是指该文档创作完毕后就存放在万维网服务器中，在被用户浏览的过程中，内容不会改变。 </li>
+<li><strong>动态文档</strong>是指文档的内容是在浏览器访问万维网服务器时才由应用程序动态创建。</li>
+</ol>
+<p>动态文档和静态文档之间的主要差别体现在服务器一端。这主要是文档内容的生成方法不同。而从浏览器的角度看，这两种文档并没有区别。  </p>
+<h3 id="🎆万维网服务器功能的扩充"><a href="#🎆万维网服务器功能的扩充" class="headerlink" title="🎆万维网服务器功能的扩充"></a>🎆万维网服务器功能的扩充</h3><ol>
+<li>应增加另一个应用程序，用来处理浏览器发来的数据，并创建动态文档。</li>
+<li>应增加一个机制，用来使万维网服务器把浏览器发来的数据传送给这个应用程序，然后万维网服务器能够解释这个应用程序的输出，并向浏览器返回 HTML 文档。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://blog.cassie.ink">冬贰</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://blog.cassie.ink/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/">http://blog.cassie.ink/2023/07/21/计算机网络——应用层/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://blog.cassie.ink" target="_blank">Cassie's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/">课程总结</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="/img/wang7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/" title="计算机组成原理——CPU的结构与功能"><img class="cover" src="/img/zu7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机组成原理——CPU的结构与功能</div></div></a></div><div class="next-post pull-right"><a href="/2023/07/21/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%946%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3/" title="操作系统——操作系统接口"><img class="cover" src="/img/os6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">操作系统——操作系统接口</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E7%BB%AA%E8%AE%BA/" title="计算机网络——绪论"><img class="cover" src="/img/wang1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-11</div><div class="title">计算机网络——绪论</div></div></a></div><div><a href="/2023/06/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82/" title="计算机网络——物理层"><img class="cover" src="/img/wang3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-25</div><div class="title">计算机网络——物理层</div></div></a></div><div><a href="/2023/06/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="计算机网络——计算机网络体系结构"><img class="cover" src="/img/wang2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-18</div><div class="title">计算机网络——计算机网络体系结构</div></div></a></div><div><a href="/2023/07/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络——数据链路层"><img class="cover" src="/img/wang4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-02</div><div class="title">计算机网络——数据链路层</div></div></a></div><div><a href="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82%E5%8D%8F%E8%AE%AE/" title="计算机网络——传输层协议"><img class="cover" src="/img/wang6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-16</div><div class="title">计算机网络——传输层协议</div></div></a></div><div><a href="/2023/07/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82/" title="计算机网络——网络层"><img class="cover" src="/img/wang5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-09</div><div class="title">计算机网络——网络层</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webimg.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">冬贰</div><div class="author-info__description">嗨！欢迎来到我的世界！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1725030706&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:xiayi0409@163.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">保持自由的灵魂永不困于荆棘</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%91%92%E5%BA%94%E7%94%A8%E5%B1%82%E6%A6%82%E8%BF%B0"><span class="toc-text">👒应用层概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">🎎基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E5%BA%94%E7%94%A8%E5%B1%82%E5%92%8C%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-text">🎆应用层和应用层协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84"><span class="toc-text">🎆应用层协议的体系架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E5%AF%B9%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E8%A6%81%E6%B1%82"><span class="toc-text">🎆对传输层的要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86TCP-x2F-IP%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-text">🎆TCP&#x2F;IP中的应用层协议</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%91%92%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEDNS"><span class="toc-text">👒域名解析协议DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-text">🎎域名系统概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E5%9F%9F%E5%90%8D%E5%8F%8A%E5%9F%9F%E5%90%8D%E7%BB%93%E6%9E%84"><span class="toc-text">🎆域名及域名结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="toc-text">🎎域名解析过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E8%A7%A3%E6%9E%90%E6%AD%A5%E9%AA%A4"><span class="toc-text">🎆解析步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="toc-text">🎆解析过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8EDNS%E7%9A%84%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-text">🎎DNS的报文格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8EUDP%E8%BF%98%E6%98%AFTCP"><span class="toc-text">🎎UDP还是TCP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%91%92%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E5%8D%8F%E8%AE%AE"><span class="toc-text">👒电子邮件协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E6%A6%82%E8%BF%B0"><span class="toc-text">🎎概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%BB%E8%A6%81%E7%BB%84%E6%88%90"><span class="toc-text">🎆电子邮件系统的主要组成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E7%AE%80%E7%AD%94%E9%82%AE%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AESMTP"><span class="toc-text">🎎简答邮件传输协议SMTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E9%82%AE%E4%BB%B6%E8%AF%BB%E5%8F%96%E5%8D%8F%E8%AE%AE"><span class="toc-text">🎎邮件读取协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86POP3%E5%8D%8F%E8%AE%AE%E2%80%94%E9%82%AE%E5%B1%80%E5%8D%8F%E8%AE%AE"><span class="toc-text">🎆POP3协议—邮局协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86IMAP%E5%8D%8F%E8%AE%AE"><span class="toc-text">🎆IMAP协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-text">🎆注意点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%91%92%E4%B8%87%E7%BB%B4%E7%BD%91www"><span class="toc-text">👒万维网www</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E8%B6%85%E5%AA%92%E4%BD%93%E4%B8%8E%E8%B6%85%E6%96%87%E6%9C%AC"><span class="toc-text">🎎超媒体与超文本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E4%B8%87%E7%BB%B4%E7%BD%91%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-text">🎎万维网工作方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E4%B8%87%E7%BB%B4%E7%BD%91%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="toc-text">🎎万维网相关问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E6%80%8E%E6%A0%B7%E6%A0%87%E5%BF%97%E5%88%86%E5%B8%83%E5%9C%A8%E6%95%B4%E4%B8%AA%E5%9B%A0%E7%89%B9%E7%BD%91%E4%B8%8A%E7%9A%84%E4%B8%87%E7%BB%B4%E7%BD%91%E6%96%87%E6%A1%A3"><span class="toc-text">🎆怎样标志分布在整个因特网上的万维网文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%90%84%E7%A7%8D%E8%B6%85%E9%93%BE%E7%9A%84%E9%93%BE%E6%8E%A5"><span class="toc-text">🎆如何实现各种超链的链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E6%80%8E%E6%A0%B7%E4%BD%BF%E5%90%84%E7%A7%8D%E4%B8%87%E7%BB%B4%E7%BD%91%E6%96%87%E6%A1%A3%E8%83%BD%E5%9C%A8%E5%9B%A0%E7%89%B9%E7%BD%91%E4%B8%8A%E7%9A%84%E5%90%84%E7%A7%8D%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8A%E6%98%BE%E7%A4%BA%E5%87%BA%E6%9D%A5%EF%BC%8C%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8%E6%88%B7%E6%B8%85%E6%A5%9A%E5%9C%B0%E7%9F%A5%E9%81%93%E5%9C%A8%E4%BB%80%E4%B9%88%E5%9C%B0%E6%96%B9%E5%AD%98%E5%9C%A8%E7%9D%80%E8%B6%85%E9%93%BE"><span class="toc-text">🎆怎样使各种万维网文档能在因特网上的各种计算机上显示出来，同时使用户清楚地知道在什么地方存在着超链</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E7%BB%9F%E4%B8%80%E8%B5%84%E6%BA%90%E5%AE%9A%E4%BD%8D%E7%AC%A6URL"><span class="toc-text">🎎统一资源定位符URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E9%80%81%E5%8D%8F%E8%AE%AEHTTP"><span class="toc-text">🎎超文本传送协议HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-text">🎆工作过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9"><span class="toc-text">🎆主要特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5"><span class="toc-text">🎆持续连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8Proxy-Server"><span class="toc-text">🎆代理服务器Proxy Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86HTTP%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84"><span class="toc-text">🎆HTTP报文结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86Cookie"><span class="toc-text">🎆Cookie</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%8E%E4%B8%87%E7%BB%B4%E7%BD%91%E7%9A%84%E6%96%87%E6%A1%A3"><span class="toc-text">🎎万维网的文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E8%B6%85%E6%96%87%E6%9C%AC%E6%A0%87%E8%AE%B0%E8%AF%AD%E8%A8%80HTML"><span class="toc-text">🎆超文本标记语言HTML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E4%B8%A4%E7%A7%8D%E4%B8%8D%E5%90%8C%E7%9A%84%E9%93%BE%E6%8E%A5"><span class="toc-text">🎆两种不同的链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E5%8A%A8%E6%80%81%E4%B8%87%E7%BB%B4%E7%BD%91%E6%96%87%E6%A1%A3"><span class="toc-text">🎆动态万维网文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8E%86%E4%B8%87%E7%BB%B4%E7%BD%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8A%9F%E8%83%BD%E7%9A%84%E6%89%A9%E5%85%85"><span class="toc-text">🎆万维网服务器功能的扩充</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/" title="计算机组成原理——CPU的结构与功能"><img src="/img/zu7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——CPU的结构与功能"/></a><div class="content"><a class="title" href="/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/" title="计算机组成原理——CPU的结构与功能">计算机组成原理——CPU的结构与功能</a><time datetime="2023-07-22T07:54:29.000Z" title="发表于 2023-07-22 15:54:29">2023-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络——计算机网络体系结构"><img src="/img/wang7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络——计算机网络体系结构"/></a><div class="content"><a class="title" href="/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络——计算机网络体系结构">计算机网络——计算机网络体系结构</a><time datetime="2023-07-21T15:33:47.000Z" title="发表于 2023-07-21 23:33:47">2023-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/21/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%946%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3/" title="操作系统——操作系统接口"><img src="/img/os6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——操作系统接口"/></a><div class="content"><a class="title" href="/2023/07/21/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%946%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3/" title="操作系统——操作系统接口">操作系统——操作系统接口</a><time datetime="2023-07-21T05:53:59.000Z" title="发表于 2023-07-21 13:53:59">2023-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——指令系统"><img src="/img/zu6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——指令系统"/></a><div class="content"><a class="title" href="/2023/07/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——指令系统">计算机组成原理——指令系统</a><time datetime="2023-07-20T09:54:39.000Z" title="发表于 2023-07-20 17:54:39">2023-07-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95/" title="计算机组成原理——计算机的运算方法"><img src="/img/zu5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——计算机的运算方法"/></a><div class="content"><a class="title" href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95/" title="计算机组成原理——计算机的运算方法">计算机组成原理——计算机的运算方法</a><time datetime="2023-07-18T09:44:55.000Z" title="发表于 2023-07-18 17:44:55">2023-07-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/wang7.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 冬贰</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/07/13/极速救援——内涝问题解决专家/" alt=""><img width="48" height="48" src="/img/back17.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-07-13</span><a class="blog-slider__title" href="2023/07/13/极速救援——内涝问题解决专家/" alt="">极速救援——内涝问题解决专家</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/07/13/极速救援——内涝问题解决专家/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt=""><img width="48" height="48" src="/img/zu9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-07-12</span><a class="blog-slider__title" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt="">数据库系统课程设计——学籍管理系统</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2021/01/05/程序设计课程设计——推箱子/" alt=""><img width="48" height="48" src="/img/push.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-01-05</span><a class="blog-slider__title" href="2021/01/05/程序设计课程设计——推箱子/" alt="">程序设计课程设计——推箱子</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2021/01/05/程序设计课程设计——推箱子/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt=""><img width="48" height="48" src="/img/back8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-06-26</span><a class="blog-slider__title" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt="">计算机组成原理——单周期 CPU 设计与实现—十条指令 CPU</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2021/07/13/数据结构课程设计——双端队列/" alt=""><img width="48" height="48" src="/img/roll.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-07-13</span><a class="blog-slider__title" href="2021/07/13/数据结构课程设计——双端队列/" alt="">数据结构课程设计——应用小大根交替堆实现双端优先队列</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2021/07/13/数据结构课程设计——双端队列/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

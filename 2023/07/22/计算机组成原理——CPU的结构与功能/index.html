@@ -1,0 +1,416 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机组成原理——CPU的结构与功能 | Cassie's Blog</title><meta name="author" content="冬贰"><meta name="copyright" content="冬贰"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🌎CPU的结构🌌CPU的功能🪐控制器的功能取指令、分析指令、执行指令、控制程序输入及结果的输出、总线管理、处理异常情况和特殊情况 🪐运算器的功能实现算术运算和逻辑运算 🌌CPU结构框图        CPU与系统总线 CPU的内部结构   🌌CPU的寄存器 用户可见寄存器 通用寄存器——存放操作数 数据寄存器——存放操作数 地址寄存器——存放地址 条件码寄存器——存放条件码   控制寄">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理——CPU的结构与功能">
+<meta property="og:url" content="http://blog.cassie.ink/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="Cassie&#39;s Blog">
+<meta property="og:description" content="🌎CPU的结构🌌CPU的功能🪐控制器的功能取指令、分析指令、执行指令、控制程序输入及结果的输出、总线管理、处理异常情况和特殊情况 🪐运算器的功能实现算术运算和逻辑运算 🌌CPU结构框图        CPU与系统总线 CPU的内部结构   🌌CPU的寄存器 用户可见寄存器 通用寄存器——存放操作数 数据寄存器——存放操作数 地址寄存器——存放地址 条件码寄存器——存放条件码   控制寄">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cassie.ink/img/zu7.jpg">
+<meta property="article:published_time" content="2023-07-22T07:54:29.000Z">
+<meta property="article:modified_time" content="2023-07-22T08:01:20.388Z">
+<meta property="article:author" content="冬贰">
+<meta property="article:tag" content="课程总结">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.cassie.ink/img/zu7.jpg"><link rel="shortcut icon" href="/img/web.png"><link rel="canonical" href="http://blog.cassie.ink/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":"falselocal_","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机组成原理——CPU的结构与功能',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-22 16:01:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webimg.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movies/"><i class="fa-fw fa fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/zu7.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Cassie's Blog"><span class="site-name">Cassie's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movies/"><i class="fa-fw fa fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机组成原理——CPU的结构与功能</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-22T07:54:29.000Z" title="发表于 2023-07-22 15:54:29">2023-07-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-22T08:01:20.388Z" title="更新于 2023-07-22 16:01:20">2023-07-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/">课程总结</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机组成原理——CPU的结构与功能"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="🌎CPU的结构"><a href="#🌎CPU的结构" class="headerlink" title="🌎CPU的结构"></a>🌎CPU的结构</h1><h2 id="🌌CPU的功能"><a href="#🌌CPU的功能" class="headerlink" title="🌌CPU的功能"></a>🌌CPU的功能</h2><h3 id="🪐控制器的功能"><a href="#🪐控制器的功能" class="headerlink" title="🪐控制器的功能"></a>🪐控制器的功能</h3><p>取指令、分析指令、执行指令、控制程序输入及结果的输出、总线管理、处理异常情况和特殊情况</p>
+<h3 id="🪐运算器的功能"><a href="#🪐运算器的功能" class="headerlink" title="🪐运算器的功能"></a>🪐运算器的功能</h3><p>实现算术运算和逻辑运算</p>
+<h2 id="🌌CPU结构框图"><a href="#🌌CPU结构框图" class="headerlink" title="🌌CPU结构框图"></a>🌌CPU结构框图</h2><table>
+<thead>
+<tr>
+<th><img src="https://i.imgtg.com/2023/07/21/OhqIzI.md.png#id=GXWaa&originHeight=500&originWidth=496&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></th>
+<th><img src="https://i.imgtg.com/2023/07/21/OhqC9F.png#id=ysksD&originHeight=473&originWidth=580&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU与系统总线</td>
+<td>CPU的内部结构</td>
+</tr>
+</tbody></table>
+<h2 id="🌌CPU的寄存器"><a href="#🌌CPU的寄存器" class="headerlink" title="🌌CPU的寄存器"></a>🌌CPU的寄存器</h2><ol>
+<li>用户可见寄存器<ol>
+<li>通用寄存器——存放操作数</li>
+<li>数据寄存器——存放操作数</li>
+<li>地址寄存器——存放地址</li>
+<li>条件码寄存器——存放条件码</li>
+</ol>
+</li>
+<li>控制寄存器<ol>
+<li>MAR：存储器地址寄存器——存放将访问的存储单元的地址</li>
+<li>MDR：存储器数据寄存器——存放于存入存储器中的数据及最近从存储器中读出的数据</li>
+<li>PC：程序计数器——存放先行指令的地址</li>
+<li>IR：指令寄存器——存放当前预执行的指令</li>
+</ol>
+</li>
+<li>状态寄存器<ol>
+<li>PSW：程序状态字寄存器——存放条件码和其他状态信息</li>
+<li>状态寄存器——存放条件码</li>
+</ol>
+</li>
+</ol>
+<h1 id="🌎指令周期"><a href="#🌎指令周期" class="headerlink" title="🌎指令周期"></a>🌎指令周期</h1><h2 id="🌌指令周期的基本概念"><a href="#🌌指令周期的基本概念" class="headerlink" title="🌌指令周期的基本概念"></a>🌌指令周期的基本概念</h2><h3 id="🪐指令周期"><a href="#🪐指令周期" class="headerlink" title="🪐指令周期"></a>🪐指令周期</h3><p>指令周期——取出并执行一条指令所需要的全部时间（取值周期+执行周期）<br><img src="https://i.imgtg.com/2023/07/21/Oh5OvP.png#height=127&id=zyKVG&originHeight=253&originWidth=610&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=305"></p>
+<ul>
+<li>每条指令的指令周期不同</li>
+<li>间接寻址的指令周期包括取值周期、间指周期和执行周期</li>
+<li>带有中断周期的指令周期包括取值周期、间指周期、执行周期和中断周期</li>
+</ul>
+<p><img src="https://i.imgtg.com/2023/07/21/Oh55Ng.md.png#height=250&id=t3kg9&originHeight=500&originWidth=482&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=241"></p>
+<ul>
+<li>不同指令的执行周期数据流不同</li>
+<li>中断周期完成的三个操作——保存程序断点、寻找到中断服务程序入口地址、关中断</li>
+</ul>
+<h1 id="🌎指令流水"><a href="#🌎指令流水" class="headerlink" title="🌎指令流水"></a>🌎指令流水</h1><h2 id="🌌提高机器速度"><a href="#🌌提高机器速度" class="headerlink" title="🌌提高机器速度"></a>🌌提高机器速度</h2><ol>
+<li>提高访存速度<ol>
+<li>高速芯片</li>
+<li>Cache</li>
+<li>多体并行</li>
+</ol>
+</li>
+<li>提高I&#x2F;O和主机之间的传送速度<ol>
+<li>中断</li>
+<li>DMA</li>
+<li>通道</li>
+<li>I&#x2F;O处理机</li>
+<li>多总线</li>
+</ol>
+</li>
+<li>提高运算器速度<ol>
+<li>高速芯片</li>
+<li>改进算法</li>
+<li>快速进位链</li>
+</ol>
+</li>
+</ol>
+<h2 id="🌌系统的并行性"><a href="#🌌系统的并行性" class="headerlink" title="🌌系统的并行性"></a>🌌系统的并行性</h2><h3 id="🪐并行的概念"><a href="#🪐并行的概念" class="headerlink" title="🪐并行的概念"></a>🪐并行的概念</h3><p>并行</p>
+<ul>
+<li>并发——两个或两个以上事件在同一时间段发生</li>
+<li>同时——两个或两个以上事件在同一时刻发生</li>
+</ul>
+<h2 id="🌌指令流水原理"><a href="#🌌指令流水原理" class="headerlink" title="🌌指令流水原理"></a>🌌指令流水原理</h2><h3 id="🪐指令的串行执行"><a href="#🪐指令的串行执行" class="headerlink" title="🪐指令的串行执行"></a>🪐指令的串行执行</h3><p><img src="https://i.imgtg.com/2023/07/21/Oh5zUN.png#id=P6kkD&originHeight=108&originWidth=1215&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>取指令——取指令部件；执行指令——执行指令部件（总有一个部件空闲）</p>
+<h3 id="🪐指令的二级流水"><a href="#🪐指令的二级流水" class="headerlink" title="🪐指令的二级流水"></a>🪐指令的二级流水</h3><p><img src="https://i.imgtg.com/2023/07/21/Oh5nai.png#height=115&id=KDAqe&originHeight=230&originWidth=819&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=410"><br>指令预取<br>若取值和执行阶段时间上完全重合——指令周期减半，速度提高1倍</p>
+<h2 id="🌌相关知识点"><a href="#🌌相关知识点" class="headerlink" title="🌌相关知识点"></a>🌌相关知识点</h2><h3 id="🪐流水线基本原理"><a href="#🪐流水线基本原理" class="headerlink" title="🪐流水线基本原理"></a>🪐流水线基本原理</h3><p>流水线技术是一种显著提高指令执行速度与效率的技术。<br>指令取值完成后，不等该指令执行完毕即可去下一条指令。如果把一条指令的结束过程进一步细分，例如分成<strong>取值、译码、访存、执行、写回</strong>五个过程，并用五个子部件分别处理这五个子过程，这样只需在上一条指令的第一子过程处理完毕进入第二子过程处理时，在第一子部件中就开始对第二子指令的第一子过程进行处理。随着时间推移，这种重叠操作最后可达到五个子部件同时对五条指令的子过程进行操作。<br><img src="https://i.imgtg.com/2023/07/21/Oh5gsq.md.png#id=nEQ93&originHeight=500&originWidth=962&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<h3 id="🪐流水线的特点"><a href="#🪐流水线的特点" class="headerlink" title="🪐流水线的特点"></a>🪐流水线的特点</h3><ol>
+<li>把一个任务（一条指令或一个操作）分解为几个有联系的子任务，每个子任务由一个专门的功能部件来执行，并依靠多个功能部件并行工作来缩短程序的执行时间</li>
+<li>流水线每个功能部件后都有一个缓冲寄存器，称为<strong>锁存器</strong>，作用是保存本流水段的执行结果，以供下一流水段使用</li>
+<li>流水线中各功能段的时间应尽量相等，否则将引起堵塞、断流</li>
+<li>只有连续不断地提供同一种任务时，才能发挥流水线的效率，所以流水线中处理的必须是连续任务。在采用流水线方式工作的处理机中，要在软件和硬件设计等多方面尽量为流水线提供连续的服务。</li>
+<li>流水线需要由装入时间和排空时间。装入时间是指第一个任务进入流水线到输出流水线的时间。排空时间是指最后一个任务进入流水线到输出流水线的时间。</li>
+</ol>
+<h3 id="🪐影响流水线性能的因素"><a href="#🪐影响流水线性能的因素" class="headerlink" title="🪐影响流水线性能的因素"></a>🪐影响流水线性能的因素</h3><ol>
+<li><strong>结构相关</strong>——当多条指令同一时刻争用统一资源形成冲突<ol>
+<li>暂停一个时钟周期</li>
+<li>单独设置数据存储器和指令存储器</li>
+</ol>
+</li>
+<li><strong>数据相关</strong>——指令在流水线中重叠执行时，当后继指令需要用到前面指令的执行结果<ol>
+<li>暂停一个时钟周期</li>
+<li>数据旁路：把前面一条指令的ALU计算结果直接输入到下一条指令</li>
+</ol>
+</li>
+<li><strong>控制相关</strong>——当流水线遇到分支指令和其他改变PC值的指令时引起<ol>
+<li>延迟转移技术：将转移指令与其前面的与转移指令无关的一条或几条指令对换位置，让成功转移总是在紧跟的指令被执行后发生，从而使预指的指令不作废</li>
+<li>转移预测技术</li>
+</ol>
+</li>
+</ol>
+<h3 id="🪐流水线越多，并行性就越高。流水线越多，指令执行越快？"><a href="#🪐流水线越多，并行性就越高。流水线越多，指令执行越快？" class="headerlink" title="🪐流水线越多，并行性就越高。流水线越多，指令执行越快？"></a>🪐流水线越多，并行性就越高。流水线越多，指令执行越快？</h3><p>不是</p>
+<ol>
+<li>流水线缓冲之间的额外开销增大。每个流水段有一段额外开销用于缓冲间传送数据、进行各种准备和发送等功能。这些开销加长了一条指令的整个执行时间，当指令间逻辑上相互依赖时，开销更大。</li>
+<li>流水线间控制逻辑变多、变复杂。用于流水线优化和存储器冲突处理的控制逻辑随流水段的增加而大增，这可能导致用于流水段之间控制的逻辑比段本身的控制逻辑更复杂。</li>
+</ol>
+<h3 id="🪐指令相关、数据相关"><a href="#🪐指令相关、数据相关" class="headerlink" title="🪐指令相关、数据相关"></a>🪐指令相关、数据相关</h3><ol>
+<li>两条连续的指令读相同的寄存器时，会产生读后读相关（RAR），不影响流水线</li>
+<li>某条指令要读取上一条指令所写入的寄存器时，会产生写后读（RAW）相关，即数据相关或真相关，影响流水线——按序流动的流水线只可能出现RAW相关</li>
+<li>某条指令的上条指令要读&#x2F;写该指令的输出寄存器时，会产生读后写（WAR）和写后写（WAW）相关。在非按序流动的流水线中，既可能发生RAW也可能发生WAR和WAW。</li>
+</ol>
+<p>——对流水线影响最重的是<strong>数据相关</strong></p>
+<h1 id="🌎中断系统"><a href="#🌎中断系统" class="headerlink" title="🌎中断系统"></a><strong>🌎中断系统</strong></h1><h2 id="🌌概述"><a href="#🌌概述" class="headerlink" title="🌌概述"></a><strong>🌌概述</strong></h2><h3 id="🪐引起中断的各种因素"><a href="#🪐引起中断的各种因素" class="headerlink" title="🪐引起中断的各种因素"></a><strong>🪐引起中断的各种因素</strong></h3><ol>
+<li>人为设置的中断</li>
+<li>程序性事故——溢出、操作码不能识别、除法非法</li>
+<li>硬件故障</li>
+<li>I&#x2F;O设备</li>
+<li>外部事件——用键盘中断现行程序</li>
+</ol>
+<h3 id="🪐中断的分类"><a href="#🪐中断的分类" class="headerlink" title="🪐中断的分类"></a><strong>🪐中断的分类</strong></h3><ol>
+<li>按中断源分<ol>
+<li>内中断：发生在主机内部的中断</li>
+<li>由主机外部事件引起的中断</li>
+</ol>
+</li>
+<li>按中断服务程序入口地址的获取方式<ol>
+<li>向量中断：外部设备在提出中断请求的同时，通过硬件自动形成中断服务程序入口地址。CPU响应中断后，将根据向量地址直接转入相应中断服务程序</li>
+<li>非向量中断：非向量中断在产生中断的同时不能直接提供中断服务程序入口地址，而只产生一个中断查询程序的入口地址。需要通过中断查询程序确定中断源和中断服务程序的入口地址</li>
+</ol>
+</li>
+<li>按中断源位置分<ol>
+<li>硬件中断</li>
+<li>软件中断</li>
+</ol>
+</li>
+<li>按是否可屏蔽分<ol>
+<li>可屏蔽中断</li>
+<li>不可屏蔽中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="🌌中断请求标记和中断判优逻辑"><a href="#🌌中断请求标记和中断判优逻辑" class="headerlink" title="🌌中断请求标记和中断判优逻辑"></a><strong>🌌中断请求标记和中断判优逻辑</strong></h2><h3 id="🪐中断请求标记INTR"><a href="#🪐中断请求标记INTR" class="headerlink" title="🪐中断请求标记INTR"></a><strong>🪐中断请求标记INTR</strong></h3><p>当INTR的状态为1时，表示中断源有请求</p>
+<ul>
+<li>INTR分散在各个中断源的接口电路中</li>
+<li>INTR集中在CPU的中断系统内</li>
+</ul>
+<h3 id="🪐中断判优"><a href="#🪐中断判优" class="headerlink" title="🪐中断判优"></a><strong>🪐中断判优</strong></h3><ol>
+<li>硬件实现（排队器）<ol>
+<li>链式排队器——分散在各个中断源的接口电路中</li>
+<li>集中在CPU内</li>
+</ol>
+</li>
+<li>软件实现（程序查询）</li>
+</ol>
+<p><img src="https://i.imgtg.com/2023/07/21/Oh52gN.md.png#height=250&id=psrlN&originHeight=500&originWidth=764&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=382"></p>
+<h3 id="🪐中断服务程序入口地址的查找"><a href="#🪐中断服务程序入口地址的查找" class="headerlink" title="🪐中断服务程序入口地址的查找"></a><strong>🪐中断服务程序入口地址的查找</strong></h3><ol>
+<li>硬件向量法<ol>
+<li>利用硬件产生向量地址，再由向量地址找到中断服务程序的入口地址——向量地址由中断向量地址形成部件产生</li>
+</ol>
+</li>
+<li>软件查询法</li>
+</ol>
+<h3 id="🪐中断响应"><a href="#🪐中断响应" class="headerlink" title="🪐中断响应"></a><strong>🪐中断响应</strong></h3><ol>
+<li>响应中断的条件——允许中断触发器EINT&#x3D;1</li>
+<li>响应中断的时间——指令执行周期结束时刻由CPU发查询信号</li>
+<li>中断隐指令<ol>
+<li>保护程序断点——断点存于特定地址内</li>
+<li>查找中断服务程序入口地址</li>
+<li>硬件关中断</li>
+</ol>
+</li>
+</ol>
+<h3 id="🪐保护现场和恢复现场"><a href="#🪐保护现场和恢复现场" class="headerlink" title="🪐保护现场和恢复现场"></a><strong>🪐保护现场和恢复现场</strong></h3><ol>
+<li>保护现场<ol>
+<li>断点——中断隐指令完成</li>
+<li>寄存器内容——中断服务程序完成</li>
+</ol>
+</li>
+<li>恢复现场——中断服务程序完成</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://blog.cassie.ink">冬贰</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://blog.cassie.ink/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/">http://blog.cassie.ink/2023/07/22/计算机组成原理——CPU的结构与功能/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://blog.cassie.ink" target="_blank">Cassie's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/">课程总结</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/img/zu7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络——计算机网络体系结构"><img class="cover" src="/img/wang7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络——计算机网络体系结构</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF/" title="计算机组成原理——系统总线"><img class="cover" src="/img/zu2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-04</div><div class="title">计算机组成原理——系统总线</div></div></a></div><div><a href="/2023/06/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="计算机组成原理——计算机系统概论"><img class="cover" src="/img/zu1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-27</div><div class="title">计算机组成原理——计算机系统概论</div></div></a></div><div><a href="/2023/07/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——指令系统"><img class="cover" src="/img/zu6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-20</div><div class="title">计算机组成原理——指令系统</div></div></a></div><div><a href="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E5%99%A8/" title="计算机组成原理——存储器"><img class="cover" src="/img/zu3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-11</div><div class="title">计算机组成原理——存储器</div></div></a></div><div><a href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——输入输出系统"><img class="cover" src="/img/zu4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-18</div><div class="title">计算机组成原理——输入输出系统</div></div></a></div><div><a href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95/" title="计算机组成原理——计算机的运算方法"><img class="cover" src="/img/zu5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-18</div><div class="title">计算机组成原理——计算机的运算方法</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webimg.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">冬贰</div><div class="author-info__description">嗨！欢迎来到我的世界！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1725030706&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:xiayi0409@163.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">保持自由的灵魂永不困于荆棘</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8C%8ECPU%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">🌎CPU的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8CCPU%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">🌌CPU的功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">🪐控制器的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E8%BF%90%E7%AE%97%E5%99%A8%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">🪐运算器的功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8CCPU%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="toc-text">🌌CPU结构框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8CCPU%E7%9A%84%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">🌌CPU的寄存器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8C%8E%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F"><span class="toc-text">🌎指令周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8C%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">🌌指令周期的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F"><span class="toc-text">🪐指令周期</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8C%8E%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4"><span class="toc-text">🌎指令流水</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8C%E6%8F%90%E9%AB%98%E6%9C%BA%E5%99%A8%E9%80%9F%E5%BA%A6"><span class="toc-text">🌌提高机器速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%B9%B6%E8%A1%8C%E6%80%A7"><span class="toc-text">🌌系统的并行性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E5%B9%B6%E8%A1%8C%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">🪐并行的概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8C%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E5%8E%9F%E7%90%86"><span class="toc-text">🌌指令流水原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%8C%87%E4%BB%A4%E7%9A%84%E4%B8%B2%E8%A1%8C%E6%89%A7%E8%A1%8C"><span class="toc-text">🪐指令的串行执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%8C%87%E4%BB%A4%E7%9A%84%E4%BA%8C%E7%BA%A7%E6%B5%81%E6%B0%B4"><span class="toc-text">🪐指令的二级流水</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8C%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-text">🌌相关知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">🪐流水线基本原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-text">🪐流水线的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E5%BD%B1%E5%93%8D%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%80%A7%E8%83%BD%E7%9A%84%E5%9B%A0%E7%B4%A0"><span class="toc-text">🪐影响流水线性能的因素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%B6%8A%E5%A4%9A%EF%BC%8C%E5%B9%B6%E8%A1%8C%E6%80%A7%E5%B0%B1%E8%B6%8A%E9%AB%98%E3%80%82%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%B6%8A%E5%A4%9A%EF%BC%8C%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%B6%8A%E5%BF%AB%EF%BC%9F"><span class="toc-text">🪐流水线越多，并行性就越高。流水线越多，指令执行越快？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E6%8C%87%E4%BB%A4%E7%9B%B8%E5%85%B3%E3%80%81%E6%95%B0%E6%8D%AE%E7%9B%B8%E5%85%B3"><span class="toc-text">🪐指令相关、数据相关</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8C%8E%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F"><span class="toc-text">🌎中断系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8C%E6%A6%82%E8%BF%B0"><span class="toc-text">🌌概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E5%BC%95%E8%B5%B7%E4%B8%AD%E6%96%AD%E7%9A%84%E5%90%84%E7%A7%8D%E5%9B%A0%E7%B4%A0"><span class="toc-text">🪐引起中断的各种因素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E4%B8%AD%E6%96%AD%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">🪐中断的分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%8C%E4%B8%AD%E6%96%AD%E8%AF%B7%E6%B1%82%E6%A0%87%E8%AE%B0%E5%92%8C%E4%B8%AD%E6%96%AD%E5%88%A4%E4%BC%98%E9%80%BB%E8%BE%91"><span class="toc-text">🌌中断请求标记和中断判优逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E4%B8%AD%E6%96%AD%E8%AF%B7%E6%B1%82%E6%A0%87%E8%AE%B0INTR"><span class="toc-text">🪐中断请求标记INTR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E4%B8%AD%E6%96%AD%E5%88%A4%E4%BC%98"><span class="toc-text">🪐中断判优</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E4%B8%AD%E6%96%AD%E6%9C%8D%E5%8A%A1%E7%A8%8B%E5%BA%8F%E5%85%A5%E5%8F%A3%E5%9C%B0%E5%9D%80%E7%9A%84%E6%9F%A5%E6%89%BE"><span class="toc-text">🪐中断服务程序入口地址的查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E4%B8%AD%E6%96%AD%E5%93%8D%E5%BA%94"><span class="toc-text">🪐中断响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%AA%90%E4%BF%9D%E6%8A%A4%E7%8E%B0%E5%9C%BA%E5%92%8C%E6%81%A2%E5%A4%8D%E7%8E%B0%E5%9C%BA"><span class="toc-text">🪐保护现场和恢复现场</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/" title="计算机组成原理——CPU的结构与功能"><img src="/img/zu7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——CPU的结构与功能"/></a><div class="content"><a class="title" href="/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/" title="计算机组成原理——CPU的结构与功能">计算机组成原理——CPU的结构与功能</a><time datetime="2023-07-22T07:54:29.000Z" title="发表于 2023-07-22 15:54:29">2023-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络——计算机网络体系结构"><img src="/img/wang7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络——计算机网络体系结构"/></a><div class="content"><a class="title" href="/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络——计算机网络体系结构">计算机网络——计算机网络体系结构</a><time datetime="2023-07-21T15:33:47.000Z" title="发表于 2023-07-21 23:33:47">2023-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/21/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%946%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3/" title="操作系统——操作系统接口"><img src="/img/os6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——操作系统接口"/></a><div class="content"><a class="title" href="/2023/07/21/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%946%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3/" title="操作系统——操作系统接口">操作系统——操作系统接口</a><time datetime="2023-07-21T05:53:59.000Z" title="发表于 2023-07-21 13:53:59">2023-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——指令系统"><img src="/img/zu6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——指令系统"/></a><div class="content"><a class="title" href="/2023/07/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——指令系统">计算机组成原理——指令系统</a><time datetime="2023-07-20T09:54:39.000Z" title="发表于 2023-07-20 17:54:39">2023-07-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95/" title="计算机组成原理——计算机的运算方法"><img src="/img/zu5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——计算机的运算方法"/></a><div class="content"><a class="title" href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95/" title="计算机组成原理——计算机的运算方法">计算机组成原理——计算机的运算方法</a><time datetime="2023-07-18T09:44:55.000Z" title="发表于 2023-07-18 17:44:55">2023-07-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/zu7.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 冬贰</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/07/13/极速救援——内涝问题解决专家/" alt=""><img width="48" height="48" src="/img/back17.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-07-13</span><a class="blog-slider__title" href="2023/07/13/极速救援——内涝问题解决专家/" alt="">极速救援——内涝问题解决专家</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/07/13/极速救援——内涝问题解决专家/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt=""><img width="48" height="48" src="/img/zu9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-07-12</span><a class="blog-slider__title" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt="">数据库系统课程设计——学籍管理系统</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2021/01/05/程序设计课程设计——推箱子/" alt=""><img width="48" height="48" src="/img/push.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-01-05</span><a class="blog-slider__title" href="2021/01/05/程序设计课程设计——推箱子/" alt="">程序设计课程设计——推箱子</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2021/01/05/程序设计课程设计——推箱子/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt=""><img width="48" height="48" src="/img/back8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-06-26</span><a class="blog-slider__title" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt="">计算机组成原理——单周期 CPU 设计与实现—十条指令 CPU</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2021/07/13/数据结构课程设计——双端队列/" alt=""><img width="48" height="48" src="/img/roll.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-07-13</span><a class="blog-slider__title" href="2021/07/13/数据结构课程设计——双端队列/" alt="">数据结构课程设计——应用小大根交替堆实现双端优先队列</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2021/07/13/数据结构课程设计——双端队列/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
