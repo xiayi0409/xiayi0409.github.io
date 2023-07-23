@@ -1,0 +1,983 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>系统硬件综合设计——MIPS五级流水线 | Cassie's Blog</title><meta name="author" content="冬贰"><meta name="copyright" content="冬贰"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="⛅设计要求基于先修课程，根据系统设计思想，使用硬件描述语言设计实现一款基于MIPS32，ARM，RISC-V或者自定义指令集的微处理器（CPU）。要求：完成单周期CPU设计，或多周期CPU设计，或5级流水线CPU设计（递进式、难度依次提升。所有学生必须至少完成单周期CPU的设计工作），并将设计的CPU下载至FPGA开发板（ego-1）上运行。以此贯穿数字逻辑、计算机组成原理、计算机体系结构课程，实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统硬件综合设计——MIPS五级流水线">
+<meta property="og:url" content="http://blog.cassie.ink/2023/01/20/%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E7%BB%BC%E5%90%88%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94MIPS%E4%BA%94%E7%BA%A7%E6%B5%81%E6%B0%B4%E7%BA%BF/index.html">
+<meta property="og:site_name" content="Cassie&#39;s Blog">
+<meta property="og:description" content="⛅设计要求基于先修课程，根据系统设计思想，使用硬件描述语言设计实现一款基于MIPS32，ARM，RISC-V或者自定义指令集的微处理器（CPU）。要求：完成单周期CPU设计，或多周期CPU设计，或5级流水线CPU设计（递进式、难度依次提升。所有学生必须至少完成单周期CPU的设计工作），并将设计的CPU下载至FPGA开发板（ego-1）上运行。以此贯穿数字逻辑、计算机组成原理、计算机体系结构课程，实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cassie.ink/img/mips.jpg">
+<meta property="article:published_time" content="2023-01-20T11:52:20.000Z">
+<meta property="article:modified_time" content="2023-07-23T10:46:33.173Z">
+<meta property="article:author" content="冬贰">
+<meta property="article:tag" content="课程设计">
+<meta property="article:tag" content="系统硬件综合设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.cassie.ink/img/mips.jpg"><link rel="shortcut icon" href="/img/web.png"><link rel="canonical" href="http://blog.cassie.ink/2023/01/20/%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E7%BB%BC%E5%90%88%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94MIPS%E4%BA%94%E7%BA%A7%E6%B5%81%E6%B0%B4%E7%BA%BF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":"falselocal_","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '系统硬件综合设计——MIPS五级流水线',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-23 18:46:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webimg.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movies/"><i class="fa-fw fa fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/mips.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Cassie's Blog"><span class="site-name">Cassie's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movies/"><i class="fa-fw fa fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">系统硬件综合设计——MIPS五级流水线</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-20T11:52:20.000Z" title="发表于 2023-01-20 19:52:20">2023-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-23T10:46:33.173Z" title="更新于 2023-07-23 18:46:33">2023-07-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/">课程设计</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E7%BB%BC%E5%90%88%E8%AE%BE%E8%AE%A1/">系统硬件综合设计</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>28分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="系统硬件综合设计——MIPS五级流水线"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="⛅设计要求"><a href="#⛅设计要求" class="headerlink" title="⛅设计要求"></a>⛅设计要求</h1><p>基于先修课程，根据系统设计思想，使用硬件描述语言设计实现一款基于MIPS32，ARM，RISC-V或者自定义指令集的微处理器（CPU）。要求：完成单周期CPU设计，或多周期CPU设计，或5级流水线CPU设计（递进式、难度依次提升。所有学生必须至少完成单周期CPU的设计工作），并将设计的CPU下载至FPGA开发板（ego-1）上运行。以此贯穿数字逻辑、计算机组成原理、计算机体系结构课程，实现从逻辑门至完整CPU处理器的设计。</p>
+<h2 id="🌞CPU指令执行流程"><a href="#🌞CPU指令执行流程" class="headerlink" title="🌞CPU指令执行流程"></a>🌞CPU指令执行流程</h2><p>冯·诺伊曼型计算机的CPU将指令和数据不加区分放在存储中，指令的处理过程需要访问存储。如图所示，一条指令的处理通常可以分为5个阶段：取指令、指令译码、执行指令、访存取数和结果写回。<br><img src="https://i.imgtg.com/2023/07/23/OhRrcU.png#height=173&id=CseFv&originHeight=345&originWidth=243&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=122"></p>
+<h3 id="🌟取指阶段-IF-Instruction-Fetch"><a href="#🌟取指阶段-IF-Instruction-Fetch" class="headerlink" title="🌟取指阶段(IF, Instruction Fetch)"></a>🌟取指阶段(IF, Instruction Fetch)</h3><p>在上一个指令周期时，程序计数器PC中记录的是下一条指令的内存地址。因此IF阶段CPU指令寄存器按照PC的地址从主存中取得一条指令，当前指令被取出后，PC更新到下一条指令的地址。</p>
+<h3 id="🌟指令译码阶段-ID-Instruction-Decode"><a href="#🌟指令译码阶段-ID-Instruction-Decode" class="headerlink" title="🌟指令译码阶段(ID, Instruction Decode)"></a>🌟指令译码阶段(ID, Instruction Decode)</h3><p>在ID阶段，指令译码器按照预定的指令格式，对取回的指令进行拆分和解释，识别区分出不同的指令类别以及各种获取操作数的方法。</p>
+<h3 id="🌟执行指令阶段-EXE-Execute"><a href="#🌟执行指令阶段-EXE-Execute" class="headerlink" title="🌟执行指令阶段(EXE, Execute)"></a>🌟执行指令阶段(EXE, Execute)</h3><p>通过对指令的译码，CPU已经知晓这条指令要如何执行，因此EXE阶段就是通过操作控制器OC，按确定的时序向相应的部件发出微操作控制信号以对指令要求的特定操作进行具体实现。EXE阶段CPU的不同部分(如ALU、寄存器组等)被联合起来，以实现指令所需的操作。</p>
+<h3 id="🌟访存取数阶段-MEM-Memory"><a href="#🌟访存取数阶段-MEM-Memory" class="headerlink" title="🌟访存取数阶段(MEM, Memory)"></a>🌟访存取数阶段(MEM, Memory)</h3><p>根据指令需要可能要访问内存，读取操作数。MEM阶段根据指令地址码(如果有要求的话)得到操作数在主存中的地址，并从主存中读取该操作数用于运算。</p>
+<h3 id="🌟写回阶段-WB-Write-Back"><a href="#🌟写回阶段-WB-Write-Back" class="headerlink" title="🌟写回阶段(WB, Write Back)"></a>🌟写回阶段(WB, Write Back)</h3><p>WB阶段把执行指令阶段的运行结果数据“写回”到某种存储形式：</p>
+<ol>
+<li>写入CPU的内部寄存器中，以便被后续的指令快速地存取</li>
+<li>写入内存</li>
+<li>改变FR中标志位状态(如果需要改变的话)，用来影响接下来程序的动作</li>
+</ol>
+<p>WB阶段结束后，若无意外事件（如结果溢出等）或异常中断发生，计算机就接着从程序计数器PC中取得下一条指令地址，开始新一轮的循环。上述五个阶段在具体实现过程中会引入指令流水线来提高效率。</p>
+<h2 id="🌞MIPS体系结构"><a href="#🌞MIPS体系结构" class="headerlink" title="🌞MIPS体系结构"></a>🌞MIPS体系结构</h2><p>MIPS是RISC处理器中的一种。MIPS即无内部互锁流水线的微处理器（Microprocessor Without Interlocked Piped Stages），其设计机制是尽量避免处理器中流水线上各种相关问题，使得程序指令可以尽量不停顿的执行。可以说，MIPS是为了流水线而生的，这也是本设计选择MIPS作为目标CPU架构的主要原因。接下来介绍与MIPS有关的一些基本概念。</p>
+<h3 id="🌟MPIS指令集"><a href="#🌟MPIS指令集" class="headerlink" title="🌟MPIS指令集"></a>🌟MPIS指令集</h3><p>每一条MIPS指令的长度是32位。MIPS指令集包括三种类型的指令：寄存器类型指令，立即数类型指令和跳转类型指令1B7。寄存器类型指令只有通用寄存器之间的操作，不包含立即数；立即数类型指令是通用寄存器和16位立即数之间的操作；而跳转类型指令包含一个26位的指令地址索引，可以进行大范围绝对地址跳转。MIPS架构这种精简指令集处理器在很大程度上减少指令数目并且极大的简化了指令的译码和执行，程序编译器还可以利用若干个简单的指令合理的组合，形成更加复杂的操作。<br>三种指令类型（分别为 R、I、J 指令格式）如下图所示：<br><img src="https://i.imgtg.com/2023/07/23/OhRKMY.png#height=147&id=WjynH&originHeight=294&originWidth=819&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=410"><br>MIPS指令域说明如下：<br><img src="https://i.imgtg.com/2023/07/23/OhRZ7v.png#id=BayLT&originHeight=418&originWidth=1127&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>MIPS32指令分为如下几类：</p>
+<ul>
+<li>存储器访问指令：用于在存储器和通用寄存器之间传递数据。访问存储器的地址是通用寄存器的值和16位有符号立即数相加的值，存储器访问指令都属于立即数类型指令。</li>
+<li>运算指令：完成定点的算术、逻辑、移位等运算操作。操作数据既可以是通用寄存器的值，也可以是16位立即数。运算指令可以是寄存器类型或立即数类型。</li>
+<li>分支跳转指令：可以改变程序指令的顺序执行。分支指令用PC寄存器的值加上16位立即数左移2位指向目的地址。跳转指令把指令中程序索引或者某个通用寄存器的内容写入PC。分支指令属于立即数类型，跳转指令可以是寄存器类型或跳转类型。</li>
+<li>系统协处理器指令：进行系统协处理器寄存器的读写操作。</li>
+</ul>
+<p>特别说明，为了方便与实现，在本次实验中所实现的36条指令与标准 MIPS 指令做出了相应的调整，不同之处如下：</p>
+<ul>
+<li>op-code 为 1-36，直接区分各个指令的不同</li>
+<li>R 指令中 shamt、func-code 均置为 0。</li>
+</ul>
+<h1 id="⛅CPU设计与实现"><a href="#⛅CPU设计与实现" class="headerlink" title="⛅CPU设计与实现"></a>⛅CPU设计与实现</h1><h2 id="🌞指令设计"><a href="#🌞指令设计" class="headerlink" title="🌞指令设计"></a>🌞指令设计</h2><p>为了方便以后在此实验基础上扩展实现基本的MIPS指令集，所以参照MIPS 指令集结构，设计指令位数为 32 位，其中前六位是操作码字段，可以根据此字段判断是何种指令，从而使控制器发出相应的控制信号。</p>
+<h3 id="🌟R型指令"><a href="#🌟R型指令" class="headerlink" title="🌟R型指令"></a>🌟R型指令</h3><p>不同功能的R型指令使用的寄存器数量不一定相同，有一个、两个、三个。R型指令根据操作的寄存器数可以分为三种不同类型：</p>
+<ul>
+<li>带有3个寄存器；</li>
+<li>带有2个寄存器；</li>
+<li>带有1个寄存器。</li>
+</ul>
+<h3 id="🌟I型指令"><a href="#🌟I型指令" class="headerlink" title="🌟I型指令"></a>🌟I型指令</h3><p>操作数中涉及立即数，结果保存到寄存器。I型指令存在4种不同的类型：</p>
+<ul>
+<li>面向运算的I型指令；</li>
+<li>面向访存的I型指令；</li>
+<li>面向数位设置的I型指令；</li>
+<li>面向条件转移（分支）的I型指令。</li>
+</ul>
+<h3 id="🌟J型指令"><a href="#🌟J型指令" class="headerlink" title="🌟J型指令"></a>🌟J型指令</h3><p>J型指令支持无条件跳转指令。</p>
+<h3 id="🌟实验指令"><a href="#🌟实验指令" class="headerlink" title="🌟实验指令"></a>🌟实验指令</h3><p>在本次实验中一共实现了35 指令，包括11 条 R 型指令，23 条 I 型指令和 1 条 J 型指令，特别说明，为了方便与实现，在本次实验中所实现的35条指令与标准 MIPS 指令做出了相应的调整，，实现的指令格式如下：</p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>指令功能</th>
+<th>指令</th>
+<th>寄存器数量</th>
+<th>31-26</th>
+<th>25-21</th>
+<th>20-16</th>
+<th>15-11</th>
+<th>10-6</th>
+<th>5-0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADD</td>
+<td>寄存器加</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>1</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ADDI</td>
+<td>寄存器和立即数“加”</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>2</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SUB</td>
+<td>寄存器减</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>4</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>AND</td>
+<td>寄存器与</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>5</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ANDI</td>
+<td>寄存器和立即数“与”</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>6</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>OR</td>
+<td>寄存器或</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>7</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ORI</td>
+<td>寄存器和立即数“或”</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>8</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NOR</td>
+<td>寄存器与或</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>9</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>NORI</td>
+<td>寄存器和立即数“与或”</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>10</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>XOR</td>
+<td>寄存器异或</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>11</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>XORI</td>
+<td>寄存器和立即数“异或”</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>12</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BEQ</td>
+<td>寄存器相等则转移</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>13</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BEQZ</td>
+<td></td>
+<td>I</td>
+<td>num_reg_imm</td>
+<td>14</td>
+<td>Rs</td>
+<td>0</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BNE</td>
+<td>寄存器不相等则转移</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>15</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BNEZ</td>
+<td></td>
+<td>I</td>
+<td>num_reg_imm</td>
+<td>16</td>
+<td>Rs</td>
+<td>0</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BGT</td>
+<td>大于 (&gt;) 时分支</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>17</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BGE</td>
+<td>大于等于 (≥) 时分支</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>18</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BLT</td>
+<td>小于 (&lt;) 时分支</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>19</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BLE</td>
+<td>小于等于 (≤) 时分支</td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>20</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>J</td>
+<td>无条件跳转</td>
+<td>J</td>
+<td>num_imm</td>
+<td>21</td>
+<td>INSTR_INDEX</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JR</td>
+<td></td>
+<td>R</td>
+<td>num_reg</td>
+<td>22</td>
+<td>Rs</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LB</td>
+<td>加载字节</td>
+<td>I</td>
+<td>num_2reg</td>
+<td>23</td>
+<td>Base</td>
+<td>Rt</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LH</td>
+<td>加载半字</td>
+<td>I</td>
+<td>num_2reg</td>
+<td>24</td>
+<td>Base</td>
+<td>Rt</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LW</td>
+<td>从存储器种读取数据</td>
+<td>I</td>
+<td>num_2reg</td>
+<td>25</td>
+<td>Base</td>
+<td>Rt</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SB</td>
+<td>存储半字</td>
+<td>I</td>
+<td>num_2reg</td>
+<td>26</td>
+<td>Base</td>
+<td>Rt</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SH</td>
+<td>存储半字</td>
+<td>I</td>
+<td>num_2reg</td>
+<td>27</td>
+<td>Base</td>
+<td>Rt</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SW</td>
+<td>把数据保存到存储器</td>
+<td>I</td>
+<td>num_2reg</td>
+<td>28</td>
+<td>Base</td>
+<td>Rt</td>
+<td>offset</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SLLI</td>
+<td></td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>29</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SLL</td>
+<td>逻辑左移</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>30</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>SRLI</td>
+<td></td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>31</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SRL</td>
+<td>逻辑右移</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>32</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>SRAI</td>
+<td></td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>33</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SRA</td>
+<td>算数右移</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>34</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>SLT</td>
+<td>算数左移</td>
+<td>R</td>
+<td>num_3reg</td>
+<td>35</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>Rd</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>SLTI</td>
+<td></td>
+<td>I</td>
+<td>num_2reg_imm</td>
+<td>36</td>
+<td>Rs</td>
+<td>Rt</td>
+<td>imm</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="🌟指令进制转换"><a href="#🌟指令进制转换" class="headerlink" title="🌟指令进制转换"></a>🌟指令进制转换</h3><p>为了能够更方便的进行测试，我们编写了python脚本，将MIPS代码转换为十六进制代码。<br>将所有MIPS指令按照R、I、J指令以及寄存器数量分为如上表所示的6类，并根据每一类指令的特点和指令格式按照要求生成所对应的十六进制代码。<br>该脚本有以下好处：</p>
+<ul>
+<li>为后续测试用例的生成提供了便捷性；</li>
+<li>后续增加指令便捷，CPU可扩展性高。</li>
+</ul>
+<p>指令进制转换代码如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">def trans_mips2hex(instruction: str):</span><br><span class="line">opList = &#123;</span><br><span class="line">  &#x27;add&#x27;: <span class="number">1</span>, &#x27;addi&#x27;: <span class="number">2</span>, &#x27;sub&#x27;: <span class="number">4</span>, &#x27;<span class="keyword">and</span>&#x27;: <span class="number">5</span>, &#x27;andi&#x27;: <span class="number">6</span>, &#x27;<span class="keyword">or</span>&#x27;: <span class="number">7</span>, &#x27;ori&#x27;: <span class="number">8</span>, &#x27;<span class="keyword">nor</span>&#x27;: <span class="number">9</span>, &#x27;nori&#x27;: <span class="number">10</span>,</span><br><span class="line">  &#x27;<span class="keyword">xor</span>&#x27;: <span class="number">11</span>, &#x27;xori&#x27;: <span class="number">12</span>, <span class="number">&#x27;be</span>q&#x27;: <span class="number">13</span>, <span class="number">&#x27;be</span>qz&#x27;: <span class="number">14</span>, &#x27;bne&#x27;: <span class="number">15</span>, &#x27;bnez&#x27;: <span class="number">16</span>, &#x27;bgt&#x27;: <span class="number">17</span>, &#x27;bge&#x27;: <span class="number">18</span>, &#x27;blt&#x27;: <span class="number">19</span>, &#x27;ble&#x27;: <span class="number">20</span>,</span><br><span class="line">  &#x27;j&#x27;: <span class="number">21</span>, &#x27;jr&#x27;: <span class="number">23</span>, &#x27;lb&#x27;: <span class="number">24</span>, &#x27;lh&#x27;: <span class="number">25</span>, &#x27;lw&#x27;: <span class="number">26</span>, &#x27;sb&#x27;: <span class="number">27</span>, &#x27;sh&#x27;: <span class="number">28</span>, &#x27;sw&#x27;: <span class="number">29</span>, &#x27;slli&#x27;: <span class="number">30</span>,</span><br><span class="line">  &#x27;sll&#x27;: <span class="number">31</span>, &#x27;srli&#x27;: <span class="number">32</span>, &#x27;srl&#x27;: <span class="number">33</span>, &#x27;srai&#x27;: <span class="number">34</span>, &#x27;sra&#x27;: <span class="number">35</span>, &#x27;slt&#x27;: <span class="number">36</span>, &#x27;slti&#x27;: <span class="number">37</span></span><br><span class="line">&#125;</span><br><span class="line">num_3reg = [&#x27;add&#x27;, &#x27;sub&#x27;, &#x27;<span class="keyword">and</span>&#x27;, &#x27;<span class="keyword">or</span>&#x27;, &#x27;<span class="keyword">nor</span>&#x27;, &#x27;<span class="keyword">xor</span>&#x27;, &#x27;sll&#x27;, &#x27;srl&#x27;, &#x27;sra&#x27;, &#x27;slt&#x27;]</span><br><span class="line">num_2reg_imm = [&#x27;addi&#x27;, &#x27;addiu&#x27;, &#x27;andi&#x27;, &#x27;ori&#x27;, &#x27;nori&#x27;, &#x27;xori&#x27;, <span class="number">&#x27;be</span>q&#x27;, &#x27;bne&#x27;, &#x27;bgt&#x27;, &#x27;bge&#x27;, &#x27;blt&#x27;,</span><br><span class="line">                    &#x27;ble&#x27;, &#x27;slli&#x27;, &#x27;srli&#x27;, &#x27;srai&#x27;, &#x27;slti&#x27;]</span><br><span class="line">num_reg_imm = [<span class="number">&#x27;be</span>qz&#x27;, &#x27;bnez&#x27;]</span><br><span class="line">num_imm = [&#x27;j&#x27;]</span><br><span class="line">num_reg = [&#x27;jr&#x27;]</span><br><span class="line">num_2reg = [&#x27;lb&#x27;, &#x27;lh&#x27;, &#x27;lw&#x27;, &#x27;sb&#x27;, &#x27;sh&#x27;, &#x27;sw&#x27;]</span><br><span class="line"></span><br><span class="line">instruction = instruction<span class="variable">.strip</span>()</span><br><span class="line">op = re<span class="variable">.match</span>(r&#x27;([A-Za-z]*)&#x27;, instruction)<span class="variable">.group</span>(<span class="number">0</span>)</span><br><span class="line">reg_imm = instruction<span class="variable">.split</span>(op)[-<span class="number">1</span>]<span class="variable">.strip</span>()<span class="variable">.split</span>(<span class="string">&quot;,&quot;</span>)</span><br><span class="line">op_bin = &#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(opList<span class="variable">.get</span>(op)) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">6</span>)</span><br><span class="line">args_bin = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">if</span> op in num_3reg:</span><br><span class="line">  regs = [&#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[i]) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">5</span>) <span class="keyword">for</span> i in range(<span class="number">3</span>)]</span><br><span class="line">    args_bin += <span class="string">&quot;&quot;</span><span class="variable">.join</span>(regs)</span><br><span class="line">    result_bin = (op_bin + args_bin)<span class="variable">.ljust</span>(<span class="number">32</span>, &#x27;<span class="number">0</span>&#x27;)</span><br><span class="line">    elif op in num_2reg_imm:</span><br><span class="line">    regs = [&#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[i]) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">5</span>) <span class="keyword">for</span> i in range(<span class="number">2</span>)]</span><br><span class="line">      args_bin += <span class="string">&quot;&quot;</span><span class="variable">.join</span>(regs)</span><br><span class="line">      args_bin += &#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[<span class="number">2</span>]) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">16</span>)</span><br><span class="line">      result_bin = (op_bin + args_bin)<span class="variable">.ljust</span>(<span class="number">32</span>, &#x27;<span class="number">0</span>&#x27;)</span><br><span class="line">      elif op in num_reg_imm:</span><br><span class="line">      args_bin = (&#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[<span class="number">0</span>]) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">5</span>))<span class="variable">.ljust</span>(<span class="number">10</span>, &#x27;<span class="number">0</span>&#x27;)</span><br><span class="line">      args_bin += &#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[<span class="number">1</span>]) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">16</span>)</span><br><span class="line">      result_bin = (op_bin + args_bin)<span class="variable">.ljust</span>(<span class="number">32</span>, &#x27;<span class="number">0</span>&#x27;)</span><br><span class="line">      elif op in num_imm:</span><br><span class="line">      args_bin += (&#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[<span class="number">0</span>]) &amp; <span class="number">0</span>xfffffff)<span class="variable">.zfill</span>(<span class="number">26</span>))[-<span class="number">26</span>:]</span><br><span class="line">      result_bin = (op_bin + args_bin)<span class="variable">.ljust</span>(<span class="number">32</span>, &#x27;<span class="number">0</span>&#x27;)</span><br><span class="line">      elif op in num_reg:</span><br><span class="line">      args_bin += &#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[<span class="number">0</span>]) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">5</span>)</span><br><span class="line">      result_bin = (op_bin + args_bin)<span class="variable">.ljust</span>(<span class="number">32</span>, &#x27;<span class="number">0</span>&#x27;)</span><br><span class="line">      elif op in num_2reg:</span><br><span class="line">      regs = [&#x27;&#123;:b&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(reg_imm[i]) &amp; <span class="number">0</span>xffff)<span class="variable">.zfill</span>(<span class="number">5</span>) <span class="keyword">for</span> i in range(<span class="number">2</span>)]</span><br><span class="line">        args_bin += <span class="string">&quot;&quot;</span><span class="variable">.join</span>(regs)</span><br><span class="line">        result_bin = (op_bin + args_bin)<span class="variable">.ljust</span>(<span class="number">32</span>, &#x27;<span class="number">0</span>&#x27;)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">          raise Exception(<span class="string">&quot;指令出错&quot;</span>)</span><br><span class="line">          <span class="keyword">return</span> result_bin, &#x27;&#123;:x&#125;&#x27;<span class="variable">.format</span>(<span class="keyword">int</span>(result_bin, <span class="number">2</span>) &amp; <span class="number">0</span>xffffffff)<span class="variable">.zfill</span>(<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="🌞CPU设计"><a href="#🌞CPU设计" class="headerlink" title="🌞CPU设计"></a>🌞CPU设计</h2><h3 id="🌟CPU整体架构"><a href="#🌟CPU整体架构" class="headerlink" title="🌟CPU整体架构"></a>🌟CPU整体架构</h3><p><img src="https://i.imgtg.com/2023/07/23/OhRHOF.md.png#id=oDaV6&originHeight=500&originWidth=1965&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<h3 id="🌟取指模块"><a href="#🌟取指模块" class="headerlink" title="🌟取指模块"></a>🌟取指模块</h3><p>| <img src="https://i.imgtg.com/2023/07/23/OhRELP.png#id=Hmd2e&originHeight=224&originWidth=242&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<p> | </p>
+<p><img src="https://i.imgtg.com/2023/07/23/OhRL76.png#id=nGynr&originHeight=113&originWidth=239&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="> |<br>| — | — |<br>| if_pc模块 | if_im模块 |</p>
+<p>取指模块主要由if_pc和if_im构成，其主要功能如下所示：</p>
+<ul>
+<li>if_pc——根据PC的值在存储器中取指令</li>
+<li>if_im——指令存储器，根据输入pc得到的地址取指令</li>
+</ul>
+<h3 id="🌟译码模块"><a href="#🌟译码模块" class="headerlink" title="🌟译码模块"></a>🌟译码模块</h3><table>
+<thead>
+<tr>
+<th><img src="https://i.imgtg.com/2023/07/23/OhRc9B.png#id=Jf0LN&originHeight=214&originWidth=250&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></th>
+<th><img src="https://i.imgtg.com/2023/07/23/OhRSzl.png#id=kCn51&originHeight=215&originWidth=233&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></th>
+<th><img src="https://i.imgtg.com/2023/07/23/OhR0Pg.png#id=IlwCI&originHeight=195&originWidth=225&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id_decode模块</td>
+<td>id_control模块</td>
+<td>reg_file模块</td>
+</tr>
+</tbody></table>
+<p>译码模块主要由id_decode、id_control、reg_file构成，其主要功能如下所示：</p>
+<ul>
+<li>id_decode——将从IM模块取出的指令内容译码，分开操作码、寄存器、立即数和跳转地址。</li>
+<li>id_control——对于id_decode模块译码的各个部分分别进行判断，修改某些后续可能用到的标志，如跳转标志、写回标志、访存标志。</li>
+<li>reg_file——初始化一个32位寄存器，解决寄存器两个端口读写问题。</li>
+</ul>
+<h3 id="🌟执行模块"><a href="#🌟执行模块" class="headerlink" title="🌟执行模块"></a>🌟执行模块</h3><p><img src="https://i.imgtg.com/2023/07/23/OhRVvK.png#id=EiGuX&originHeight=118&originWidth=251&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>执行模块主要由exe_alu构成，该模块所定义的接口如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>ALU</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>序号</td>
+<td>接口名</td>
+<td>宽度</td>
+<td>输入&#x2F;输出</td>
+<td>作用</td>
+</tr>
+<tr>
+<td>1</td>
+<td>alu_op_s3</td>
+<td>6</td>
+<td>输入</td>
+<td>操作码</td>
+</tr>
+<tr>
+<td>2</td>
+<td>alu_data1_s3</td>
+<td>32</td>
+<td>输入</td>
+<td>源操作数</td>
+</tr>
+<tr>
+<td>3</td>
+<td>alu_data2_s3</td>
+<td>32</td>
+<td>输入</td>
+<td>源操作数</td>
+</tr>
+<tr>
+<td>4</td>
+<td>alu_out_s3</td>
+<td>32</td>
+<td>输出</td>
+<td>运算后的结果</td>
+</tr>
+</tbody></table>
+<p>其对应功能如下：<br>实现运算，针对35条指令分别实现运算。接收来自上一级的寄存器数据和操作码类型，然后根据操作码类型判断做何种运算，将运算结果传给下一级。<br>根据每一种运算的计算过程，计算该运算符所对应的规则并将答案传输到alu_out_s3中给下一级，其具体代码如下所示：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">case</span>(alu_op_s3)</span><br><span class="line">        <span class="comment">// add addi</span></span><br><span class="line">        <span class="number">6&#x27;d1</span>,<span class="number">6&#x27;d2</span>,<span class="number">6&#x27;d3</span>: alu_out_s3 &lt;= alu_data1_s3 + alu_data2_s3;</span><br><span class="line">        <span class="comment">// sub</span></span><br><span class="line">        <span class="number">6&#x27;d4</span>: alu_out_s3 &lt;= alu_data1_s3 - alu_data2_s3;</span><br><span class="line">        <span class="comment">// and andi</span></span><br><span class="line">        <span class="number">6&#x27;d5</span>,<span class="number">6&#x27;d6</span>: alu_out_s3 &lt;= alu_data1_s3 &amp; alu_data2_s3;</span><br><span class="line">        <span class="comment">// or ori</span></span><br><span class="line">        <span class="number">6&#x27;d7</span>,<span class="number">6&#x27;d8</span>: alu_out_s3 &lt;= alu_data1_s3 | alu_data2_s3;</span><br><span class="line">        <span class="comment">// nor nori</span></span><br><span class="line">        <span class="number">6&#x27;d9</span>,<span class="number">6&#x27;d10</span>: alu_out_s3 &lt;= ~(alu_data1_s3 | alu_data2_s3);</span><br><span class="line">        <span class="comment">// xor xori</span></span><br><span class="line">        <span class="number">6&#x27;d11</span>,<span class="number">6&#x27;d12</span>: alu_out_s3 &lt;= alu_data1_s3 ^ alu_data2_s3;</span><br><span class="line">        <span class="comment">// beq beqz</span></span><br><span class="line">        <span class="number">6&#x27;d13</span>,<span class="number">6&#x27;d14</span>: alu_out_s3 &lt;= (alu_data1_s3 == alu_data2_s3)?<span class="number">32&#x27;b1</span>:<span class="number">32&#x27;b0</span>;</span><br><span class="line">        <span class="comment">// bne bnez</span></span><br><span class="line">        <span class="number">6&#x27;d15</span>,<span class="number">6&#x27;d16</span>: alu_out_s3 &lt;= (alu_data1_s3 != alu_data2_s3)?<span class="number">32&#x27;b1</span>:<span class="number">32&#x27;b0</span>;</span><br><span class="line">        <span class="comment">// bgt</span></span><br><span class="line">        <span class="number">6&#x27;d17</span>: alu_out_s3 &lt;= (alu_data1_s3 &gt; alu_data2_s3)?<span class="number">32&#x27;b1</span>:<span class="number">32&#x27;b0</span>;</span><br><span class="line">        <span class="comment">// bge</span></span><br><span class="line">        <span class="number">6&#x27;d18</span>: alu_out_s3 &lt;= (alu_data1_s3 &gt;= alu_data2_s3)?<span class="number">32&#x27;b1</span>:<span class="number">32&#x27;b0</span>;</span><br><span class="line">        <span class="comment">// blt</span></span><br><span class="line">        <span class="number">6&#x27;d19</span>: alu_out_s3 &lt;= (alu_data1_s3 &lt; alu_data2_s3)?<span class="number">32&#x27;b1</span>:<span class="number">32&#x27;b0</span>;</span><br><span class="line">        <span class="comment">// ble</span></span><br><span class="line">        <span class="number">6&#x27;d20</span>: alu_out_s3 &lt;= (alu_data1_s3 &lt;= alu_data2_s3)?<span class="number">32&#x27;b1</span>:<span class="number">32&#x27;b0</span>;</span><br><span class="line">        <span class="comment">// j </span></span><br><span class="line">        <span class="number">6&#x27;d21</span>: alu_out_s3 &lt;= <span class="number">32&#x27;b0</span>;</span><br><span class="line">        <span class="comment">// jr</span></span><br><span class="line">        <span class="number">6&#x27;d23</span>: alu_out_s3 &lt;= alu_data1_s3;</span><br><span class="line">        <span class="comment">// lb lh lw</span></span><br><span class="line">        <span class="number">6&#x27;d24</span>,<span class="number">6&#x27;d25</span>,<span class="number">6&#x27;d26</span>: alu_out_s3 &lt;= alu_data1_s3;</span><br><span class="line">        <span class="comment">// sb sh sw</span></span><br><span class="line">        <span class="number">6&#x27;d27</span>,<span class="number">6&#x27;d28</span>,<span class="number">6&#x27;d29</span>: alu_out_s3 &lt;= alu_data2_s3;</span><br><span class="line">        <span class="comment">// slli</span></span><br><span class="line">        <span class="number">6&#x27;d30</span>: alu_out_s3 &lt;= alu_data1_s3 &lt;&lt; alu_data2_s3;</span><br><span class="line">        <span class="comment">// sll</span></span><br><span class="line">        <span class="number">6&#x27;d31</span>: alu_out_s3 &lt;= alu_data1_s3 &lt;&lt; alu_data2_s3[<span class="number">4</span>:<span class="number">0</span>];</span><br><span class="line">        <span class="comment">// srli</span></span><br><span class="line">        <span class="number">6&#x27;d32</span>: alu_out_s3 &lt;= alu_data1_s3 &gt;&gt; alu_data2_s3;</span><br><span class="line">        <span class="comment">// srl</span></span><br><span class="line">        <span class="number">6&#x27;d33</span>: alu_out_s3 &lt;= alu_data1_s3 &gt;&gt; alu_data2_s3[<span class="number">4</span>:<span class="number">0</span>];</span><br><span class="line">        <span class="comment">// srai</span></span><br><span class="line">        <span class="number">6&#x27;d34</span>: alu_out_s3 &lt;= alu_data1_s3 &gt;&gt;&gt; alu_data2_s3;</span><br><span class="line">        <span class="comment">// sra</span></span><br><span class="line">        <span class="number">6&#x27;d35</span>: alu_out_s3 &lt;= alu_data1_s3 &gt;&gt;&gt; alu_data2_s3[<span class="number">4</span>:<span class="number">0</span>];</span><br><span class="line">        <span class="comment">// slt slti</span></span><br><span class="line">        <span class="number">6&#x27;d36</span>,<span class="number">6&#x27;d37</span>: alu_out_s3 &lt;= (alu_data1_s3 &lt; alu_data2_s3)?<span class="number">32&#x27;b1</span>:<span class="number">32&#x27;b0</span>;</span><br><span class="line">    Endcase</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="🌟访存模块"><a href="#🌟访存模块" class="headerlink" title="🌟访存模块"></a>🌟访存模块</h3><p><img src="https://i.imgtg.com/2023/07/23/OhRlOS.png#id=r6ArI&originHeight=174&originWidth=298&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>访存模块主要由mem_dm构成，该模块所定义的接口如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>mem</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>序号</td>
+<td>接口名</td>
+<td>宽度</td>
+<td>输入&#x2F;输出</td>
+<td>作用</td>
+</tr>
+<tr>
+<td>1</td>
+<td>clk</td>
+<td>1</td>
+<td>输入</td>
+<td>时钟信号</td>
+</tr>
+<tr>
+<td>2</td>
+<td>alu_out_s4</td>
+<td>32</td>
+<td>输入</td>
+<td>写内存的地址</td>
+</tr>
+<tr>
+<td>3</td>
+<td>mem_read_s4</td>
+<td>1</td>
+<td>输入</td>
+<td>读标志</td>
+</tr>
+<tr>
+<td>4</td>
+<td>mem_write_s4</td>
+<td>1</td>
+<td>输入</td>
+<td>写标志</td>
+</tr>
+<tr>
+<td>5</td>
+<td>write_data_s4</td>
+<td>32</td>
+<td>输入</td>
+<td>写内存的数据</td>
+</tr>
+<tr>
+<td>6</td>
+<td>rw_bits_s4</td>
+<td>2</td>
+<td>输入</td>
+<td>读写内存写的位数</td>
+</tr>
+<tr>
+<td>7</td>
+<td>mem_read_data_s4</td>
+<td>32</td>
+<td>输出</td>
+<td>读内存的数据</td>
+</tr>
+</tbody></table>
+<p>其对应功能如下：<br>初始化存储器，根据前面模块传来的标志和数据进行相关操作。<br>当写标志为1时，分为三种情况，即根据要写数据的位数，分为8、16、32位。其主要代码如下所示，根据写入数据的位数不同，将寄存器中的相应位数进行写入：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (mem_write_s4) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span>(rw_bits_s4)</span><br><span class="line">            <span class="comment">// 8bits</span></span><br><span class="line">            <span class="number">2&#x27;d1</span>: <span class="keyword">begin</span></span><br><span class="line">                <span class="keyword">case</span>(alu_out_s4[<span class="number">1</span>:<span class="number">0</span>])</span><br><span class="line">                    <span class="number">2&#x27;b00</span>:mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">7</span>:<span class="number">0</span>] &lt;= write_data_s4[<span class="number">7</span>:<span class="number">0</span>];</span><br><span class="line">                    <span class="number">2&#x27;b01</span>:mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">15</span>:<span class="number">8</span>] &lt;= write_data_s4[<span class="number">7</span>:<span class="number">0</span>];</span><br><span class="line">                    <span class="number">2&#x27;b10</span>:mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">23</span>:<span class="number">16</span>] &lt;= write_data_s4[<span class="number">7</span>:<span class="number">0</span>];</span><br><span class="line">                    <span class="number">2&#x27;b11</span>:mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">31</span>:<span class="number">24</span>] &lt;= write_data_s4[<span class="number">7</span>:<span class="number">0</span>];</span><br><span class="line">                <span class="keyword">endcase</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">// 16bits</span></span><br><span class="line">            <span class="number">2&#x27;d2</span>:<span class="keyword">begin</span></span><br><span class="line">                <span class="keyword">case</span>(alu_out_s4[<span class="number">1</span>])</span><br><span class="line">                    <span class="number">1&#x27;b0</span>:mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">15</span>:<span class="number">0</span>] &lt;= write_data_s4[<span class="number">15</span>:<span class="number">0</span>];</span><br><span class="line">                    <span class="number">1&#x27;b1</span>:mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">31</span>:<span class="number">16</span>] &lt;= write_data_s4[<span class="number">15</span>:<span class="number">0</span>];</span><br><span class="line">                <span class="keyword">endcase</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="comment">// 32bits</span></span><br><span class="line">            <span class="keyword">default</span>:mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]] &lt;= write_data_s4;</span><br><span class="line">        <span class="keyword">endcase</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>当读标志为1时，分为三种情况，即根据要读数据的位数，分为8、16、32位。其主要代码如下所示，根据读入数据的位数不同，将寄存器中的相应位数进行读取，其原理与写入操作相同：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (mem_read_s4) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span>(mem_write_s4)<span class="keyword">begin</span></span><br><span class="line">                mem_read_data_s4 &lt;= write_data_s4;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                 <span class="keyword">case</span>(rw_bits_s4)</span><br><span class="line">                    <span class="comment">// 8bits</span></span><br><span class="line">                    <span class="number">2&#x27;d1</span>:<span class="keyword">begin</span></span><br><span class="line">                        <span class="keyword">case</span>(alu_out_s4[<span class="number">1</span>:<span class="number">0</span>])</span><br><span class="line">                            <span class="number">2&#x27;b00</span>:mem_read_data_s4&lt;=&#123;<span class="number">24&#x27;b0</span>,mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">7</span>:<span class="number">0</span>]&#125;;</span><br><span class="line">                            <span class="number">2&#x27;b01</span>:mem_read_data_s4&lt;=&#123;<span class="number">24&#x27;b0</span>,mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">15</span>:<span class="number">8</span>]&#125;;</span><br><span class="line">                            <span class="number">2&#x27;b10</span>:mem_read_data_s4&lt;=&#123;<span class="number">24&#x27;b0</span>,mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">23</span>:<span class="number">16</span>]&#125;;</span><br><span class="line">                            <span class="number">2&#x27;b11</span>:mem_read_data_s4&lt;=&#123;<span class="number">24&#x27;b0</span>,mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">31</span>:<span class="number">24</span>]&#125;;</span><br><span class="line">                        <span class="keyword">endcase</span></span><br><span class="line">                    <span class="keyword">end</span></span><br><span class="line">                    <span class="comment">// 16bits</span></span><br><span class="line">                    <span class="number">2&#x27;d2</span>:<span class="keyword">begin</span></span><br><span class="line">                        <span class="keyword">case</span>(alu_out_s4[<span class="number">1</span>])</span><br><span class="line">                            <span class="number">1&#x27;b0</span>:mem_read_data_s4&lt;=&#123;<span class="number">16&#x27;b0</span>,mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">15</span>:<span class="number">0</span>]&#125;;</span><br><span class="line">                            <span class="number">1&#x27;b1</span>:mem_read_data_s4&lt;=&#123;<span class="number">16&#x27;b0</span>,mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]][<span class="number">31</span>:<span class="number">16</span>]&#125;;</span><br><span class="line">                        <span class="keyword">endcase</span></span><br><span class="line">                    <span class="keyword">end</span></span><br><span class="line">                    <span class="keyword">default</span>:mem_read_data_s4 &lt;= mem[alu_out_s4[<span class="number">31</span>:<span class="number">2</span>]];</span><br><span class="line">                <span class="keyword">endcase</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="🌟锁存模块"><a href="#🌟锁存模块" class="headerlink" title="🌟锁存模块"></a>🌟锁存模块</h3><p><img src="https://i.imgtg.com/2023/07/23/OhR9NN.png#id=orm29&originHeight=137&originWidth=170&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>当处理器使用流水线时，相当于执行一条指令时，每完成一个步骤，数据经过一次锁存器（Latch），该模块所定义的接口如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>Latches</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>序号</td>
+<td>接口名</td>
+<td>宽度</td>
+<td>输入&#x2F;输出</td>
+<td>作用</td>
+</tr>
+<tr>
+<td>1</td>
+<td>clk</td>
+<td>1</td>
+<td>输入</td>
+<td>时钟信号</td>
+</tr>
+<tr>
+<td>2</td>
+<td>clear</td>
+<td>1</td>
+<td>输入</td>
+<td>清零标志</td>
+</tr>
+<tr>
+<td>3</td>
+<td>hold</td>
+<td>1</td>
+<td>输入</td>
+<td>等待标志</td>
+</tr>
+<tr>
+<td>4</td>
+<td>in</td>
+<td>N</td>
+<td>输入</td>
+<td>输入</td>
+</tr>
+<tr>
+<td>5</td>
+<td>out</td>
+<td>N</td>
+<td>输出</td>
+<td>输出</td>
+</tr>
+</tbody></table>
+<p>其对应功能如下：<br>用来充当锁存器，起到缓存作用，比如exe和mem冲突时，在模块之间传递数据：当clear为0，将输出清零；当hold为1时，输出不变，hold为0时，输出等于输入。该模块主要代码如下所示：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(clear)</span><br><span class="line">            out &lt;= &#123;N&#123;<span class="number">1&#x27;b0</span>&#125;&#125;;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (hold)</span><br><span class="line">            out &lt;= out;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            out &lt;= in;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h3 id="🌟顶层模块"><a href="#🌟顶层模块" class="headerlink" title="🌟顶层模块"></a>🌟顶层模块</h3><p>顶层模块主要将取值、译码、执行、访存、写回这五个阶段进行串联，并解决数据冒险和控制冒险。</p>
+<ul>
+<li>五个阶段的串联<ul>
+<li>第一阶段——对PC进行选择，并获取跳转PC的地址，获取所要进行的指令；</li>
+<li>第二阶段——将第一阶段的数据传入第二阶段，对所得到的指令进行译码输出，若存在跳转指令，计算得到跳转的地址，并定义相应的控制信号；</li>
+<li>第三阶段——将第二阶段的数据传入第三阶段，并进行相应的计算；</li>
+<li>第四阶段——进行写入和读取操作；</li>
+<li>第五阶段——写回寄存器，传递相应的数据。</li>
+</ul>
+</li>
+<li>数据冒险<ul>
+<li>数据冒险，流水线机制中，当一条指令的执行结果还没有写回寄存器而后面的指令要使用前者目标寄存器的值的时候，就会发生数据冒险。</li>
+</ul>
+</li>
+<li><strong>数据前推</strong></li>
+</ul>
+<p>将计算结果从其产生处直接送到其他指令需要处或所有需要的功能单元处，避免流水线暂停，也叫做短接。<br>其主要代码如下所示：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> ((write_back_s4 == <span class="number">1&#x27;b1</span>) &amp;&amp; (rd_s4 == rs_control_s3)) <span class="keyword">begin</span></span><br><span class="line">            forward_a &lt;= <span class="number">2&#x27;d1</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> ((write_back_s5 == <span class="number">1&#x27;b1</span>) &amp;&amp; (rd_s5 == rs_control_s3)) <span class="keyword">begin</span></span><br><span class="line">            forward_a &lt;= <span class="number">2&#x27;d2</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span></span><br><span class="line">            forward_a &lt;= <span class="number">2&#x27;d0</span>;</span><br><span class="line">        <span class="keyword">if</span> ((write_back_s4 == <span class="number">1&#x27;b1</span>) &amp; (rd_s4 == rt_control_s3)) <span class="keyword">begin</span></span><br><span class="line">            forward_b &lt;= <span class="number">2&#x27;d1</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> ((write_back_s5 == <span class="number">1&#x27;b1</span>) &amp;&amp; (rd_s5 == rt_control_s3)) <span class="keyword">begin</span></span><br><span class="line">            forward_b &lt;= <span class="number">2&#x27;d2</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span></span><br><span class="line">            forward_b &lt;= <span class="number">2&#x27;d0</span>;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>停等</strong></li>
+</ul>
+<p>当检测到相关时，在流水线中插入一些暂停周期。数据是访存MEM阶段完成后才产生，但是在这一周期下一条指令就需要作为数据使用，数据无法凭空产生，故此时靠转发解决不了问题。下一条指令暂停一个周期，就可以借助转发解决问题了。<br>其主要代码如下所示：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (mem_read_s3 == <span class="number">1&#x27;b1</span> &amp;&amp; ((rs_control_s2 == rd_s3) || (rt_control_s2 == rd_s3)) ) <span class="keyword">begin</span></span><br><span class="line">        hold &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">else</span></span><br><span class="line">        hold &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">   <span class="keyword">if</span>(hold) pcsource_s1 &lt;= <span class="number">2&#x27;b00</span>;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>控制冒险</strong></li>
+</ul>
+<p>在遇到条件分支指令时，由于跳转条件是否成立在执行阶段才知道，因此流水线就需要停顿或者冲刷指令才能正确运行。在我们所涉及的CPU中主要存在jump和branch两种跳转。<br>其主要核心代码如下所示：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">    <span class="comment">// default</span></span><br><span class="line">    pcsource_s1 &lt;= <span class="number">2&#x27;b01</span>;</span><br><span class="line">    flush &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    baddr_s1 &lt;= baddr_s4;</span><br><span class="line">    jaddr_s1 &lt;= jaddr_s4;</span><br><span class="line">    <span class="keyword">case</span> (<span class="number">1&#x27;b1</span>)</span><br><span class="line">        is_branch_s4: <span class="keyword">begin</span></span><br><span class="line">             <span class="keyword">if</span>(alu_out_s4==<span class="number">32&#x27;b1</span>)<span class="keyword">begin</span></span><br><span class="line">                  pcsource_s1 &lt;= <span class="number">2&#x27;b10</span>;</span><br><span class="line">                  flush &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">              <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        is_jump_s4: <span class="keyword">begin</span></span><br><span class="line">             <span class="keyword">case</span>(opcode_s4)</span><br><span class="line">                 <span class="number">6&#x27;d23</span>: jaddr_s1 &lt;= alu_out_s4;</span><br><span class="line">             <span class="keyword">endcase</span></span><br><span class="line">             pcsource_s1 &lt;= <span class="number">2&#x27;b11</span>;</span><br><span class="line">             flush &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">endcase</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h1 id="⛅实验过程与调试"><a href="#⛅实验过程与调试" class="headerlink" title="⛅实验过程与调试"></a>⛅实验过程与调试</h1><h2 id="🌞实验环境"><a href="#🌞实验环境" class="headerlink" title="🌞实验环境"></a>🌞实验环境</h2><h3 id="🌟硬件"><a href="#🌟硬件" class="headerlink" title="🌟硬件"></a>🌟硬件</h3><p><img src="https://i.imgtg.com/2023/07/23/OhR2uL.png#id=XoNCr&originHeight=455&originWidth=884&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<h3 id="🌟软件"><a href="#🌟软件" class="headerlink" title="🌟软件"></a>🌟软件</h3><p>Vivado 2019.2</p>
+<h2 id="🌞测试"><a href="#🌞测试" class="headerlink" title="🌞测试"></a>🌞测试</h2><p>在完成带 5 级流水的 MIPS CPU 设计与实现后，下面通过实验对本设计所构建CPU进行样例测试与功能测试，样例测试是指检测CPU在运行指定程序时的输出与标准输出以及CPU各时序状态与预期是否一致。本设计所用MIPS测试程序在附录中给出。<br>本设计所构建CPU支持MIPS指令集的35条指令（具体所包含的指令上文已经详细描述，这里重复声明），接下来选择有代表性的指令进行波形测试。</p>
+<h3 id="🌟流水线测试"><a href="#🌟流水线测试" class="headerlink" title="🌟流水线测试"></a>🌟流水线测试</h3><p>测试用例如下所示：<br><img src="https://i.imgtg.com/2023/07/23/OhRCvj.png#id=WsZd2&originHeight=487&originWidth=1014&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>通过进制转换脚本，生成对应的十六进制文件并进行测试。<br>流水线CPU就是指将一条分解为多步，在同一周期内进行多条指令的同时执行。MIPS五级流水线就是将指令分为：取指(IF)，译码(ID)，执行(EX)，访存(MEM)，写回(WB)五个阶段。举个例子：<br><img src="https://i.imgtg.com/2023/07/23/OhRwdp.md.png#id=ymz0i&originHeight=500&originWidth=842&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>第二条指令addi 2，0，5，可以看到在20-30ns的周期里，IF阶段取到08400005指令，30-40ns，这条指令到了ID阶段，而IF阶段执行下一条指令。40-50ns，执行这条指令，ALU的结果为0x00000005，正是指令执行结果，50-60ns由于addi指令不需要访存，60-70ns将结果写回寄存器。与此同时lb 2，3，1指令进行了访存，五段流水线如下所示：<br><img src="https://i.imgtg.com/2023/07/23/OhtOaU.md.png#id=FPPBj&originHeight=500&originWidth=842&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>可以发现当前CPU实现五段流水线，每个时钟上升沿进行下一个步骤。可以知道在执行这条指令的同时，其它的指令也在被执行。而流水线CPU和单周期CPU的区别就在这里。</p>
+<h3 id="🌟数据前推"><a href="#🌟数据前推" class="headerlink" title="🌟数据前推"></a>🌟数据前推</h3><p>我们知道，指令只有在执行到EX阶段才会得出结果，结果到了MEM阶段才会写回寄存器，到了WB阶段才会写回内存，在流水线CPU中，往往会出现前面的指令还未执行完成将结果写回寄存器，后面的指令就需要读取该寄存器的值来进行执行，那就出现了相关现象。我们采取数据前推的方式来解决这一类问题。<br><img src="https://i.imgtg.com/2023/07/23/OhtaNY.md.png#id=xnMIc&originHeight=500&originWidth=842&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>对于ALU操作数A和B，两个数在指令运行到EX阶段才需要访问，有如下情况：<br>当MEM阶段指令是写回寄存器操作，且写回的寄存器不是0号寄存器，并且与EX阶段的指令所要访问的寄存器是同一个，则将MEM阶段的ALU运算结果进行转发。<br>举个例子：在刚才的测试用例中，如下图所示，就发生了数据相关。</p>
+<blockquote>
+<p>addi 3,0,6<br>sub 6,3,1</p>
+</blockquote>
+<p>addi指令要将$t0寄存器的值加上6存到$t3中，而sub指令要用$t3的值减去$t1的值放到$t6，所以$t3就出现了数据相关。由于在设计过程中解决了短链，通过数据前推，短接入上一指令，因而不会对结果产生影响，也不会使流水线暂停。</p>
+<h3 id="🌟停等"><a href="#🌟停等" class="headerlink" title="🌟停等"></a>🌟停等</h3><p>测试用例如下所示：<br><img src="https://i.imgtg.com/2023/07/23/OhtoEv.png#id=EH22K&originHeight=257&originWidth=636&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>如下图所示，立即数34存入寄存器3中，立即数7存入寄存器2中。<br><img src="https://i.imgtg.com/2023/07/23/OhtqIq.png#id=hz2YI&originHeight=108&originWidth=2174&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>之后会将内存中的数据加载到 4号寄存器，读取数据之后在下一个时钟写入。<br><img src="https://i.imgtg.com/2023/07/23/OhtBFc.md.png#id=y051J&originHeight=500&originWidth=1304&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>之后应该写应该继续高电平，但是 80ns 之后为低电平，是因为从内存读取时，比较慢，故停等了一个时钟周期，在下一个时钟周期才能继续写入。<br><img src="https://i.imgtg.com/2023/07/23/OhtTRr.png#id=ZN2Eb&originHeight=216&originWidth=1714&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>因此完成了停等的操作。</p>
+<h3 id="🌟J和B指令测试"><a href="#🌟J和B指令测试" class="headerlink" title="🌟J和B指令测试"></a>🌟J和B指令测试</h3><p>编写MIPS代码如下所示：<br><img src="https://i.imgtg.com/2023/07/23/OhtbUG.md.png#id=x8aEl&originHeight=500&originWidth=745&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>同理，将其转化为16进制代码并进行测试仿真，得到如下所示的结果：<br><img src="https://i.imgtg.com/2023/07/23/OhtiE6.md.png#id=Sf85b&originHeight=500&originWidth=935&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>观察查看 PC_source，可以看到确实选择器发生变化，且后续操作指令码变为0，实行跳转指令，并且和代码中的结果一样。<br>具体分析如下：<br>指令1：addi 3，0，23——将立即数23存入寄存器3中<br><img src="https://i.imgtg.com/2023/07/23/OhtxdI.png#id=iTDbA&originHeight=196&originWidth=1908&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令2：addi 2，0，3——将立即数3存入寄存器2中<br><img src="https://i.imgtg.com/2023/07/23/Ohtky1.png#id=yo2Cu&originHeight=255&originWidth=2130&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令3：sub 1，3，2——将寄存器3中的数字减去寄存器2中的数字，并将其存入寄存器1中，即23-3&#x3D;20，此时寄存器1中的数字位0x14<br><img src="https://i.imgtg.com/2023/07/23/OhtFaD.png#id=FRj60&originHeight=339&originWidth=2043&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令4：jr 1——发生跳转，pc&#x3D;0x14&#x3D;20，pc变成20跳过第5条指令<br><img src="https://i.imgtg.com/2023/07/23/OhtheF.md.png#id=JbPKq&originHeight=500&originWidth=1752&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令5被跳过，指令5：addi 4，0，55，可以发现寄存器4并没有发生变化，指令5被跳过<br><img src="https://i.imgtg.com/2023/07/23/OhtnIP.png#id=HvANq&originHeight=289&originWidth=2053&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令6：add 5，2， 3——寄存器2中的数字加寄存器3中的数字，并将其存入寄存器5中，即寄存器5中的数字为0x17+0x03&#x3D;0x1a<br><img src="https://i.imgtg.com/2023/07/23/Oht7hb.png#id=rgVtZ&originHeight=349&originWidth=2449&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令7：j 8——pc&#x3D;pc+4，跳过指令8<br>指令8：addi 5，0，1——将立即数1存入寄存器5中<br>指令9：addi 5，0，3——将立即数3存入寄存器5中<br>可以发现寄存器5中的数字为3，不为1，指令8被跳过，直接进行指令9<br><img src="https://i.imgtg.com/2023/07/23/OhtNRl.png#id=YzxUm&originHeight=299&originWidth=2327&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令10：blt 5，3，2——寄存器5中的数小于寄存器3中的数，进行跳转下面的第二条指令，即寄存器5中的数字3&lt;寄存器3中的数字0x17成立，则跳转到指令12<br>指令11：addi6，0，1<br>指令12：addi6，0，2<br>可以发现寄存器6中的数字为2，指令11被跳过<br><img src="https://i.imgtg.com/2023/07/23/Ohtejg.png#id=wtz1y&originHeight=365&originWidth=2259&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>指令13：bgt 6，3，16——寄存器6中的数小于寄存器3中的数，则不进行跳转，可以发现pcsource为1，没有进行跳转<br><img src="https://i.imgtg.com/2023/07/23/OhtAWB.png#id=aNYcJ&originHeight=174&originWidth=2211&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>由实验结果可知，当前测试用例的结果与实际相符合。<br>除此之外，我们也对其余指令进行了简单的测试，均符合实际。</p>
+<h1 id="⛅下载到-FPGA-与分析"><a href="#⛅下载到-FPGA-与分析" class="headerlink" title="⛅下载到 FPGA 与分析"></a>⛅下载到 FPGA 与分析</h1><p>这一部分的难度我感觉应该是整个实验中最大的，因为没有任何的教程，所有需要的相关知识都需要我们自己去检索，所以光是研究怎么去下板就花费了我一两天的时间，至于后续成功下板过程中遇到的问题更是数不胜数，虽然在验收的时候，没有烧板成功，但是也有很多下载的心得，这里选有一定价值的部分做介绍。</p>
+<h2 id="🌞下板步骤"><a href="#🌞下板步骤" class="headerlink" title="🌞下板步骤"></a>🌞下板步骤</h2><p>需要解释的是，我没有选择编写约束代码，而是通过可视交互的引脚<br>赋值来是实现的，具体步骤如下：</p>
+<ul>
+<li>运行 SYSTHESIS 下的 Run Synthesis，随后耐心等待即可</li>
+</ul>
+<p><img src="https://i.imgtg.com/2023/07/23/OhtZsK.png#height=72&id=yU2rn&originHeight=143&originWidth=360&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=180"></p>
+<ul>
+<li>运行完后，我们选择 Open Synthesis Design 进行引脚分配</li>
+</ul>
+<p><img src="https://i.imgtg.com/2023/07/23/Ohtyoa.png#height=244&id=BlBkF&originHeight=487&originWidth=461&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=231"><br>在随后的 I&#x2F;O ports 界面为了能在 FPGA 上动态的显示，我们可以选择把 LED 灯的引脚分配给alu_out，为了与我们之前仿真波形和指令更好的进行比较和对应，由于指令都是 32 位，但是 FPGA 板上只有 16个 LED 灯，所以我们干脆就将 ins 的低 16 位对应显示在 16 个 LED 灯上，并且调整 I&#x2F;O Std 到 3.3v，对应第一部分对 FPGA 引脚的介绍，<br>最终的分配情况如下：<br><img src="https://i.imgtg.com/2023/07/23/OhtgeS.md.png#id=tzOOZ&originHeight=500&originWidth=843&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title="><br>将RST按钮复用为时钟信号，也就是给CLK以RST的默认引脚P15，这样就能实现按一次FPGA板上的RST按钮，就运行一个时钟周期，大大方便我们做实验。<br>最后点击Generate Bitstream，进行下板，然后选择Open Hardware Manager。再选择Auto Connect，就已经成功下板了。</p>
+<h2 id="🌞下板结果"><a href="#🌞下板结果" class="headerlink" title="🌞下板结果"></a>🌞下板结果</h2><p>在后续验收过后，多次尝试，发现可以进行烧板，简单的演示如下：<br><img src="https://i.imgtg.com/2023/07/23/OhtKys.png#height=95&id=KG36s&originHeight=190&originWidth=465&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=233"><br>第一个周期时钟未读<br><img src="https://i.imgtg.com/2023/07/23/OhtmGN.md.png#height=250&id=i0WPA&originHeight=500&originWidth=784&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=392"><br>第二个周期，执行addi 1，0，2<br><img src="https://i.imgtg.com/2023/07/23/OhtpIC.md.png#height=250&id=uSB7R&originHeight=500&originWidth=834&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=417"><br>第三个周期执行addi 1，1，6<br><img src="https://i.imgtg.com/2023/07/23/OhtPhL.md.png#height=250&id=kFS8X&originHeight=500&originWidth=768&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=384"></p>
+<h1 id="⛅总结"><a href="#⛅总结" class="headerlink" title="⛅总结"></a>⛅总结</h1><p>在本次系统硬件综合设计中，我充分将所学到的理论知识与实践相结合起来。并基于Verilog硬件语言亲手制作了一个简单的CPU，真正的掌握了一个CPU设计的全部模块与步骤，对之前学过的很多知识有了更具象，更深刻的理解了，更具体的感悟都穿插在实验报告的每个部分里面，与实验内容是相结合的。<br>由于计算机设计的部件较多、结构原理较复杂，对于我们这样的初设计者来说感到无从下手，所以我们在整个过程中采取由浅入深，由简单到复杂的放法，通过这次设计，使我们能清楚的了解计算机的基本组成、基本原理和设计步骤、设计思路和调试步骤，为独立完成计算机设计奠定了基础。也是通过这次课程设计，使我学会了我的动手能力以及动脑能力的重要性，同时信心也增强了,在课程设计中通过自己动脑子解决遇到的问题，把书本上学到的知识应用到实践中去，这样也巩固和深化了自己的知识结构。<br>虽然在设计的过程中遇到了很多问题不是我自己能够独自解决的，但是通过同学和老师的帮助和指导使我遇到的问题得到清楚的解决，同时也让我学到在遇到问题时如何去解决所遇到的问题。<br>与此同时在与同学进行合作的过程中，我们也从一开始的茫然，不知道从何做起，到后来确定了我们的指令集，设计每一个模块并进行顶层串联，到后面的测试，越来越默契，也完成了本次课设所要求的要求。</p>
+<h1 id="⛅参考文献"><a href="#⛅参考文献" class="headerlink" title="⛅参考文献"></a>⛅参考文献</h1><p>[1]	雷思磊. 自己动手写CPU. 北京: 电子工业出版社，2014.<br>[2]	唐朔飞. 计算机组成原理（第2版）[M]. 北京：高等教育出版社，2008.<br>[3]	张晨曦，王志英等. 计算机体系结构（第2版）[M]. 北京：高等教育出版社<br>[4]	王泽坤. MIPS架构CPU设计及SoC系统实现[D]. 沈阳：东北大学，2014.<br>[5]	蔡晓燕，袁春风，张泽生. MIPS架构多周期CPU的设计[D]. 计算机教育：第17期：93-96，2014.</p>
+<h1 id="⛅参考代码"><a href="#⛅参考代码" class="headerlink" title="⛅参考代码"></a>⛅参考代码</h1><p>本项目代码已开源至Github<a target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie/tree/main/%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E7%BB%BC%E5%90%88%E8%AE%BE%E8%AE%A1-MIPS%E4%BA%94%E7%BA%A7%E6%B5%81%E6%B0%B4%E7%BA%BF">Cassie&#x2F;系统硬件综合设计-MIPS五级流水线 at main · xiayi0409&#x2F;Cassie</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://blog.cassie.ink">冬贰</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://blog.cassie.ink/2023/01/20/%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E7%BB%BC%E5%90%88%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94MIPS%E4%BA%94%E7%BA%A7%E6%B5%81%E6%B0%B4%E7%BA%BF/">http://blog.cassie.ink/2023/01/20/系统硬件综合设计——MIPS五级流水线/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://blog.cassie.ink" target="_blank">Cassie's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/">课程设计</a><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E7%BB%BC%E5%90%88%E8%AE%BE%E8%AE%A1/">系统硬件综合设计</a></div><div class="post_share"><div class="social-share" data-image="/img/mips.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/26/%E5%9F%BA%E4%BA%8EMediaPipe%E7%9A%84%E5%9D%90%E5%A7%BF%E5%8F%8A%E7%96%B2%E5%8A%B3%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F/" title="基于MediaPipe的坐姿及疲劳检测系统"><img class="cover" src="/img/media.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">基于MediaPipe的坐姿及疲劳检测系统</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B1%BB%E4%B8%93%E4%B8%9A%E5%88%9B%E6%96%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%AE%B6%E4%B9%A1%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E5%88%B6%E4%BD%9C/" title="计算机类专业创新实践——家乡静态网页制作"><img class="cover" src="/img/back6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机类专业创新实践——家乡静态网页制作</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/07/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97/" title="数据结构课程设计——应用小大根交替堆实现双端优先队列"><img class="cover" src="/img/roll.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-13</div><div class="title">数据结构课程设计——应用小大根交替堆实现双端优先队列</div></div></a></div><div><a href="/2021/01/05/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E6%8E%A8%E7%AE%B1%E5%AD%90/" title="程序设计课程设计——推箱子"><img class="cover" src="/img/push.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-05</div><div class="title">程序设计课程设计——推箱子</div></div></a></div><div><a href="/2022/07/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B1%BB%E4%B8%93%E4%B8%9A%E5%88%9B%E6%96%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%AE%B6%E4%B9%A1%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E5%88%B6%E4%BD%9C/" title="计算机类专业创新实践——家乡静态网页制作"><img class="cover" src="/img/back6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-12</div><div class="title">计算机类专业创新实践——家乡静态网页制作</div></div></a></div><div><a href="/2022/06/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E5%B0%86WHILE%E8%AF%AD%E5%8F%A5%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9B%9B%E5%85%83%E5%BC%8F%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0/" title="编译原理课程设计——将WHILE语句转换成四元式的程序实现"><img class="cover" src="/img/back5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-28</div><div class="title">编译原理课程设计——将WHILE语句转换成四元式的程序实现</div></div></a></div><div><a href="/2023/07/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E5%AD%A6%E7%B1%8D%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="数据库系统课程设计——学籍管理系统"><img class="cover" src="/img/zu9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-12</div><div class="title">数据库系统课程设计——学籍管理系统</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webimg.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">冬贰</div><div class="author-info__description">嗨！欢迎来到我的世界！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiayi0409/Cassie"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1725030706&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:xiayi0409@163.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">保持自由的灵魂永不困于荆棘</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%9B%85%E8%AE%BE%E8%AE%A1%E8%A6%81%E6%B1%82"><span class="toc-text">⛅设计要求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9ECPU%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">🌞CPU指令执行流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E5%8F%96%E6%8C%87%E9%98%B6%E6%AE%B5-IF-Instruction-Fetch"><span class="toc-text">🌟取指阶段(IF, Instruction Fetch)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E6%8C%87%E4%BB%A4%E8%AF%91%E7%A0%81%E9%98%B6%E6%AE%B5-ID-Instruction-Decode"><span class="toc-text">🌟指令译码阶段(ID, Instruction Decode)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E6%89%A7%E8%A1%8C%E6%8C%87%E4%BB%A4%E9%98%B6%E6%AE%B5-EXE-Execute"><span class="toc-text">🌟执行指令阶段(EXE, Execute)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E8%AE%BF%E5%AD%98%E5%8F%96%E6%95%B0%E9%98%B6%E6%AE%B5-MEM-Memory"><span class="toc-text">🌟访存取数阶段(MEM, Memory)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E5%86%99%E5%9B%9E%E9%98%B6%E6%AE%B5-WB-Write-Back"><span class="toc-text">🌟写回阶段(WB, Write Back)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9EMIPS%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-text">🌞MIPS体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9FMPIS%E6%8C%87%E4%BB%A4%E9%9B%86"><span class="toc-text">🌟MPIS指令集</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%9B%85CPU%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-text">⛅CPU设计与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9E%E6%8C%87%E4%BB%A4%E8%AE%BE%E8%AE%A1"><span class="toc-text">🌞指令设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9FR%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="toc-text">🌟R型指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9FI%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="toc-text">🌟I型指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9FJ%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="toc-text">🌟J型指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E5%AE%9E%E9%AA%8C%E6%8C%87%E4%BB%A4"><span class="toc-text">🌟实验指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E6%8C%87%E4%BB%A4%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-text">🌟指令进制转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9ECPU%E8%AE%BE%E8%AE%A1"><span class="toc-text">🌞CPU设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9FCPU%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-text">🌟CPU整体架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E5%8F%96%E6%8C%87%E6%A8%A1%E5%9D%97"><span class="toc-text">🌟取指模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E8%AF%91%E7%A0%81%E6%A8%A1%E5%9D%97"><span class="toc-text">🌟译码模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9D%97"><span class="toc-text">🌟执行模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E8%AE%BF%E5%AD%98%E6%A8%A1%E5%9D%97"><span class="toc-text">🌟访存模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E9%94%81%E5%AD%98%E6%A8%A1%E5%9D%97"><span class="toc-text">🌟锁存模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E9%A1%B6%E5%B1%82%E6%A8%A1%E5%9D%97"><span class="toc-text">🌟顶层模块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%9B%85%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E4%B8%8E%E8%B0%83%E8%AF%95"><span class="toc-text">⛅实验过程与调试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9E%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">🌞实验环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E7%A1%AC%E4%BB%B6"><span class="toc-text">🌟硬件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E8%BD%AF%E4%BB%B6"><span class="toc-text">🌟软件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9E%E6%B5%8B%E8%AF%95"><span class="toc-text">🌞测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%B5%8B%E8%AF%95"><span class="toc-text">🌟流水线测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E6%95%B0%E6%8D%AE%E5%89%8D%E6%8E%A8"><span class="toc-text">🌟数据前推</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9F%E5%81%9C%E7%AD%89"><span class="toc-text">🌟停等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%8C%9FJ%E5%92%8CB%E6%8C%87%E4%BB%A4%E6%B5%8B%E8%AF%95"><span class="toc-text">🌟J和B指令测试</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%9B%85%E4%B8%8B%E8%BD%BD%E5%88%B0-FPGA-%E4%B8%8E%E5%88%86%E6%9E%90"><span class="toc-text">⛅下载到 FPGA 与分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9E%E4%B8%8B%E6%9D%BF%E6%AD%A5%E9%AA%A4"><span class="toc-text">🌞下板步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%9E%E4%B8%8B%E6%9D%BF%E7%BB%93%E6%9E%9C"><span class="toc-text">🌞下板结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%9B%85%E6%80%BB%E7%BB%93"><span class="toc-text">⛅总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%9B%85%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-text">⛅参考文献</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%9B%85%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81"><span class="toc-text">⛅参考代码</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/" title="计算机组成原理——CPU的结构与功能"><img src="/img/zu7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——CPU的结构与功能"/></a><div class="content"><a class="title" href="/2023/07/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94CPU%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD/" title="计算机组成原理——CPU的结构与功能">计算机组成原理——CPU的结构与功能</a><time datetime="2023-07-22T07:54:29.000Z" title="发表于 2023-07-22 15:54:29">2023-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络——计算机网络体系结构"><img src="/img/wang7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络——计算机网络体系结构"/></a><div class="content"><a class="title" href="/2023/07/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络——计算机网络体系结构">计算机网络——计算机网络体系结构</a><time datetime="2023-07-21T15:33:47.000Z" title="发表于 2023-07-21 23:33:47">2023-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/21/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%946%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3/" title="操作系统——操作系统接口"><img src="/img/os6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统——操作系统接口"/></a><div class="content"><a class="title" href="/2023/07/21/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%946%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3/" title="操作系统——操作系统接口">操作系统——操作系统接口</a><time datetime="2023-07-21T05:53:59.000Z" title="发表于 2023-07-21 13:53:59">2023-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——指令系统"><img src="/img/zu6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——指令系统"/></a><div class="content"><a class="title" href="/2023/07/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理——指令系统">计算机组成原理——指令系统</a><time datetime="2023-07-20T09:54:39.000Z" title="发表于 2023-07-20 17:54:39">2023-07-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95/" title="计算机组成原理——计算机的运算方法"><img src="/img/zu5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机组成原理——计算机的运算方法"/></a><div class="content"><a class="title" href="/2023/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95/" title="计算机组成原理——计算机的运算方法">计算机组成原理——计算机的运算方法</a><time datetime="2023-07-18T09:44:55.000Z" title="发表于 2023-07-18 17:44:55">2023-07-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/mips.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 冬贰</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/05/14/I SIT——坐姿监测系统及可视化设计/" alt=""><img width="48" height="48" src="/img/isit.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-05-14</span><a class="blog-slider__title" href="2023/05/14/I SIT——坐姿监测系统及可视化设计/" alt="">I SIT——坐姿监测系统及可视化设计</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/05/14/I SIT——坐姿监测系统及可视化设计/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/02/26/基于MediaPipe的坐姿及疲劳检测系统/" alt=""><img width="48" height="48" src="/img/media.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-02-26</span><a class="blog-slider__title" href="2023/02/26/基于MediaPipe的坐姿及疲劳检测系统/" alt="">基于MediaPipe的坐姿及疲劳检测系统</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/02/26/基于MediaPipe的坐姿及疲劳检测系统/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/07/13/极速救援——内涝问题解决专家/" alt=""><img width="48" height="48" src="/img/back17.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-07-13</span><a class="blog-slider__title" href="2023/07/13/极速救援——内涝问题解决专家/" alt="">极速救援——内涝问题解决专家</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/07/13/极速救援——内涝问题解决专家/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/01/20/系统硬件综合设计——MIPS五级流水线/" alt=""><img width="48" height="48" src="/img/mips.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-20</span><a class="blog-slider__title" href="2023/01/20/系统硬件综合设计——MIPS五级流水线/" alt="">系统硬件综合设计——MIPS五级流水线</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/01/20/系统硬件综合设计——MIPS五级流水线/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt=""><img width="48" height="48" src="/img/zu9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-07-12</span><a class="blog-slider__title" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt="">数据库系统课程设计——学籍管理系统</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/07/12/数据库系统课程设计——学籍管理系统/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2021/01/05/程序设计课程设计——推箱子/" alt=""><img width="48" height="48" src="/img/push.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-01-05</span><a class="blog-slider__title" href="2021/01/05/程序设计课程设计——推箱子/" alt="">程序设计课程设计——推箱子</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2021/01/05/程序设计课程设计——推箱子/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt=""><img width="48" height="48" src="/img/back8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-06-26</span><a class="blog-slider__title" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt="">计算机组成原理——单周期 CPU 设计与实现—十条指令 CPU</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2022/06/26/计算机组成原理——单周期-CPU-设计与实现—十条指令-CPU/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2021/07/13/数据结构课程设计——双端队列/" alt=""><img width="48" height="48" src="/img/roll.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-07-13</span><a class="blog-slider__title" href="2021/07/13/数据结构课程设计——双端队列/" alt="">数据结构课程设计——应用小大根交替堆实现双端优先队列</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2021/07/13/数据结构课程设计——双端队列/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
