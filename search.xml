@@ -1243,8 +1243,6 @@
           
           <category> 课程作业 </category>
           
-          <category> 计算机组成原理 </category>
-          
       </categories>
       
       
@@ -1252,7 +1250,7 @@
             
             <tag> 课程作业 </tag>
             
-            <tag> 计算机组成原理实验 </tag>
+            <tag> 计算机组成原理 </tag>
             
         </tags>
       
@@ -1272,8 +1270,6 @@
           
           <category> 课程作业 </category>
           
-          <category> 计算机组成原理 </category>
-          
       </categories>
       
       
@@ -1281,7 +1277,7 @@
             
             <tag> 课程作业 </tag>
             
-            <tag> 计算机组成原理实验 </tag>
+            <tag> 计算机组成原理 </tag>
             
         </tags>
       
@@ -1301,8 +1297,6 @@
           
           <category> 课程设计 </category>
           
-          <category> 数据结构 </category>
-          
       </categories>
       
       
@@ -1310,7 +1304,7 @@
             
             <tag> 课程设计 </tag>
             
-            <tag> 数据结构课程 </tag>
+            <tag> 数据结构 </tag>
             
         </tags>
       
